@@ -1,5 +1,6 @@
 package com.grosianu.jobseeker.module.login
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.NavController
@@ -8,6 +9,7 @@ import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.grosianu.jobseeker.R
+import com.grosianu.jobseeker.module.home.HomeActivity
 
 class StartupActivity : AppCompatActivity(R.layout.activity_startup) {
 
@@ -25,6 +27,12 @@ class StartupActivity : AppCompatActivity(R.layout.activity_startup) {
         setupActionBarWithNavController(this, navController)
 
         auth = FirebaseAuth.getInstance()
+
+        if (auth.currentUser != null) {
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     /**
