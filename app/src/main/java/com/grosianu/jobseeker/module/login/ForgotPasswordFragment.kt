@@ -1,11 +1,14 @@
 package com.grosianu.jobseeker.module.login
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.grosianu.jobseeker.databinding.FragmentForgotPasswordBinding
 
@@ -21,7 +24,7 @@ class ForgotPasswordFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentForgotPasswordBinding.inflate(inflater, container, false)
-        return  binding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,12 +34,31 @@ class ForgotPasswordFragment : Fragment() {
 
         binding.sendBtn.setOnClickListener {
             val email: String = binding.resetPasswordInputEdit.text.toString()
-
-            val action = ForgotPasswordFragmentDirections.actionForgotPasswordFragmentToForgotPasswordSuccessFragment()
-            this.findNavController().navigate(action)
+            if (TextUtils.isEmpty(email)) {
+                Toast.makeText(
+                    requireContext(),
+                    "Please fill the required fields",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                auth.sendPasswordResetEmail(email)
+                    .addOnCompleteListener(requireActivity(), OnCompleteListener {
+                        if (it.isSuccessful) {
+                            val action = ForgotPasswordFragmentDirections.actionForgotPasswordFragmentToForgotPasswordSuccessFragment()
+                            this.findNavController().navigate(action)
+                        } else {
+                            Toast.makeText(
+                                requireContext(),
+                                "Unable to send the reset email!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    })
+            }
         }
         binding.loginBtn.setOnClickListener {
-            val action = ForgotPasswordFragmentDirections.actionForgotPasswordFragmentToLoginFragment()
+            val action =
+                ForgotPasswordFragmentDirections.actionForgotPasswordFragmentToLoginFragment()
             this.findNavController().navigate(action)
         }
     }

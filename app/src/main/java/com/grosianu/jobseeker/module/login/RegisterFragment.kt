@@ -45,8 +45,8 @@ class RegisterFragment : Fragment() {
                 ).show()
             } else {
                 auth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(requireActivity(), OnCompleteListener { task ->
-                        if (task.isSuccessful) {
+                    .addOnCompleteListener(requireActivity(), OnCompleteListener {
+                        if (it.isSuccessful) {
                             Toast.makeText(
                                 requireContext(),
                                 "Account successfully created",

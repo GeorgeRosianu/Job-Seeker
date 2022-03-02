@@ -46,8 +46,8 @@ class LoginFragment : Fragment() {
                 ).show()
             } else {
                 auth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(requireActivity(), OnCompleteListener { task ->
-                        if (task.isSuccessful) {
+                    .addOnCompleteListener(requireActivity(), OnCompleteListener {
+                        if (it.isSuccessful) {
                             val intent = Intent(requireContext(), HomeActivity::class.java)
                             startActivity(intent)
                             requireActivity().finish()
