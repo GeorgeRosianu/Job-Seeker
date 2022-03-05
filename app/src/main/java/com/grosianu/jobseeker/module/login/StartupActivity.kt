@@ -1,15 +1,17 @@
 package com.grosianu.jobseeker.module.login
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
-import androidx.navigation.ui.setupActionBarWithNavController
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.module.home.HomeActivity
+
 
 class StartupActivity : AppCompatActivity(R.layout.activity_startup) {
 
@@ -23,17 +25,22 @@ class StartupActivity : AppCompatActivity(R.layout.activity_startup) {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
+
         // Action bar setup for use with the NavController
         setupActionBarWithNavController(this, navController)
 
         auth = FirebaseAuth.getInstance()
-
-        if (auth.currentUser != null) {
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
     }
+
+//    override fun onStart() {
+//        super.onStart()
+//
+//        if (auth.currentUser != null) {
+//            val intent = Intent(this, HomeActivity::class.java)
+//            startActivity(intent)
+//            finish()
+//        }
+//    }
 
     /**
      * Navigation handeling when the user chooses Up from the action bar.

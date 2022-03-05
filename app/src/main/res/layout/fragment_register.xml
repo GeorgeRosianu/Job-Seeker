@@ -78,17 +78,14 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/create_account_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:background="@drawable/ripple_design2"
-                android:text="Create Account"
-                android:textColor="@color/text2"
-                android:textSize="18sp" />
+                android:text="Create Account" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/login_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

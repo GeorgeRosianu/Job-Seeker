@@ -65,6 +65,9 @@ dependencies {
     implementation 'androidx.databinding:library:3.2.0-alpha11'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
+    // Google Play services
+    implementation 'com.google.android.gms:play-services-auth:20.1.0'
+
     // ViewPager2
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
 

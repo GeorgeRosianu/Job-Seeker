@@ -12,4 +12,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="next_info_btn">Next</string>
+
+    <string name="fact_type_android">Android</string>
+    <string name="fact_type_california">California</string>
+
+    <!--Shared Preference Keys -->
+    <string name="preference_fact_type_key">fact_type_pref</string>
 </resources>

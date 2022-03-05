@@ -1,5 +1,6 @@
 package com.grosianu.jobseeker.module.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -10,7 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.grosianu.jobseeker.databinding.FragmentRegisterBinding
+import com.grosianu.jobseeker.module.home.HomeActivity
 
 class RegisterFragment : Fragment() {
 
@@ -55,9 +58,6 @@ class RegisterFragment : Fragment() {
                             val action =
                                 RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
                             this.findNavController().navigate(action)
-//                        val intent = Intent(requireContext(), HomeActivity::class.java)
-//                        startActivity(intent)
-//                        requireActivity().finish()
                         } else {
                             Toast.makeText(
                                 requireContext(),
@@ -73,5 +73,10 @@ class RegisterFragment : Fragment() {
             val action = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
             this.findNavController().navigate(action)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
