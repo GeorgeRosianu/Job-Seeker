@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.grosianu.jobseeker.module.login.LoginFragment"
-        android:label="fragment_login"
+        android:label="Login"
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
@@ -30,7 +30,7 @@
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.grosianu.jobseeker.module.login.RegisterFragment"
-        android:label="fragment_register"
+        android:label="Register"
         tools:layout="@layout/fragment_register">
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
@@ -45,7 +45,7 @@
     <fragment
         android:id="@+id/forgotPasswordFragment"
         android:name="com.grosianu.jobseeker.module.login.ForgotPasswordFragment"
-        android:label="fragment_forgot_password"
+        android:label="Forgot Password"
         tools:layout="@layout/fragment_forgot_password">
         <action
             android:id="@+id/action_forgotPasswordFragment_to_forgotPasswordSuccessFragment"
@@ -68,7 +68,7 @@
     <fragment
         android:id="@+id/forgotPasswordSuccessFragment"
         android:name="com.grosianu.jobseeker.module.login.ForgotPasswordSuccessFragment"
-        android:label="fragment_forgot_password_success"
+        android:label="Forgot Password"
         tools:layout="@layout/fragment_forgot_password_success">
         <action
             android:id="@+id/action_forgotPasswordSuccessFragment_to_loginFragment"

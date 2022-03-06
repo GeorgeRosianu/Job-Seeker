@@ -1,10 +1,9 @@
 package com.grosianu.jobseeker.module.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
+import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.FragmentDiscoverBinding
 
 class DiscoverFragment : Fragment() {
@@ -19,6 +18,16 @@ class DiscoverFragment : Fragment() {
     ): View? {
         _binding = FragmentDiscoverBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_search_discover, menu)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
