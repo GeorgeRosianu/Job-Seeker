@@ -6,12 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.module.home.HomeActivity
-
 
 class StartupActivity : AppCompatActivity(R.layout.activity_startup) {
 
@@ -21,9 +18,12 @@ class StartupActivity : AppCompatActivity(R.layout.activity_startup) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Hiding ActionBar
+        supportActionBar?.hide()
+
         // Retrieving NavController from the NavHostFragment
         val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+            .findFragmentById(R.id.nav_host_fragment_startup) as NavHostFragment
         navController = navHostFragment.navController
 
         // Action bar setup for use with the NavController
@@ -32,15 +32,15 @@ class StartupActivity : AppCompatActivity(R.layout.activity_startup) {
         auth = FirebaseAuth.getInstance()
     }
 
-//    override fun onStart() {
-//        super.onStart()
-//
-//        if (auth.currentUser != null) {
-//            val intent = Intent(this, HomeActivity::class.java)
-//            startActivity(intent)
-//            finish()
-//        }
-//    }
+    override fun onStart() {
+        super.onStart()
+
+        if (auth.currentUser != null) {
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
 
     /**
      * Navigation handeling when the user chooses Up from the action bar.
