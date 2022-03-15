@@ -10,10 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JobSeeker">
         <activity
-            android:name=".module.startup.OnboardingActivity"
+            android:name="com.grosianu.jobseeker.ui.startup.OnboardingActivity"
             android:exported="false" />
         <activity
-            android:name=".module.home.HomeActivity"
+            android:name="com.grosianu.jobseeker.ui.home.HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,13 +22,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".module.login.StartupActivity"
+            android:name="com.grosianu.jobseeker.ui.login.StartupActivity"
             android:exported="true">
 
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="false" />
     </application>
 
 </manifest>

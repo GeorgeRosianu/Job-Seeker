@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".module.startup.OnboardingActivity">
+    tools:context=".ui.startup.OnboardingActivity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

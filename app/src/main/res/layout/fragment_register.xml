@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".module.login.RegisterFragment">
+    tools:context=".ui.login.register.RegisterFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -13,19 +13,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_gravity="center_vertical"
+            android:orientation="vertical"
             android:padding="32dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_margin="32dp"
                 android:text="Create Account"
-                android:layout_gravity="center"
                 android:textAllCaps="true"
-                android:textColor="@color/text_color"
-                android:textSize="24sp" />
+                android:textAppearance="?attr/textAppearanceHeadline4"
+                android:textColor="@color/text_color" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/create_email_input"
@@ -34,21 +34,16 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:hint="Email"
-                android:textColorHint="@color/text_color"
-                app:boxStrokeColor="@color/text_color"
+                app:boxStrokeColor="?attr/colorOnSurface"
                 app:boxStrokeWidthFocused="2dp"
                 app:endIconMode="clear_text"
-                app:endIconTint="@color/text_color"
-                app:hintTextColor="@color/text_color"
-                app:startIconDrawable="@drawable/ic_mail_24"
-                app:startIconTint="@color/text_color">
+                app:startIconDrawable="@drawable/ic_mail_24">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/create_email_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="textEmailAddress"
-                    android:textColor="@color/text_color" />
+                    android:inputType="textEmailAddress" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -59,22 +54,16 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:hint="Password"
-                android:textColorHint="@color/text_color"
-                app:boxStrokeColor="@color/text_color"
+                app:boxStrokeColor="?attr/colorOnSurface"
                 app:boxStrokeWidthFocused="2dp"
-                app:endIconTint="@color/text_color"
-                app:hintTextColor="@color/text_color"
                 app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/text_color"
-                app:startIconDrawable="@drawable/password"
-                app:startIconTint="@color/text_color">
+                app:startIconDrawable="@drawable/password">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/create_password_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="textPassword"
-                    android:textColor="@color/text_color" />
+                    android:inputType="textPassword" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -83,19 +72,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="Create Account" />
+                android:text="Create Account"
+                android:textColor="?attr/colorOnPrimary" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/login_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:background="@android:color/transparent"
                 android:text="Login"
                 android:textAllCaps="false"
-                android:textColor="@color/black" />
+                android:textColor="?attr/colorOnSurface" />
 
         </LinearLayout>
     </ScrollView>
