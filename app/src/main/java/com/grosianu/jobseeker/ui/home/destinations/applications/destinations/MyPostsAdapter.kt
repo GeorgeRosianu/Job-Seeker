@@ -6,28 +6,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.FirebaseFirestore
-import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.ItemOfferBinding
-import com.grosianu.jobseeker.databinding.LayoutDetailsBinding
 import com.grosianu.jobseeker.models.Application
 
-class MyPostsAdapter :
-    ListAdapter<Application, MyPostsAdapter.MyPostsViewHolder>(DiffCallback) {
 
-//        interface MyPostsAdapterListener {
-//        fun onPostClicked(cardView: View, application: Application)
-//        fun onPostLongPressed(application: Application): Boolean
-//    }
+class MyPostsAdapter(
+    private val listener: MyPostsAdapterListener
+) : ListAdapter<Application, MyPostsViewHolder>(DiffCallback) {
 
-    class MyPostsViewHolder(
-        val binding: ItemOfferBinding
-        ) : RecyclerView.ViewHolder(binding.root) {
-            fun bind(application: Application) {
-                binding.application = application
-                binding.executePendingBindings()
-            }
-        }
+        interface MyPostsAdapterListener {
+        fun onPostClicked(cardView: View, application: Application)
+        fun onPostLongPressed(application: Application): Boolean
+    }
 
     companion object DiffCallback : DiffUtil.ItemCallback<Application>() {
         override fun areItemsTheSame(oldItem: Application, newItem: Application): Boolean {
@@ -35,7 +25,7 @@ class MyPostsAdapter :
         }
 
         override fun areContentsTheSame(oldItem: Application, newItem: Application): Boolean {
-            return  oldItem.industry == newItem.industry &&
+            return oldItem.industry == newItem.industry &&
                     oldItem.salary == newItem.salary &&
                     oldItem.company == newItem.company &&
                     oldItem.location == newItem.location &&
@@ -46,7 +36,8 @@ class MyPostsAdapter :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyPostsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return MyPostsViewHolder(
-            ItemOfferBinding.inflate(layoutInflater, parent, false)
+            ItemOfferBinding.inflate(layoutInflater, parent, false),
+            listener
         )
     }
 

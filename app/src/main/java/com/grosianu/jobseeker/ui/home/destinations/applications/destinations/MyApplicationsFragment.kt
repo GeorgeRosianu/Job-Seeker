@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.grosianu.jobseeker.databinding.FragmentMyApplicationsBinding
+import com.grosianu.jobseeker.ui.home.destinations.applications.ApplicationsFragment
+import com.grosianu.jobseeker.ui.home.destinations.applications.ApplicationsFragmentDirections
 
 class MyApplicationsFragment: Fragment() {
 

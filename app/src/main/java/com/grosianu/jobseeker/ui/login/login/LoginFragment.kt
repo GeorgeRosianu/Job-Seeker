@@ -140,11 +140,6 @@ class LoginFragment : Fragment() {
         }
     }
 
-//    private fun uploadUserData() {
-//        FirebaseUtils().fireStoreDatabase.collection("users")
-//            .add()
-//    }
-
     private fun updateUI(user: FirebaseUser?) {
         val intent = Intent(requireContext(), HomeActivity::class.java)
         startActivity(intent)

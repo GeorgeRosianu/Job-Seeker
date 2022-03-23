@@ -25,6 +25,15 @@
         <action
             android:id="@+id/action_applicationsFragment_to_createFragment"
             app:destination="@id/createFragment" />
+        <action
+            android:id="@+id/action_applicationsFragment_to_myPostsFragment"
+            app:destination="@id/myPostsFragment" />
+        <action
+            android:id="@+id/action_applicationsFragment_to_myApplicationsFragment"
+            app:destination="@id/myApplicationsFragment" />
+        <action
+            android:id="@+id/action_applicationsFragment_to_editPostFragment"
+            app:destination="@id/editPostFragment" />
     </fragment>
     <fragment
         android:id="@+id/accountFragment"
@@ -46,10 +55,37 @@
         <action
             android:id="@+id/action_createFragment_to_applicationsFragment"
             app:destination="@id/applicationsFragment" />
+        <action
+            android:id="@+id/action_createFragment_to_myPostsFragment"
+            app:destination="@id/myPostsFragment" />
     </fragment>
     <fragment
         android:id="@+id/myPostsFragment"
         android:name="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.MyPostsFragment"
         android:label="fragment_my_posts"
-        tools:layout="@layout/fragment_my_posts" />
+        tools:layout="@layout/fragment_my_posts" >
+        <action
+            android:id="@+id/action_myPostsFragment_to_createFragment"
+            app:destination="@id/createFragment" />
+        <action
+            android:id="@+id/action_myPostsFragment_to_applicationsFragment"
+            app:destination="@id/applicationsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myApplicationsFragment"
+        android:name="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.MyApplicationsFragment"
+        android:label="fragment_my_applications"
+        tools:layout="@layout/fragment_my_applications" >
+        <action
+            android:id="@+id/action_myApplicationsFragment_to_applicationsFragment"
+            app:destination="@id/applicationsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editPostFragment"
+        android:name="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.EditPostFragment"
+        android:label="EditPostFragment">
+        <argument
+            android:name="postId"
+            app:argType="string" />
+    </fragment>
 </navigation>

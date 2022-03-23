@@ -9,12 +9,14 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.storage.FirebaseStorage
 import com.grosianu.jobseeker.models.Application
 import kotlinx.coroutines.launch
+import java.io.File
 
 class MyPostsViewModel : ViewModel() {
 
-    private val _posts = MutableLiveData<List<Application>>()
+    private var _posts = MutableLiveData<List<Application>>()
     val posts: LiveData<List<Application>> = _posts
 
     private val _post = MutableLiveData<Application>()
@@ -41,6 +43,26 @@ class MyPostsViewModel : ViewModel() {
                     _posts.value = listOf()
                     Log.w(TAG, "Error getting documents: ", exception)
                 }
+
+            docRef.whereEqualTo("owner", auth.currentUser?.uid)
+                .addSnapshotListener(MetadataChanges.INCLUDE) { querySnapshot, e ->
+                if (e != null) {
+                    Log.w(TAG, "Listen failed.", e)
+                    return@addSnapshotListener
+                }
+
+                val source = if (querySnapshot != null && querySnapshot.metadata.hasPendingWrites())
+                    "Local"
+                else
+                    "Server"
+
+                val applications = ArrayList<Application>()
+                for (document in querySnapshot!!) {
+                    if (document != null && document.exists()) {
+                        applications.add(document.toObject<Application>())
+                    }
+                }
+            }
         }
     }
 

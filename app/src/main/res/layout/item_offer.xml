@@ -8,6 +8,10 @@
         <variable
             name="application"
             type="com.grosianu.jobseeker.models.Application" />
+
+        <variable
+            name="listener"
+            type="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.MyPostsAdapter.MyPostsAdapterListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,6 +28,8 @@
             android:clickable="true"
             android:elevation="0dp"
             android:focusable="true"
+            android:onClick="@{(view) -> listener.onPostClicked(view, application)}"
+            android:onLongClick="@{(view) -> listener.onPostLongPressed(application)}"
             app:cardCornerRadius="5dp"
             app:cardPreventCornerOverlap="false"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -42,24 +48,31 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="8dp"
                     android:maxLines="1"
-                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:text="@{application.company}"
+                    android:textAppearance="?attr/textAppearanceCaption"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Google - 12m" />
 
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/image_view"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:adjustViewBounds="true"
                     android:contentDescription="Post Image"
-                    android:scaleType="center"
+                    android:scaleType="fitCenter"
+                    app:imageUrl="@{application.image}"
+                    app:layout_constraintBottom_toTopOf="@id/description_text_view"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toEndOf="@id/title_text_view"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+                    tools:src="@drawable/ic_broken_image" />
 
                 <TextView
                     android:id="@+id/title_text_view"
@@ -67,10 +80,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:maxLines="1"
+                    android:layout_marginEnd="8dp"
+                    android:lines="2"
+                    android:maxLines="2"
                     android:text="@{application.title}"
                     android:textAppearance="?attr/textAppearanceHeadline5"
+                    app:layout_constraintBottom_toTopOf="@id/description_text_view"
+                    app:layout_constraintEnd_toStartOf="@id/image_view"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/poster_text_view"
                     tools:text="Android Developer" />
@@ -80,11 +96,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:maxLines="2"
                     android:text="@{application.description}"
-                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:textAppearance="?attr/textAppearanceSubtitle2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/title_text_view"

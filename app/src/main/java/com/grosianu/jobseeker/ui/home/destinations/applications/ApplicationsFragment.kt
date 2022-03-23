@@ -67,16 +67,16 @@ class ApplicationsFragment : Fragment() {
         }.attach()
     }
 
-    fun navigateToCreate() {
-        this.apply {
-            exitTransition = MaterialElevationScale(false).apply {
-                duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
-            }
-            reenterTransition = MaterialElevationScale(true).apply {
-                duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
-            }
-        }
-    }
+//    fun navigateToCreate() {
+//        this.apply {
+//            exitTransition = MaterialElevationScale(false).apply {
+//                duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+//            }
+//            reenterTransition = MaterialElevationScale(true).apply {
+//                duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+//            }
+//        }
+//    }
 
     companion object {
         private const val TAG = "ApplicationsFragment"

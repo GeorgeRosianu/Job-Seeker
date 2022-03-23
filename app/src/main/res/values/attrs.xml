@@ -18,6 +18,9 @@
     <attr name="motionInterpolatorIncoming" format="reference"/>
     <attr name="motionInterpolatorOutgoing" format="reference"/>
 
+    <!--Colors-->
+    <attr format="color" name="colorSurface"/>
+
     <!--Custom view themes/styles-->
     <attr name="bottomNavigationDrawerStyle" format="reference" />
     <attr name="bottomNavigationDrawerNavigationViewTheme" format="reference" />

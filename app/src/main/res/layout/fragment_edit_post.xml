@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".ui.home.destinations.applications.destinations.CreateFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp">
+        android:layout_marginBottom="36dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -27,28 +27,17 @@
             app:navigationIcon="@drawable/ic_round_arrow_back_24">
 
             <TextView
-                android:id="@+id/create_title"
+                android:id="@+id/edit_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Create a post"
+                android:text="Edit post"
                 android:textAppearance="?attr/textAppearanceHeadline5" />
         </androidx.appcompat.widget.Toolbar>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/info_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="40dp"
-            android:layout_marginTop="16dp"
-            android:text="Information"
-            android:textAppearance="?attr/textAppearanceHeadline6"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar" />
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/title"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
@@ -58,18 +47,17 @@
             app:boxStrokeWidthFocused="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/info_text_view">
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/title_edit"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="textCapSentences" />
+                android:layout_height="match_parent" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/company"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
@@ -84,13 +72,12 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/company_edit"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="textCapSentences" />
+                android:layout_height="match_parent" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/industry"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
@@ -102,16 +89,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/company">
 
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/industry_edit"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="none" />
+                android:layout_height="match_parent" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/salary"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
@@ -127,65 +113,13 @@
                 android:id="@+id/salary_edit"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="numberSigned" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/requirements_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="40dp"
-            android:layout_marginTop="32dp"
-            android:text="Requirements"
-            android:textAppearance="?attr/textAppearanceHeadline6"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/salary" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/requirements_level"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="8dp"
-            android:hint="Level"
-            app:boxStrokeColor="?attr/colorPrimary"
-            app:boxStrokeWidthFocused="2dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/requirements_text_view">
-
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/requirements_level_edit"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="none" />
+                android:inputType="number"
+                tools:text="" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/requirements_experience"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="8dp"
-            android:hint="Experience"
-            app:boxStrokeColor="?attr/colorPrimary"
-            app:boxStrokeWidthFocused="2dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/requirements_level">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/requirements_experience_edit"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="none" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/requirements_location"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:id="@+id/location"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
@@ -195,27 +129,27 @@
             app:boxStrokeWidthFocused="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/requirements_experience">
+            app:layout_constraintTop_toBottomOf="@id/salary">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/requirements_location_edit"
+                android:id="@+id/location_edit"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/requirements"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="8dp"
-            android:hint="Other"
+            android:hint="Requirements"
             app:boxStrokeColor="?attr/colorPrimary"
             app:boxStrokeWidthFocused="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/requirements_location">
+            app:layout_constraintTop_toBottomOf="@id/location">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/requirements_edit"
@@ -225,20 +159,9 @@
                 android:minLines="3" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/description_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="40dp"
-            android:layout_marginTop="32dp"
-            android:text="Description"
-            android:textAppearance="?attr/textAppearanceHeadline6"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/requirements" />
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/description"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
@@ -248,7 +171,7 @@
             app:boxStrokeWidthFocused="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/description_text_view">
+            app:layout_constraintTop_toBottomOf="@id/requirements">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/description_edit"
@@ -256,28 +179,6 @@
                 android:layout_height="match_parent"
                 android:maxLines="10"
                 android:minLines="3" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tags"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="8dp"
-            android:clickable="false"
-            android:hint="Tags"
-            app:boxStrokeColor="?attr/colorPrimary"
-            app:boxStrokeWidthFocused="2dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/description">
-
-            <MultiAutoCompleteTextView
-                android:id="@+id/tags_edit"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageButton
@@ -306,6 +207,7 @@
             app:layout_constraintStart_toStartOf="@id/post_image"
             app:layout_constraintTop_toBottomOf="@id/add_image_btn" />
 
+
         <ImageView
             android:id="@+id/post_image"
             android:layout_width="100dp"
@@ -319,7 +221,7 @@
             app:layout_constraintBottom_toTopOf="@+id/add_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tags" />
+            app:layout_constraintTop_toBottomOf="@+id/description" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/add_btn"

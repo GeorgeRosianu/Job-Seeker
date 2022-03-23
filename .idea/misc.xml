@@ -3,11 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/drawable-v24/ic_about_24dp.xml" value="0.2875" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/drawable-v24/ic_close_fill_21dp.xml" value="0.2635" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/drawable-v24/ic_logo_colored_horizontal.xml" value="0.2635" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/drawable/card3.xml" value="0.276" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/drawable/check_circle.xml" value="0.276" />
+        <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/drawable/circle.xml" value="0.2805" />
+        <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/drawable/circular_image.xml" value="0.2805" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/drawable/gradient.xml" value="0.276" />
+        <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/drawable/ic_broken_image.xml" value="0.2875" />
+        <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/drawable/ic_ripple.xml" value="0.2875" />
+        <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/drawable/ic_round_arrow_back_24.xml" value="0.2805" />
+        <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/drawable/ic_startup_info_image1.xml" value="0.2755" />
+        <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/drawable/loading_img.xml" value="0.2875" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/drawable/password.xml" value="0.276" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/drawable/phone_icon.xml" value="0.276" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/drawable/ripple_design.xml" value="0.276" />
@@ -16,7 +24,7 @@
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.23293172690763053" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout-w936dp/activity_login.xml" value="0.18271857923497267" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/activity_forgot_password.xml" value="0.32518115942028986" />
-        <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/activity_home.xml" value="0.32518115942028986" />
+        <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/activity_home.xml" value="0.33" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/activity_info_pager.xml" value="0.25052083333333336" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/activity_login.xml" value="0.24230072463768115" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/activity_login_temp.xml" value="0.3625" />
@@ -24,10 +32,12 @@
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/activity_onboarding.xml" value="0.3278985507246377" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/activity_sign_up.xml" value="0.32518115942028986" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/activity_startup.xml" value="0.23550724637681159" />
+        <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/dropdown_item.xml" value="0.3625" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/fragment_account.xml" value="0.1" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/fragment_applications.xml" value="0.3496376811594203" />
-        <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/fragment_create.xml" value="0.3496376811594203" />
+        <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/fragment_create.xml" value="0.25" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/fragment_discover.xml" value="0.3496376811594203" />
+        <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/fragment_edit_post.xml" value="0.33" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/fragment_forgot_password.xml" value="0.33" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/fragment_forgot_password_success.xml" value="0.3278985507246377" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/fragment_fullscreen_test.xml" value="0.3496376811594203" />
@@ -38,12 +48,13 @@
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/fragment_my_applications_fragment.xml" value="0.3496376811594203" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/fragment_my_offers.xml" value="0.22" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/fragment_my_offers_fragment.xml" value="0.3496376811594203" />
-        <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/fragment_my_posts.xml" value="0.23596014492753623" />
+        <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/fragment_my_posts.xml" value="0.33" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/fragment_notifications.xml" value="0.3496376811594203" />
+        <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/fragment_post.xml" value="0.360054347826087" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/fragment_register.xml" value="0.33" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/fragment_scrolling.xml" value="0.3496376811594203" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/fragment_temp.xml" value="0.3625" />
-        <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/item_offer.xml" value="0.3496376811594203" />
+        <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/item_offer.xml" value="0.33" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/layout_details.xml" value="0.25" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/temp_activity_main.xml" value="0.1762917933130699" />
         <entry key="..\:/Users/George/Desktop/jobseeker/app/src/main/res/layout/temp_fragment_login.xml" value="0.3496376811594203" />

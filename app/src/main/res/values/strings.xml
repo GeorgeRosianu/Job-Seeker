@@ -9,12 +9,105 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be > 5 characters</string>
     <string name="login_failed">"Login failed"</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="next_info_btn">Next</string>
 
     <string name="fact_type_android">Android</string>
     <string name="fact_type_california">California</string>
+
+    <!--MyPostsFragment-->
+    <string name="post_card_transition_name">post_card_%1$s</string>
+    <string name="post_card_detail_transition_name">post_card_detail</string>
+
+    <!--Create Fragment Texts-->
+    <string-array name="tags">
+        <item>Graduate</item>
+        <item>Sales</item>
+        <item>Web</item>
+        <item>HR</item>
+        <item>Marketing</item>
+        <item>Intermediate</item>
+        <item>Entry</item>
+        <item>Management</item>
+        <item>Digital</item>
+        <item>Admin</item>
+        <item>Energy</item>
+        <item>IT</item>
+        <item>Engineering</item>
+        <item>Legal</item>
+        <item>Tech</item>
+        <item>Developer</item>
+        <item>Accounting</item>
+        <item>Warehouse</item>
+        <item>Retail</item>
+        <item>Executive-assistant</item>
+        <item>Project-manager</item>
+        <item>Medical-assistant</item>
+        <item>Cashier</item>
+        <item>Business</item>
+        <item>Office</item>
+        <item>Finance</item>
+        <item>LPN</item>
+        <item>Call-center</item>
+        <item>Graphic</item>
+        <item>Driver</item>
+        <item>Part-time</item>
+        <item>Full-time</item>
+        <item>Remote</item>
+        <item>Security</item>
+        <item>RN</item>
+        <item>Logistics</item>
+        <item>Banking</item>
+        <item>Assistant</item>
+        <item>CnA</item>
+        <item>Automotive</item>
+        <item>Restaurant</item>
+        <item>Insurance</item>
+        <item>Teacher</item>
+        <item>Server</item>
+        <item>Financial-analyst</item>
+        <item>Analyst</item>
+    </string-array>
+
+    <string-array name="levels">
+        <item>Entry</item>
+        <item>Intermediate</item>
+        <item>First-level management</item>
+        <item>Middle management</item>
+        <item>Executive</item>
+    </string-array>
+
+    <string-array name="industries">
+        <item>Aerospace</item>
+        <item>Agriculture</item>
+        <item>Basic Metal Production</item>
+        <item>Chemical</item>
+        <item>Commerce</item>
+        <item>Computer and technology</item>
+        <item>Construction</item>
+        <item>Education</item>
+        <item>Energy</item>
+        <item>Entertainment</item>
+        <item>Fashion</item>
+        <item>Finance and economic</item>
+        <item>Food and beverage</item>
+        <item>Forestry</item>
+        <item>Health</item>
+        <item>Tourism</item>
+        <item>Manufacturing</item>
+        <item>Mining</item>
+        <item>Mechanical and electrical engineering</item>
+        <item>Media</item>
+        <item>Oil and gas production</item>
+        <item>Pharmaceutical</item>
+        <item>Public service</item>
+        <item>Shipping</item>
+        <item>Telecommunication</item>
+        <item>Textiles</item>
+        <item>Transport</item>
+        <item>Utilities</item>
+    </string-array>
 
     <!--Shared Preference Keys -->
     <string name="preference_fact_type_key">fact_type_pref</string>

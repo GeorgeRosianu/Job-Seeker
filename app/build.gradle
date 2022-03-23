@@ -55,7 +55,8 @@ dependencies {
 
     // Navigation libraries
     implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
-    implementation "androidx.navigation:navigation-ui-ktx:2.4.1"
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
+    //implementation 'androidx.navigation:navigation-safe-args-gradle-plugin:2.4.1'
 
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:29.1.0')
@@ -79,8 +80,15 @@ dependencies {
     // ViewPager2
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
 
+    // Swipe to Refresh
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
     // Transformation Layout
     implementation "com.github.skydoves:transformationlayout:1.1.1"
+    implementation 'com.google.firebase:firebase-storage-ktx:20.0.0'
+
+    // Coil
+    implementation "io.coil-kt:coil:1.4.0"
 
     // Tests
     testImplementation 'junit:junit:4.13.2'
