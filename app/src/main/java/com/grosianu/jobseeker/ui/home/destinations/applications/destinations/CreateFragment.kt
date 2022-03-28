@@ -1,5 +1,6 @@
 package com.grosianu.jobseeker.ui.home.destinations.applications.destinations
 
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,12 +13,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.transition.Slide
+import com.google.android.material.transition.MaterialContainerTransform
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.FragmentCreateBinding
 import com.grosianu.jobseeker.models.Application
+import com.grosianu.jobseeker.utils.themeColor
 import java.util.*
 
 
@@ -54,9 +58,8 @@ class CreateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbar.setupWithNavController(findNavController())
-
         setupArrays()
+        setupFabTransition()
 
         binding.addBtn.setOnClickListener {
             if (binding.titleEdit.text.isNullOrEmpty() ||
@@ -78,6 +81,9 @@ class CreateFragment : Fragment() {
         }
         binding.addImageBtn.setOnClickListener {
             getImageFromGallery()
+        }
+        binding.navigationIcon.setOnClickListener {
+            findNavController().navigateUp()
         }
     }
 
@@ -111,7 +117,7 @@ class CreateFragment : Fragment() {
         val otherRequirements: String = binding.requirementsEdit.text.toString()
         val description: String = binding.descriptionEdit.text.toString()
         val tagsString = binding.tagsEdit.text.toString().trim().trimEnd {it <= ','}
-        val tags: List<String> = getArrayFromString(tagsString)
+        val tags: ArrayList<String> = getArrayFromString(tagsString) as ArrayList<String>
 
         val application = Application(
             id,
@@ -127,6 +133,7 @@ class CreateFragment : Fragment() {
             description,
             tags,
             image,
+            null
         )
 
         db.collection("applications").document(id)
@@ -144,6 +151,22 @@ class CreateFragment : Fragment() {
                 binding.tagsEdit.text = null
                 binding.postImage.setImageURI(null)
             }
+    }
+
+    private fun setupFabTransition() {
+        enterTransition = MaterialContainerTransform().apply {
+            startView = requireActivity().findViewById(R.id.fab_add_offer)
+            endView = binding.createCardView
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
+            scrimColor = Color.TRANSPARENT
+            containerColor = requireContext().themeColor(R.attr.colorSurface)
+            startContainerColor = requireContext().themeColor(R.attr.colorSecondary)
+            endContainerColor = requireContext().themeColor(R.attr.colorSurface)
+        }
+        returnTransition = Slide().apply {
+            duration = resources.getInteger(R.integer.motion_duration_medium).toLong()
+            addTarget(R.id.create_card_view)
+        }
     }
 
     private fun setupArrays() {

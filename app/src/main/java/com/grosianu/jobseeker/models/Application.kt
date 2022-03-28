@@ -12,7 +12,7 @@ data class Application(
     val location: String? = null,
     val otherRequirements: String? = null,
     val description: String? = null,
-    val tags: List<String>? = null,
+    val tags: ArrayList<String>? = null,
     val image: String? = null,
-) {
-}
+    val applicants: ArrayList<String>? = null,
+)

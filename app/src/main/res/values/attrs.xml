@@ -20,6 +20,7 @@
 
     <!--Colors-->
     <attr format="color" name="colorSurface"/>
+    <attr format="color" name="colorSecondary"/>
 
     <!--Custom view themes/styles-->
     <attr name="bottomNavigationDrawerStyle" format="reference" />

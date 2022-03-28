@@ -20,6 +20,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.grosianu.jobseeker.R
@@ -116,12 +117,16 @@ class LoginFragment : Fragment() {
         val password: String = binding.loginPasswordInputEdit.text.toString()
 
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+//            setErrorTextField(binding.loginEmailInput, "Email field cannot be empty", true)
+//            setErrorTextField(binding.loginPasswordInput, "Password field cannot be empty", true)
             Toast.makeText(
                 requireContext(),
                 "Please fill the required fields",
                 Toast.LENGTH_SHORT
             ).show()
         } else {
+//            setErrorTextField(binding.loginEmailInput, "", false)
+//            setErrorTextField(binding.loginEmailInput, "", false)
             viewModel.auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(requireActivity(), OnCompleteListener {
                     if (it.isSuccessful) {
@@ -145,6 +150,15 @@ class LoginFragment : Fragment() {
         startActivity(intent)
         requireActivity().finish()
     }
+
+//    private fun setErrorTextField(textInputLayout: TextInputLayout, errorString: String, error: Boolean) {
+//        if (error) {
+//            textInputLayout.isErrorEnabled = true
+//            textInputLayout.error = errorString
+//        } else {
+//            textInputLayout.isErrorEnabled = false
+//        }
+//    }
 
     companion object {
         private const val TAG = "LoginFragment"

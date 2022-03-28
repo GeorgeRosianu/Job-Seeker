@@ -36,12 +36,13 @@
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
                     android:paddingBottom="4dp"
+                    android:transitionGroup="true"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:listData="@{viewModel.posts}"
+                    app:postListData2="@{viewModel.posts}"
                     tools:listitem="@layout/item_offer" />
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

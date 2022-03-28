@@ -1,18 +1,14 @@
 package com.grosianu.jobseeker.utils
 
-import android.content.Context
-import android.graphics.drawable.Drawable
 import android.widget.ImageView
-import androidx.annotation.DrawableRes
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestBuilder
-import com.google.android.material.card.MaterialCardView
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.models.Application
 import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.MyPostsAdapter
+import com.grosianu.jobseeker.ui.home.destinations.discover.DiscoverAdapter
+import com.grosianu.jobseeker.ui.home.destinations.home.PostsAdapter
 
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {
@@ -24,8 +20,26 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
     }
 }
 
-@BindingAdapter("listData")
-fun bindRecyclerView(recyclerView: RecyclerView, data: List<Application>?) {
+@BindingAdapter("postListData")
+fun bindPostsRecyclerView(recyclerView: RecyclerView, data: List<Application>?) {
+    val adapter = recyclerView.adapter as PostsAdapter
+    adapter.submitList(data)
+}
+
+@BindingAdapter("postListData2")
+fun bindPostsRecyclerView2(recyclerView: RecyclerView, data: List<Application>?) {
     val adapter = recyclerView.adapter as MyPostsAdapter
     adapter.submitList(data)
 }
+
+@BindingAdapter("discoverListData")
+fun bindDiscoverRecyclerView(recyclerView: RecyclerView, data: List<Application>?) {
+    val adapter = recyclerView.adapter as DiscoverAdapter
+    adapter.submitList(data)
+}
+
+//@BindingAdapter("applicationListData")
+//fun bindApplicationsRecyclerView(recyclerView: RecyclerView, data: List<Application>?) {
+//    val adapter = recyclerView.adapter as PostsAdapter
+//    adapter.submitList(data)
+//}

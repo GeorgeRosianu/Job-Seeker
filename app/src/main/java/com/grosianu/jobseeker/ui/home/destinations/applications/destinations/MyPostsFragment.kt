@@ -13,7 +13,6 @@ import com.google.android.material.transition.MaterialElevationScale
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.FragmentMyPostsBinding
 import com.grosianu.jobseeker.models.Application
-import com.grosianu.jobseeker.ui.home.destinations.applications.ApplicationsFragmentDirections
 
 class MyPostsFragment : Fragment(), MyPostsAdapter.MyPostsAdapterListener {
 
@@ -22,10 +21,6 @@ class MyPostsFragment : Fragment(), MyPostsAdapter.MyPostsAdapterListener {
 
     private val viewModel: MyPostsViewModel by viewModels()
     private val myPostsAdapter = MyPostsAdapter(this)
-
-    companion object {
-        fun newInstance() = MyPostsFragment()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,9 +41,6 @@ class MyPostsFragment : Fragment(), MyPostsAdapter.MyPostsAdapterListener {
         viewModel.getPostList()
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        binding.recyclerView.apply {
-            adapter = myPostsAdapter
-        }
         binding.recyclerView.adapter = myPostsAdapter
 
         binding.swipeView.setOnRefreshListener {
@@ -56,8 +48,8 @@ class MyPostsFragment : Fragment(), MyPostsAdapter.MyPostsAdapterListener {
         }
 
         binding.fabAddOffer.apply {
-//            setShowMotionSpecResource(R.animator.fab_show)
-//            setShowMotionSpecResource(R.animator.fab_hide)
+            setShowMotionSpecResource(R.animator.fab_show)
+            setShowMotionSpecResource(R.animator.fab_hide)
             setOnClickListener {
                 navigateToCreate()
             }
@@ -70,9 +62,16 @@ class MyPostsFragment : Fragment(), MyPostsAdapter.MyPostsAdapterListener {
     }
 
     override fun onPostClicked(cardView: View, application: Application) {
-        val action = ApplicationsFragmentDirections
-            .actionApplicationsFragmentToEditPostFragment(application.id.toString())
-        findNavController().navigate(action)
+        val postCardDetailTransitionName = getString(R.string.post_card_detail_transition_name)
+        val extras = FragmentNavigatorExtras(cardView to postCardDetailTransitionName)
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
+        }
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
+        }
+        val directions = MyPostsFragmentDirections.actionMyPostsFragmentToEditPostFragment(application.id.toString())
+        findNavController().navigate(directions, extras)
     }
 
     override fun onPostLongPressed(application: Application): Boolean {
@@ -88,7 +87,13 @@ class MyPostsFragment : Fragment(), MyPostsAdapter.MyPostsAdapterListener {
     }
 
     private fun navigateToCreate() {
-        val directions = ApplicationsFragmentDirections.actionApplicationsFragmentToCreateFragment()
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
+        }
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
+        }
+        val directions = MyPostsFragmentDirections.actionMyPostsFragmentToCreateFragment()
         findNavController().navigate(directions)
     }
 }

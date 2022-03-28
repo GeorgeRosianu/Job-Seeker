@@ -21,8 +21,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.ActivityHomeBinding
+import com.grosianu.jobseeker.ui.home.destinations.account.AccountFragmentDirections
+import com.grosianu.jobseeker.ui.home.destinations.discover.DiscoverFragmentDirections
+import com.grosianu.jobseeker.ui.home.destinations.home.HomeFragmentDirections
+import com.grosianu.jobseeker.ui.home.destinations.notifications.NotificationsFragmentDirections
 import com.grosianu.jobseeker.ui.login.StartupActivity
-import com.grosianu.jobseeker.utils.contentView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -60,7 +63,6 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
         var navController = findNavController(R.id.nav_host_fragment_home)
 
         if (navController.graph.startDestinationId == navController.currentDestination?.id) {
-
             if(backPressedOnce) {
                 super.onBackPressed()
                 return
@@ -102,7 +104,6 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
             topLevelDestinationIds = setOf(
                 R.id.homeFragment,
                 R.id.discoverFragment,
-                R.id.applicationsFragment,
                 R.id.notificationsFragment,
                 R.id.accountFragment
             )
@@ -110,6 +111,9 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
 
         navController.addOnDestinationChangedListener { _, nd: NavDestination, _ ->
             when (nd.id) {
+                R.id.myPostsFragment -> {
+                    hideBottomNavBar(bottomAppBar)
+                }
                 R.id.createFragment -> {
                     hideBottomNavBar(bottomAppBar)
                 }
@@ -124,14 +128,6 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
 
         // Action bar setup for use with the NavController
         setupActionBarWithNavController(this, navController, appBarConfiguration)
-    }
-
-    private fun showBottomNavigation() {
-        binding.bottomNavigation.visibility = View.VISIBLE
-    }
-
-    private fun hideBottomNavigation() {
-        binding.bottomNavigation.visibility = View.GONE
     }
 
     private fun showBottomNavBar(bottomAppBar: BottomAppBar) {
@@ -166,5 +162,25 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
                 }
             })
         }
+    }
+
+    private fun navigateToHome() {
+        val directions = HomeFragmentDirections.actionGlobalHomeFragment()
+        findNavController(R.id.nav_host_fragment_home).navigate(directions)
+    }
+
+    private fun navigateToDiscover() {
+        val directions = DiscoverFragmentDirections.actionGlobalDiscoverFragment()
+        findNavController(R.id.nav_host_fragment_home).navigate(directions)
+    }
+
+    private fun navigateToNews() {
+        val directions = NotificationsFragmentDirections.actionGlobalNotificationsFragment()
+        findNavController(R.id.nav_host_fragment_home).navigate(directions)
+    }
+
+    private fun navigateToAccount() {
+        val directions = AccountFragmentDirections.actionGlobalAccountFragment()
+        findNavController(R.id.nav_host_fragment_home).navigate(directions)
     }
 }

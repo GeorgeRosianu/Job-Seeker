@@ -14,6 +14,7 @@
             android:exported="false" />
         <activity
             android:name="com.grosianu.jobseeker.ui.home.HomeActivity"
+            android:windowSoftInputMode="adjustResize|adjustPan"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

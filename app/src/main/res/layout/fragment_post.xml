@@ -26,6 +26,7 @@
             android:id="@+id/post_card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:transitionName="@string/post_card_detail_transition_name"
             app:cardCornerRadius="5dp"
             app:cardElevation="5dp"
             app:layout_constraintEnd_toEndOf="parent"

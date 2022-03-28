@@ -1,26 +1,30 @@
-package com.grosianu.jobseeker.ui.home.destinations.applications.destinations
+package com.grosianu.jobseeker.ui.home.destinations.discover
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
-import com.grosianu.jobseeker.databinding.ItemOfferBinding
+import com.grosianu.jobseeker.databinding.ItemPostDiscoverBinding
 import com.grosianu.jobseeker.models.Application
 
-class MyPostsAdapter(
-    private val listener: MyPostsAdapterListener
-) : ListAdapter<Application, MyPostsViewHolder>(DiffCallback) {
+class DiscoverAdapter(
+    private val listener: DiscoverAdapterListener
+) : ListAdapter<Application, DiscoverViewHolder>(DiscoverAdapter){
 
-    interface MyPostsAdapterListener {
+    interface DiscoverAdapterListener {
         fun onPostClicked(cardView: View, application: Application)
         fun onPostLongPressed(application: Application): Boolean
+        fun onApplyClicked(application: Application)
+//        fun onFavoriteClicked()
+//        fun onShareClicked()
     }
 
     companion object DiffCallback : DiffUtil.ItemCallback<Application>() {
         override fun areItemsTheSame(oldItem: Application, newItem: Application): Boolean {
-            return oldItem.title == newItem.title && oldItem.owner == newItem.owner
+            return oldItem.title == newItem.title &&
+                    oldItem.owner == newItem.owner &&
+                    oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Application, newItem: Application): Boolean {
@@ -28,25 +32,21 @@ class MyPostsAdapter(
                     oldItem.salary == newItem.salary &&
                     oldItem.company == newItem.company &&
                     oldItem.location == newItem.location &&
-                    oldItem.description == newItem.description
+                    oldItem.description == newItem.description &&
+                    oldItem.id == newItem.id
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyPostsViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiscoverViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return MyPostsViewHolder(
-            ItemOfferBinding.inflate(layoutInflater, parent, false),
+        return DiscoverViewHolder(
+            ItemPostDiscoverBinding.inflate(layoutInflater, parent, false),
             listener
         )
     }
 
-    override fun onBindViewHolder(holder: MyPostsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DiscoverViewHolder, position: Int) {
         val application = getItem(position)
         holder.bind(application)
     }
 }
-
-//class OfferListener(val clickListener: (application: Application) -> Unit) {
-//    fun onClick(application: Application) = clickListener(application)
-
-//}

@@ -11,7 +11,7 @@
 
         <variable
             name="listener"
-            type="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.MyPostsAdapter.MyPostsAdapterListener" />
+            type="com.grosianu.jobseeker.ui.home.destinations.discover.DiscoverAdapter.DiscoverAdapterListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,9 +28,9 @@
             android:clickable="true"
             android:elevation="0dp"
             android:focusable="true"
-            android:transitionName="@{@string/post_card_transition_name(application.id)}"
             android:onClick="@{(view) -> listener.onPostClicked(view, application)}"
             android:onLongClick="@{(view) -> listener.onPostLongPressed(application)}"
+            android:transitionName="@{@string/post_card_transition_name(application.id)}"
             app:cardCornerRadius="5dp"
             app:cardPreventCornerOverlap="false"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="16dp"
-                android:paddingBottom="16dp">
+                android:paddingBottom="8dp">
 
                 <TextView
                     android:id="@+id/poster_text_view"
@@ -64,8 +64,8 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="8dp"
-                    app:cardElevation="5dp"
                     app:cardCornerRadius="50dp"
+                    app:cardElevation="5dp"
                     app:layout_constraintBottom_toTopOf="@id/description_text_view"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/title_text_view"
@@ -117,6 +117,51 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/title_text_view"
                     tools:text="This Job is a wonderful opportunity for everyone, duh!" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/description_text_view" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/apply_btn"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginVertical="8dp"
+                    android:text="Apply"
+                    android:onClick="@{(view) -> listener.onApplyClicked(application)}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider" />
+
+                <ImageButton
+                    android:id="@+id/favorite_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:layout_marginStart="16dp"
+                    android:background="?attr/actionBarItemBackground"
+                    android:padding="12dp"
+                    android:text="Remove"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider"
+                    app:srcCompat="@drawable/ic_round_favorite_border_24" />
+
+                <ImageButton
+                    android:id="@+id/share_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:background="?attr/actionBarItemBackground"
+                    android:padding="12dp"
+                    android:text="Remove"
+                    app:layout_constraintStart_toEndOf="@id/favorite_btn"
+                    app:layout_constraintTop_toBottomOf="@id/divider"
+                    app:srcCompat="@drawable/ic_round_share_24" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>

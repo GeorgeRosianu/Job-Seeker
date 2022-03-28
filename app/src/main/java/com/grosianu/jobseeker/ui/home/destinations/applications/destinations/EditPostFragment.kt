@@ -23,10 +23,16 @@ class EditPostFragment : Fragment() {
     private val viewModel: EditPostViewModel by viewModels()
 
     private val args: EditPostFragmentArgs by navArgs()
-    //private val postId = args.postId
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            drawingViewId = R.id.nav_host_fragment_home
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
+            scrimColor = Color.TRANSPARENT
+            setAllContainerColors(requireContext().themeColor(R.attr.colorSurface))
+        }
     }
 
     override fun onCreateView(

@@ -9,52 +9,41 @@
         android:id="@+id/homeFragment"
         android:name="com.grosianu.jobseeker.ui.home.destinations.home.HomeFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_home">
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_myApplicationsFragment"
+            app:destination="@id/myApplicationsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_myPostsFragment"
+            app:destination="@id/myPostsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_editPostFragment"
+            app:destination="@id/editPostFragment" />
     </fragment>
     <fragment
         android:id="@+id/discoverFragment"
         android:name="com.grosianu.jobseeker.ui.home.destinations.discover.DiscoverFragment"
         android:label="Discover"
-        tools:layout="@layout/fragment_discover">
-    </fragment>
-    <fragment
-        android:id="@+id/applicationsFragment"
-        android:name="com.grosianu.jobseeker.ui.home.destinations.applications.ApplicationsFragment"
-        android:label="Applications"
-        tools:layout="@layout/fragment_applications">
+        tools:layout="@layout/fragment_discover" >
         <action
-            android:id="@+id/action_applicationsFragment_to_createFragment"
-            app:destination="@id/createFragment" />
-        <action
-            android:id="@+id/action_applicationsFragment_to_myPostsFragment"
-            app:destination="@id/myPostsFragment" />
-        <action
-            android:id="@+id/action_applicationsFragment_to_myApplicationsFragment"
-            app:destination="@id/myApplicationsFragment" />
-        <action
-            android:id="@+id/action_applicationsFragment_to_editPostFragment"
-            app:destination="@id/editPostFragment" />
+            android:id="@+id/action_discoverFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/accountFragment"
         android:name="com.grosianu.jobseeker.ui.home.destinations.account.AccountFragment"
         android:label="Account"
-        tools:layout="@layout/fragment_account">
-    </fragment>
+        tools:layout="@layout/fragment_account" />
     <fragment
         android:id="@+id/notificationsFragment"
         android:name="com.grosianu.jobseeker.ui.home.destinations.notifications.NotificationsFragment"
         android:label="Notifications"
-        tools:layout="@layout/fragment_notifications">
-    </fragment>
+        tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/createFragment"
         android:name="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.CreateFragment"
         android:label="fragment_create"
-        tools:layout="@layout/fragment_create" >
-        <action
-            android:id="@+id/action_createFragment_to_applicationsFragment"
-            app:destination="@id/applicationsFragment" />
+        tools:layout="@layout/fragment_create">
         <action
             android:id="@+id/action_createFragment_to_myPostsFragment"
             app:destination="@id/myPostsFragment" />
@@ -63,23 +52,19 @@
         android:id="@+id/myPostsFragment"
         android:name="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.MyPostsFragment"
         android:label="fragment_my_posts"
-        tools:layout="@layout/fragment_my_posts" >
+        tools:layout="@layout/fragment_my_posts">
         <action
             android:id="@+id/action_myPostsFragment_to_createFragment"
             app:destination="@id/createFragment" />
         <action
-            android:id="@+id/action_myPostsFragment_to_applicationsFragment"
-            app:destination="@id/applicationsFragment" />
+            android:id="@+id/action_myPostsFragment_to_editPostFragment"
+            app:destination="@id/editPostFragment" />
     </fragment>
     <fragment
         android:id="@+id/myApplicationsFragment"
         android:name="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.MyApplicationsFragment"
         android:label="fragment_my_applications"
-        tools:layout="@layout/fragment_my_applications" >
-        <action
-            android:id="@+id/action_myApplicationsFragment_to_applicationsFragment"
-            app:destination="@id/applicationsFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_my_applications"/>
     <fragment
         android:id="@+id/editPostFragment"
         android:name="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.EditPostFragment"
@@ -88,4 +73,23 @@
             android:name="postId"
             app:argType="string" />
     </fragment>
+    <action
+        android:id="@+id/action_global_homeFragment"
+        app:destination="@id/homeFragment"
+        app:launchSingleTop="true"
+        app:popUpTo="@+id/nav_graph_home"
+        app:popUpToInclusive="true"/>
+    <action
+        android:id="@+id/action_global_discoverFragment"
+        app:destination="@id/discoverFragment" />
+    <action
+        android:id="@+id/action_global_notificationsFragment"
+        app:destination="@id/notificationsFragment" />
+    <action
+        android:id="@+id/action_global_accountFragment"
+        app:destination="@id/accountFragment" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.grosianu.jobseeker.ui.home.destinations.home.SearchFragment"
+        android:label="SearchFragment" />
 </navigation>

@@ -7,17 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.grosianu.jobseeker.databinding.FragmentMyApplicationsBinding
-import com.grosianu.jobseeker.ui.home.destinations.applications.ApplicationsFragment
-import com.grosianu.jobseeker.ui.home.destinations.applications.ApplicationsFragmentDirections
 
 class MyApplicationsFragment: Fragment() {
 
     private var _binding: FragmentMyApplicationsBinding? = null
     private val binding get() = _binding!!
-
-    companion object {
-        fun newInstance() = MyApplicationsFragment()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,6 +20,10 @@ class MyApplicationsFragment: Fragment() {
     ): View? {
         _binding = FragmentMyApplicationsBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
