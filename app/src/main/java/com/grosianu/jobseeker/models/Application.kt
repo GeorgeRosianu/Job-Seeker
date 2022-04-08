@@ -1,5 +1,7 @@
 package com.grosianu.jobseeker.models
 
+import java.text.NumberFormat
+
 data class Application(
     val id: String? = null,
     val owner: String? = null,
@@ -15,4 +17,9 @@ data class Application(
     val tags: ArrayList<String>? = null,
     val image: String? = null,
     val applicants: ArrayList<String>? = null,
-)
+) {
+
+    fun getFormattedPrice(): String = NumberFormat.getCurrencyInstance().format(salary)
+
+    fun getFormattedTags(): String? = tags?.joinToString()
+}

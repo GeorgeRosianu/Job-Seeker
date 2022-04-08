@@ -39,10 +39,12 @@ class CreateFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let {
                 imageUri = uri
-                binding.postImage.setImageURI(uri)
-                binding.addImageBtn.visibility = View.INVISIBLE
+                binding.addImageBtn.setImageURI(uri)
                 binding.addImageTextView.visibility = View.GONE
-                binding.postImage.visibility = View.VISIBLE
+                binding.addImageIcon.visibility = View.GONE
+                //binding.postImage.setImageURI(uri)
+                //binding.addImageBtn.visibility = View.INVISIBLE
+                //binding.postImage.visibility = View.VISIBLE
             }
         }
 
@@ -58,9 +60,16 @@ class CreateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initialization()
+    }
+
+    private fun initialization() {
         setupArrays()
         setupFabTransition()
+        setupViews()
+    }
 
+    private fun setupViews() {
         binding.addBtn.setOnClickListener {
             if (binding.titleEdit.text.isNullOrEmpty() ||
                 binding.companyEdit.text.isNullOrEmpty() ||
@@ -69,7 +78,7 @@ class CreateFragment : Fragment() {
 
                 Toast.makeText(
                     requireContext(),
-                    "Please fill in the required data.",
+                    "Please fill in the required fields.",
                     Toast.LENGTH_SHORT
                 )
                     .show()
@@ -95,7 +104,6 @@ class CreateFragment : Fragment() {
 
         storageReference.putFile(imageUri)
             .addOnSuccessListener {
-                binding.postImage.setImageURI(null)
                 storageReference.downloadUrl.addOnSuccessListener {
                     uploadDataToFirestore(it.toString())
                 }
@@ -111,7 +119,7 @@ class CreateFragment : Fragment() {
         val company: String = binding.companyEdit.text.toString()
         val industry: String = binding.industryEdit.text.toString()
         val salary: Double = binding.salaryEdit.text.toString().toDouble()
-        val level: String = binding.salaryEdit.text.toString()
+        val level: String = binding.requirementsLevelEdit.text.toString()
         val experience: String = binding.requirementsExperienceEdit.text.toString()
         val location: String = binding.requirementsLocationEdit.text.toString()
         val otherRequirements: String = binding.requirementsEdit.text.toString()
@@ -149,7 +157,8 @@ class CreateFragment : Fragment() {
                 binding.requirementsEdit.text = null
                 binding.descriptionEdit.text = null
                 binding.tagsEdit.text = null
-                binding.postImage.setImageURI(null)
+                binding.addImageBtn.setImageURI(null)
+                binding.addImageIcon.setImageResource(R.drawable.ic_round_add_24)
             }
     }
 

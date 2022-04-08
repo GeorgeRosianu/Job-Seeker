@@ -45,8 +45,3 @@ class MyPostsAdapter(
         holder.bind(application)
     }
 }
-
-//class OfferListener(val clickListener: (application: Application) -> Unit) {
-//    fun onClick(application: Application) = clickListener(application)
-
-//}

@@ -42,28 +42,29 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Setting up Navigation Configuration
         setUpViews()
 
         auth = FirebaseAuth.getInstance()
     }
 
     override fun onStart() {
-        super.onStart()
-
         if (auth.currentUser == null) {
             val intent = Intent(this, StartupActivity::class.java)
             startActivity(intent)
             finish()
+        } else {
+            println(auth.currentUser!!.email.toString())
         }
+
+        super.onStart()
     }
 
     override fun onBackPressed() {
 
-        var navController = findNavController(R.id.nav_host_fragment_home)
+        val navController = findNavController(R.id.nav_host_fragment_home)
 
         if (navController.graph.startDestinationId == navController.currentDestination?.id) {
-            if(backPressedOnce) {
+            if (backPressedOnce) {
                 super.onBackPressed()
                 return
             }
@@ -80,30 +81,26 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
         }
     }
 
-    /**
-     * Navigation handling when the user chooses Up from the action bar.
-     */
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
     private fun setUpViews() {
-        // Retrieving NavController from the NavHostFragment
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment_home) as NavHostFragment
         navController = navHostFragment.navController
 
-        val bottomAppBar : BottomAppBar = findViewById(R.id.bottom_app_bar)
+        val bottomAppBar: BottomAppBar = findViewById(R.id.bottom_app_bar)
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
         bottomNavigationView.setupWithNavController(navController)
 
-        // Hiding ActionBar
         supportActionBar?.hide()
 
-        var appBarConfiguration = AppBarConfiguration(
+        val appBarConfiguration = AppBarConfiguration(
             topLevelDestinationIds = setOf(
                 R.id.homeFragment,
                 R.id.discoverFragment,
+                R.id.resumeFragment,
                 R.id.notificationsFragment,
                 R.id.accountFragment
             )
@@ -120,13 +117,21 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
                 R.id.editPostFragment -> {
                     hideBottomNavBar(bottomAppBar)
                 }
+                R.id.editApplicationFragment -> {
+                    hideBottomNavBar(bottomAppBar)
+                }
+                R.id.applicationFragment -> {
+                    hideBottomNavBar(bottomAppBar)
+                }
+                R.id.pdfViewFragment -> {
+                    hideBottomNavBar(bottomAppBar)
+                }
                 else -> {
                     showBottomNavBar(bottomAppBar)
                 }
             }
         }
 
-        // Action bar setup for use with the NavController
         setupActionBarWithNavController(this, navController, appBarConfiguration)
     }
 
@@ -140,6 +145,7 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
 
                     bottomAppBar.visibility = View.VISIBLE
                 }
+
                 override fun onAnimationCancel(animation: Animator?) {
                     isCanceled = true
                 }
@@ -157,6 +163,7 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
 
                     visibility = View.GONE
                 }
+
                 override fun onAnimationCancel(animation: Animator?) {
                     isCanceled = true
                 }

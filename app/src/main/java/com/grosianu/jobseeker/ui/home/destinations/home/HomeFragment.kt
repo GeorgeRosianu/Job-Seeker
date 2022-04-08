@@ -17,13 +17,15 @@ import com.grosianu.jobseeker.databinding.FragmentHomeBinding
 import com.grosianu.jobseeker.models.Application
 import com.grosianu.jobseeker.ui.home.destinations.home.PostsAdapter
 
-class HomeFragment : Fragment(), PostsAdapter.PostsAdapterListener {
+class HomeFragment : Fragment(), PostsAdapter.PostsAdapterListener,
+    ApplicationsAdapter.ApplicationsAdapterListener {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: HomeViewModel by viewModels()
     private val postsAdapter = PostsAdapter(this)
+    private val applicationsAdapter = ApplicationsAdapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,19 +39,36 @@ class HomeFragment : Fragment(), PostsAdapter.PostsAdapterListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getPostList()
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
-        binding.postsRecyclerView.adapter = postsAdapter
+        initialization()
+    }
 
+    private fun initialization() {
+        setupViews()
+        updateRecycleView()
+    }
+
+    private fun setupViews() {
+        binding.lifecycleOwner = this
         binding.postsBtn.setOnClickListener {
             navigateToPosts()
         }
+        binding.applicationsBtn.setOnClickListener {
+            navigateToApplications()
+        }
+    }
 
-//        binding.applicationsRecyclerView.apply {
-//            adapter = postsAdapter
-//        }
-//        binding.applicationsRecyclerView.adapter = postsAdapter
+    private fun setupViewModel() {
+        viewModel.getPostList()
+        viewModel.getApplicationList()
+        binding.viewModel = viewModel
+    }
+
+    private fun updateRecycleView() {
+        viewModel.getPostList()
+        viewModel.getApplicationList()
+        binding.viewModel = viewModel
+        binding.postsRecyclerView.adapter = postsAdapter
+        binding.applicationsRecyclerView.adapter = applicationsAdapter
     }
 
     override fun onDestroyView() {
@@ -58,11 +77,22 @@ class HomeFragment : Fragment(), PostsAdapter.PostsAdapterListener {
     }
 
     override fun onPostClicked(cardView: View, application: Application) {
-        val directions = HomeFragmentDirections.actionHomeFragmentToEditPostFragment(application.id.toString())
+        val directions =
+            HomeFragmentDirections.actionHomeFragmentToEditPostFragment(application.id.toString())
         findNavController().navigate(directions)
     }
 
     override fun onPostLongPressed(application: Application): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun onApplicationClicked(cardView: View, application: Application) {
+        val directions =
+            HomeFragmentDirections.actionGlobalApplicationFragment(application.id.toString())
+        findNavController().navigate(directions)
+    }
+
+    override fun onApplicationLongPressed(application: Application): Boolean {
         TODO("Not yet implemented")
     }
 

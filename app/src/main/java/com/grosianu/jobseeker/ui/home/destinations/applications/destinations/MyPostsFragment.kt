@@ -34,17 +34,21 @@ class MyPostsFragment : Fragment(), MyPostsAdapter.MyPostsAdapterListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Postpone enter transitions to allow shared element transitions to run.
+        initialization(view)
+    }
+
+    private fun initialization(view: View) {
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
 
-        viewModel.getPostList()
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
-        binding.recyclerView.adapter = myPostsAdapter
+        updateRecycleView()
+        setupViews()
+    }
 
+    private fun setupViews() {
+        binding.lifecycleOwner = this
         binding.swipeView.setOnRefreshListener {
-            updatePostList()
+            refreshPostList()
         }
 
         binding.fabAddOffer.apply {
@@ -54,6 +58,17 @@ class MyPostsFragment : Fragment(), MyPostsAdapter.MyPostsAdapterListener {
                 navigateToCreate()
             }
         }
+    }
+
+    private fun setupViewModel() {
+        viewModel.getPostList()
+        binding.viewModel = viewModel
+    }
+
+    private fun updateRecycleView() {
+        viewModel.getPostList()
+        binding.viewModel = viewModel
+        binding.recyclerView.adapter = myPostsAdapter
     }
 
     override fun onDestroyView() {
@@ -78,12 +93,9 @@ class MyPostsFragment : Fragment(), MyPostsAdapter.MyPostsAdapterListener {
         TODO("Not yet implemented")
     }
 
-    private fun updatePostList() {
+    private fun refreshPostList() {
         binding.swipeView.isRefreshing = false
-
-        viewModel.getPostList()
-        binding.viewModel = viewModel
-        binding.recyclerView.adapter = myPostsAdapter
+        updateRecycleView()
     }
 
     private fun navigateToCreate() {

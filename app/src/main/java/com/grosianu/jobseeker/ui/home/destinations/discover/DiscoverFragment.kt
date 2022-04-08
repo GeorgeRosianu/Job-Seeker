@@ -3,11 +3,15 @@ package com.grosianu.jobseeker.ui.home.destinations.discover
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialElevationScale
+import com.google.firebase.auth.FirebaseAuth
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.FragmentDiscoverBinding
 import com.grosianu.jobseeker.databinding.ItemPostDiscoverBinding
@@ -20,10 +24,10 @@ class DiscoverFragment : Fragment(), DiscoverAdapter.DiscoverAdapterListener {
     private var _binding: FragmentDiscoverBinding? = null
     private val binding get() = _binding!!
 
-    private val itemBinding: ItemPostDiscoverBinding? = null
-
     private val viewModel: DiscoverViewModel by viewModels()
     private val discoverAdapter = DiscoverAdapter(this)
+
+    private var asc: Boolean = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,20 +38,24 @@ class DiscoverFragment : Fragment(), DiscoverAdapter.DiscoverAdapterListener {
         return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getPostList()
+        initialization(view)
+    }
+
+    private fun initialization(view: View) {
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
+
+        updateRecycleView()
+        setupViews()
+    }
+
+    private fun setupViews() {
         binding.lifecycleOwner = this
-        binding.viewModel = viewModel
-        binding.recyclerView.adapter = discoverAdapter
         binding.swipeView.setOnRefreshListener {
-            updatePostList()
+            refreshPostList()
         }
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -55,10 +63,11 @@ class DiscoverFragment : Fragment(), DiscoverAdapter.DiscoverAdapterListener {
                 if (p0 != null && p0.isNotEmpty()) {
                     searchPostList(p0)
                 } else {
-                    updatePostList()
+                    updateRecycleView()
                 }
                 return true
             }
+
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 binding.searchView.clearFocus()
                 return true
@@ -69,8 +78,19 @@ class DiscoverFragment : Fragment(), DiscoverAdapter.DiscoverAdapterListener {
             filterPostList()
         }
         binding.sortButton.setOnClickListener {
-
+            sortPostList()
         }
+    }
+
+    private fun setupViewModel() {
+        viewModel.getPostList()
+        binding.viewModel = viewModel
+    }
+
+    private fun updateRecycleView() {
+        viewModel.getPostList()
+        binding.viewModel = viewModel
+        binding.recyclerView.adapter = discoverAdapter
     }
 
     override fun onDestroyView() {
@@ -87,8 +107,9 @@ class DiscoverFragment : Fragment(), DiscoverAdapter.DiscoverAdapterListener {
         reenterTransition = MaterialElevationScale(true).apply {
             duration = resources.getInteger(R.integer.motion_duration_large).toLong()
         }
-        //val directions = DiscoverFragmentDirections.actionDiscoverFragmentToEditPostFragment(application.id.toString())
-        //findNavController().navigate(directions, extras)
+        val directions =
+            DiscoverFragmentDirections.actionGlobalApplicationFragment(application.id.toString())
+        findNavController().navigate(directions, extras)
     }
 
     override fun onPostLongPressed(application: Application): Boolean {
@@ -96,16 +117,13 @@ class DiscoverFragment : Fragment(), DiscoverAdapter.DiscoverAdapterListener {
     }
 
     override fun onApplyClicked(application: Application) {
-        viewModel.userAddApplicant(application.id.toString())
-        itemBinding?.applyBtn?.isEnabled = false
+        // viewModel.userAddApplicant(application.id.toString())
+        // TODO Navigate to applyFragment
     }
 
-    private fun updatePostList() {
+    private fun refreshPostList() {
         binding.swipeView.isRefreshing = false
-
-        viewModel.getPostList()
-        binding.viewModel = viewModel
-        binding.recyclerView.adapter = discoverAdapter
+        updateRecycleView()
     }
 
     private fun searchPostList(string: String) {
@@ -115,11 +133,29 @@ class DiscoverFragment : Fragment(), DiscoverAdapter.DiscoverAdapterListener {
     }
 
     private fun filterPostList() {
-        val array = resources.getStringArray(R.array.popup_array)
-        PopUpDialog(array).show(parentFragmentManager, "dialog")
+        val array = resources.getStringArray(R.array.tags).sortedArray()
+        val dialog = PopUpDialog(array)
+        dialog.show(parentFragmentManager, "Filter")
+
+        setFragmentResultListener("requestKey") { _, bundle ->
+            val result = bundle.getStringArrayList("bundleKey")
+
+            if (result != null && !result.isNullOrEmpty()) {
+                viewModel.filter(result)
+                binding.viewModel = viewModel
+                binding.recyclerView.adapter = discoverAdapter
+                binding.recyclerView.layoutManager?.scrollToPosition(0)
+            } else {
+                updateRecycleView()
+            }
+        }
     }
 
     private fun sortPostList() {
-
+        viewModel.sort(asc)
+        binding.viewModel = viewModel
+        binding.recyclerView.adapter = discoverAdapter
+        binding.recyclerView.layoutManager?.scrollToPosition(0)
+        asc = !asc
     }
 }

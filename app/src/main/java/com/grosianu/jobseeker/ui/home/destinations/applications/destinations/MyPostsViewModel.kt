@@ -22,21 +22,8 @@ class MyPostsViewModel : ViewModel() {
     private val auth = FirebaseAuth.getInstance()
 
     fun getPostList() {
-        val postsTmp = mutableListOf<Application>()
         viewModelScope.launch {
             val docRef = db.collection("applications")
-//            docRef.whereEqualTo("owner", auth.currentUser?.uid)
-//                .get()
-//                .addOnCompleteListener {
-//                    for (document in it.result) {
-//                        val postTmp = document.toObject<Application>()
-//                        postsTmp.add(postTmp)
-//                    }
-//                    _posts.value = postsTmp
-//                }
-//                .addOnFailureListener {
-//                    _posts.value = listOf()
-//                }
             docRef.whereEqualTo("owner", auth.currentUser?.uid)
                 .addSnapshotListener(MetadataChanges.INCLUDE) { querySnapshot, e ->
                     if (e != null) {
@@ -45,7 +32,7 @@ class MyPostsViewModel : ViewModel() {
                     val applications = ArrayList<Application>()
                     for (document in querySnapshot!!) {
                         if (document != null && document.exists()) {
-                            applications.add(document.toObject<Application>())
+                            applications.add(document.toObject())
                         }
                     }
                     _posts.value = applications

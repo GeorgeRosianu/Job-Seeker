@@ -36,6 +36,9 @@
     <!--handles contrast by either dynamically coloring the nav bar handle (gesture nav) -->
     <!--or automatically applying a translucent background (3-button mode).-->
     <color name="nav_bar">@color/black_900_alpha_020</color>
+    <color name="colorTransBg">#32000000</color>
+    <color name="aso_primary">#1472BA</color>
+
 
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>

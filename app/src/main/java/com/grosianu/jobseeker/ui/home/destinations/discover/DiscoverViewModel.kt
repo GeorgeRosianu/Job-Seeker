@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.MetadataChanges
 import com.google.firebase.firestore.ktx.toObject
 import com.grosianu.jobseeker.models.Application
 import kotlinx.coroutines.launch
@@ -19,14 +18,14 @@ class DiscoverViewModel : ViewModel() {
     private var _posts = MutableLiveData<List<Application>>()
     val posts: LiveData<List<Application>> = _posts
 
-    private val _post = MutableLiveData<Application>()
+    private var _post = MutableLiveData<Application>()
     val post: LiveData<Application> = _post
 
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
 
     fun getPostList() {
-        val postsTmp = mutableListOf<Application>()
+        val postsTmp = ArrayList<Application>()
         viewModelScope.launch {
             val docRef = db.collection("applications")
             docRef.whereNotEqualTo("owner", auth.currentUser?.uid)
@@ -41,21 +40,6 @@ class DiscoverViewModel : ViewModel() {
                 .addOnFailureListener {
                     _posts.value = listOf()
                 }
-
-//            docRef.whereNotEqualTo("owner", auth.currentUser?.uid)
-//                .addSnapshotListener(MetadataChanges.INCLUDE) { querySnapshot, e ->
-//                    if (e != null) {
-//                        return@addSnapshotListener
-//                    }
-//
-//                    val applications = ArrayList<Application>()
-//                    for (document in querySnapshot!!) {
-//                        if (document != null && document.exists()) {
-//                            applications.add(document.toObject<Application>())
-//                        }
-//                    }
-//                    _posts.value = applications
-//                }
         }
     }
 
@@ -74,16 +58,34 @@ class DiscoverViewModel : ViewModel() {
                 arrayList.add(it)
             }
         }
-
         _posts.value = arrayList
     }
 
-    fun filter() {
+    fun filter(options: ArrayList<String>) {
+        val arrayList = ArrayList<Application>()
 
+        posts.value?.forEach {
+            it.tags?.forEach { tag ->
+                if (options.contains(tag)) {
+                    arrayList.add(it)
+                }
+            }
+        }
+        _posts.value = arrayList
     }
 
-    fun sort() {
-
+    fun sort(asc: Boolean) {
+        val arrayList = when (asc) {
+            true -> {
+                posts.value?.sortedBy { it.title }
+            }
+            false -> {
+                posts.value?.sortedByDescending { it.title }
+            }
+        }
+        if (arrayList != null) {
+            _posts.value = arrayList!!
+        }
     }
 
     fun userAddApplicant(documentId: String) {

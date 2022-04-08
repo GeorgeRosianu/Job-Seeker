@@ -1,13 +1,17 @@
 package com.grosianu.jobseeker.ui.home.destinations.applications.destinations
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.MetadataChanges
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.storage.FirebaseStorage
 import com.grosianu.jobseeker.models.Application
 import kotlinx.coroutines.launch
 
@@ -17,27 +21,36 @@ class EditPostViewModel : ViewModel() {
     val post: LiveData<Application> = _post
 
     private val db = FirebaseFirestore.getInstance()
-    private val auth = FirebaseAuth.getInstance()
+    private val storage = FirebaseStorage.getInstance()
 
     fun getPost(postId: String) {
         viewModelScope.launch {
             val docRef = db.collection("applications").document(postId)
-            docRef.get()
-                .addOnSuccessListener { document ->
-                    if (document != null) {
-                        val postTmp = document.toObject<Application>()
-                        _post.value = postTmp!!
-                    } else {
-                        Log.d(TAG, "No such document")
+            docRef.addSnapshotListener(MetadataChanges.INCLUDE) { document, e ->
+                if (e != null) {
+                    return@addSnapshotListener
+                }
+                if (document != null && document.exists()) {
+                        _post.value = document.toObject()
                     }
                 }
-                .addOnFailureListener { exception ->
-                    Log.w(TAG, "Error getting documents: ", exception)
+            }
+        }
+
+    fun deletePost(postId: String, context: Context) {
+        viewModelScope.launch {
+            val docRef = db.collection("applications").document(postId)
+            docRef.delete()
+                .addOnSuccessListener {
+                    Toast.makeText(context, "Post deleted", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(context, "Post could not be deleted", Toast.LENGTH_SHORT).show()
                 }
         }
     }
 
-    companion object {
-        private const val TAG = "POST_VIEW_MODEL"
+        companion object {
+            private const val TAG = "POST_VIEW_MODEL"
+        }
     }
-}

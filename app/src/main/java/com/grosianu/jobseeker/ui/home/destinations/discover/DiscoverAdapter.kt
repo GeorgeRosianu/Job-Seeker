@@ -10,14 +10,12 @@ import com.grosianu.jobseeker.models.Application
 
 class DiscoverAdapter(
     private val listener: DiscoverAdapterListener
-) : ListAdapter<Application, DiscoverViewHolder>(DiscoverAdapter){
+) : ListAdapter<Application, DiscoverViewHolder>(DiscoverAdapter) {
 
     interface DiscoverAdapterListener {
         fun onPostClicked(cardView: View, application: Application)
         fun onPostLongPressed(application: Application): Boolean
         fun onApplyClicked(application: Application)
-//        fun onFavoriteClicked()
-//        fun onShareClicked()
     }
 
     companion object DiffCallback : DiffUtil.ItemCallback<Application>() {
@@ -48,5 +46,6 @@ class DiscoverAdapter(
     override fun onBindViewHolder(holder: DiscoverViewHolder, position: Int) {
         val application = getItem(position)
         holder.bind(application)
+        holder.setButton(application)
     }
 }

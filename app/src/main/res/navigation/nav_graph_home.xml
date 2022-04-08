@@ -9,7 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="com.grosianu.jobseeker.ui.home.destinations.home.HomeFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_myApplicationsFragment"
             app:destination="@id/myApplicationsFragment" />
@@ -24,11 +24,7 @@
         android:id="@+id/discoverFragment"
         android:name="com.grosianu.jobseeker.ui.home.destinations.discover.DiscoverFragment"
         android:label="Discover"
-        tools:layout="@layout/fragment_discover" >
-        <action
-            android:id="@+id/action_discoverFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_discover" />
     <fragment
         android:id="@+id/accountFragment"
         android:name="com.grosianu.jobseeker.ui.home.destinations.account.AccountFragment"
@@ -64,11 +60,12 @@
         android:id="@+id/myApplicationsFragment"
         android:name="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.MyApplicationsFragment"
         android:label="fragment_my_applications"
-        tools:layout="@layout/fragment_my_applications"/>
+        tools:layout="@layout/fragment_my_applications" />
     <fragment
         android:id="@+id/editPostFragment"
         android:name="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.EditPostFragment"
-        android:label="EditPostFragment">
+        android:label="EditPostFragment"
+        tools:layout="@layout/fragment_post">
         <argument
             android:name="postId"
             app:argType="string" />
@@ -78,7 +75,7 @@
         app:destination="@id/homeFragment"
         app:launchSingleTop="true"
         app:popUpTo="@+id/nav_graph_home"
-        app:popUpToInclusive="true"/>
+        app:popUpToInclusive="true" />
     <action
         android:id="@+id/action_global_discoverFragment"
         app:destination="@id/discoverFragment" />
@@ -89,7 +86,47 @@
         android:id="@+id/action_global_accountFragment"
         app:destination="@id/accountFragment" />
     <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.grosianu.jobseeker.ui.home.destinations.home.SearchFragment"
-        android:label="SearchFragment" />
+        android:id="@+id/applicationFragment"
+        android:name="com.grosianu.jobseeker.ui.home.destinations.ApplicationFragment"
+        android:label="ApplicationFragment"
+        tools:layout="@layout/fragment_application">
+        <argument
+            android:name="postId"
+            app:argType="string" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_applicationFragment"
+        app:destination="@id/applicationFragment" />
+    <fragment
+        android:id="@+id/editApplicationFragment"
+        android:name="com.grosianu.jobseeker.ui.home.destinations.EditApplicationFragment"
+        android:label="fragment_edit_post"
+        tools:layout="@layout/fragment_edit_application">
+        <argument
+            android:name="postId"
+            app:argType="string" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_editApplicationFragment"
+        app:destination="@id/editApplicationFragment" />
+    <fragment
+        android:id="@+id/resumeFragment"
+        android:name="com.grosianu.jobseeker.ui.home.destinations.resume.ResumeFragment"
+        android:label="Resume"
+        tools:layout="@layout/fragment_resume" />
+    <action
+        android:id="@+id/action_global_resumeFragment2"
+        app:destination="@id/resumeFragment" />
+    <fragment
+        android:id="@+id/pdfViewFragment"
+        android:name="com.grosianu.jobseeker.ui.home.destinations.PdfViewFragment"
+        android:label="PdfViewFragment"
+        tools:layout="@layout/fragment_pdf_web_view">
+        <argument
+            android:name="pdfUrl"
+            app:argType="string" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_pdfViewFragment"
+        app:destination="@id/pdfViewFragment" />
 </navigation>

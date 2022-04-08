@@ -73,6 +73,9 @@ dependencies {
     // Firebase Functions
     implementation 'com.google.firebase:firebase-functions-ktx:20.0.1'
 
+    // Firebase Storage
+    implementation 'com.google.firebase:firebase-storage-ktx:20.0.0'
+
     // Google Play services
     implementation 'com.google.android.gms:play-services-auth:20.1.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.0'
@@ -83,9 +86,8 @@ dependencies {
     // Swipe to Refresh
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
-    // Transformation Layout
-    implementation "com.github.skydoves:transformationlayout:1.1.1"
-    implementation 'com.google.firebase:firebase-storage-ktx:20.0.0'
+    // PDF Viewer
+    //implementation 'com.github.barteksc:android-pdf-viewer:3.2.0-beta.1'
 
     // Coil
     implementation "io.coil-kt:coil:1.4.0"

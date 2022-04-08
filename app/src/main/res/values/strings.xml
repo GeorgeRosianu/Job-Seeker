@@ -20,6 +20,13 @@
     <string name="post_card_transition_name">post_card_%1$s</string>
     <string name="post_card_detail_transition_name">post_card_detail</string>
 
+    <!--fragment_post-->
+    <string name="location">Location: %s</string>
+    <string name="level">Level: %s</string>
+    <string name="industry">Industry: %s</string>
+    <string name="salary">Salary: %s</string>
+    <string name="experience">Experience: %s</string>
+
     <!--Create Fragment Texts-->
     <string-array name="tags">
         <item>Graduate</item>
