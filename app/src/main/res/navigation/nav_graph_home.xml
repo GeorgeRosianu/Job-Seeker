@@ -87,7 +87,7 @@
         app:destination="@id/accountFragment" />
     <fragment
         android:id="@+id/applicationFragment"
-        android:name="com.grosianu.jobseeker.ui.home.destinations.ApplicationFragment"
+        android:name="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.ApplicationFragment"
         android:label="ApplicationFragment"
         tools:layout="@layout/fragment_application">
         <argument
@@ -96,10 +96,11 @@
     </fragment>
     <action
         android:id="@+id/action_global_applicationFragment"
-        app:destination="@id/applicationFragment" />
+        app:destination="@id/applicationFragment"
+        app:launchSingleTop="true" />
     <fragment
         android:id="@+id/editApplicationFragment"
-        android:name="com.grosianu.jobseeker.ui.home.destinations.EditApplicationFragment"
+        android:name="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.EditApplicationFragment"
         android:label="fragment_edit_post"
         tools:layout="@layout/fragment_edit_application">
         <argument
@@ -108,7 +109,8 @@
     </fragment>
     <action
         android:id="@+id/action_global_editApplicationFragment"
-        app:destination="@id/editApplicationFragment" />
+        app:destination="@id/editApplicationFragment"
+        app:launchSingleTop="true" />
     <fragment
         android:id="@+id/resumeFragment"
         android:name="com.grosianu.jobseeker.ui.home.destinations.resume.ResumeFragment"
@@ -119,7 +121,7 @@
         app:destination="@id/resumeFragment" />
     <fragment
         android:id="@+id/pdfViewFragment"
-        android:name="com.grosianu.jobseeker.ui.home.destinations.PdfViewFragment"
+        android:name="com.grosianu.jobseeker.ui.home.destinations.resume.PdfViewFragment"
         android:label="PdfViewFragment"
         tools:layout="@layout/fragment_pdf_web_view">
         <argument
@@ -128,5 +130,106 @@
     </fragment>
     <action
         android:id="@+id/action_global_pdfViewFragment"
-        app:destination="@id/pdfViewFragment" />
+        app:destination="@id/pdfViewFragment"
+        app:launchSingleTop="true" />
+    <fragment
+        android:id="@+id/applySelectResumeFragment"
+        android:name="com.grosianu.jobseeker.ui.home.destinations.discover.ApplySelectResumeFragment"
+        android:label="ApplySelectResumeFragment"
+        tools:layout="@layout/fragment_apply_choose_resume">
+        <argument
+            android:name="postId"
+            app:argType="string" />
+        <argument
+            android:name="start"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_applySelectResumeFragment_to_applicationFragment"
+            app:destination="@id/applicationFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/applicationFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_applySelectResumeFragment_to_discoverFragment"
+            app:destination="@id/discoverFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/discoverFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_applySelectResumeFragment_to_applyWriteMessageFragment"
+            app:destination="@id/applyWriteMessageFragment" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_applySelectResumeFragment"
+        app:destination="@id/applySelectResumeFragment"
+        app:launchSingleTop="true" />
+    <fragment
+        android:id="@+id/applyWriteMessageFragment"
+        android:name="com.grosianu.jobseeker.ui.home.destinations.discover.ApplyWriteMessageFragment"
+        android:label="ApplyWriteMessageFragment"
+        tools:layout="@layout/fragment_apply_write_message">
+        <argument
+            android:name="resumeId"
+            app:argType="string" />
+        <argument
+            android:name="postId"
+            app:argType="string" />
+        <argument
+            android:name="start"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_applyWriteMessageFragment_to_applySelectResumeFragment"
+            app:destination="@id/applySelectResumeFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/applySelectResumeFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_applyWriteMessageFragment_to_discoverFragment"
+            app:destination="@id/discoverFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/discoverFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_applyWriteMessageFragment_to_applicationFragment"
+            app:destination="@id/applicationFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/applicationFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_applyWriteMessageFragment_to_applyCheckDetailsFragment"
+            app:destination="@id/applyCheckDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/applyCheckDetailsFragment"
+        android:name="com.grosianu.jobseeker.ui.home.destinations.discover.ApplyCheckDetailsFragment"
+        android:label="ApplyCheckDetailsFragment"
+        tools:layout="@layout/fragment_apply_check_details">
+        <argument
+            android:name="resumeId"
+            app:argType="string" />
+        <argument
+            android:name="postId"
+            app:argType="string" />
+        <argument
+            android:name="start"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_applyCheckDetailsFragment_to_applyWriteMessageFragment"
+            app:destination="@id/applyWriteMessageFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/applyWriteMessageFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_applyCheckDetailsFragment_to_applicationFragment"
+            app:destination="@id/applicationFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/applicationFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_applyCheckDetailsFragment_to_discoverFragment"
+            app:destination="@id/discoverFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/discoverFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

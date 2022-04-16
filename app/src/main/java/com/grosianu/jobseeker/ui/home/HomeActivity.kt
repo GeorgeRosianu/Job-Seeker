@@ -126,6 +126,12 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
                 R.id.pdfViewFragment -> {
                     hideBottomNavBar(bottomAppBar)
                 }
+                R.id.applySelectResumeFragment -> {
+                    hideBottomNavBar(bottomAppBar)
+                }
+                R.id.applyWriteMessageFragment -> {
+                    hideBottomNavBar(bottomAppBar)
+                }
                 else -> {
                     showBottomNavBar(bottomAppBar)
                 }

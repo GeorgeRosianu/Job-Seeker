@@ -1,4 +1,4 @@
-package com.grosianu.jobseeker.ui.home.destinations.applications.destinations
+package com.grosianu.jobseeker.ui.home.destinations.applications.destinations.viewModels
 
 import android.content.Context
 import android.util.Log

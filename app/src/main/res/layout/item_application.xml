@@ -11,7 +11,7 @@
 
         <variable
             name="listener"
-            type="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.MyApplicationsAdapter.MyApplicationsAdapterListener" />
+            type="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.adapters.MyApplicationsAdapter.MyApplicationsAdapterListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

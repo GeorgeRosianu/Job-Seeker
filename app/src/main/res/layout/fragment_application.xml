@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.grosianu.jobseeker.ui.home.destinations.ApplicationViewModel" />
+            type="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.viewModels.ApplicationViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -234,7 +234,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
                                 android:layout_weight="2"
-                                android:text="@{viewModel.post.formattedPrice}"
+                                android:text="@{viewModel.post.formattedSalary}"
                                 android:textAppearance="?attr/textAppearanceBody1"
                                 tools:text="RON3500.00" />
                         </LinearLayout>

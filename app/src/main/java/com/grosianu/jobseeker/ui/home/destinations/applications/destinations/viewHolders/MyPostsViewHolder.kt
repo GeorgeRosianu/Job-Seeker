@@ -1,12 +1,13 @@
-package com.grosianu.jobseeker.ui.home.destinations.applications.destinations
+package com.grosianu.jobseeker.ui.home.destinations.applications.destinations.viewHolders
 
 import androidx.recyclerview.widget.RecyclerView
-import com.grosianu.jobseeker.databinding.ItemApplicationBinding
+import com.grosianu.jobseeker.databinding.ItemOfferBinding
 import com.grosianu.jobseeker.models.Application
+import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.adapters.MyPostsAdapter
 
-class MyApplicationsViewHolder(
-    val binding: ItemApplicationBinding,
-    listener: MyApplicationsAdapter.MyApplicationsAdapterListener
+class MyPostsViewHolder(
+    val binding: ItemOfferBinding,
+    listener: MyPostsAdapter.MyPostsAdapterListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
     init {

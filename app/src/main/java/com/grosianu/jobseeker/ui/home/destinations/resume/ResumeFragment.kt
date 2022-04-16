@@ -54,21 +54,6 @@ class ResumeFragment : Fragment(), ResumeAdapter.ResumeAdapterListener {
             }
         }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-//        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
-//            override fun handleOnBackPressed() {
-//                if (consumeBackPress()) {
-//                    // Here we do our stuff
-//                } else {
-//                    isEnabled = false
-//                    activity?.onBackPressed()
-//                }
-//            }
-//        })
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -103,7 +88,7 @@ class ResumeFragment : Fragment(), ResumeAdapter.ResumeAdapterListener {
     }
 
     private fun initialization() {
-        updateRecycleView()
+        updateRecyclerView()
         setupViews()
     }
 
@@ -145,7 +130,7 @@ class ResumeFragment : Fragment(), ResumeAdapter.ResumeAdapterListener {
         binding.viewModel = viewModel
     }
 
-    private fun updateRecycleView() {
+    private fun updateRecyclerView() {
         viewModel.getResumeList()
         binding.viewModel = viewModel
         binding.recyclerView.adapter = resumeAdapter
@@ -269,16 +254,18 @@ class ResumeFragment : Fragment(), ResumeAdapter.ResumeAdapterListener {
             fab.animate().rotation(0F)
 
             fabCreate.animate().translationY(0F)
-            createActionText.animate().translationY(0F)
+            //createActionText.animate().translationY(0F)
+            createActionCard.animate().translationY(0F)
 
             fabUpload.animate().translationY(0F)
-            uploadActionText.animate().translationY(0F)
+            //uploadActionText.animate().translationY(0F)
+            uploadActionCard.animate().translationY(0F)
 
             fabUpload.animate().translationY(0F).setListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animator: Animator) {
                     if (!isFabOpen) {
-                        uploadActionText.visibility = View.GONE
-                        createActionText.visibility = View.GONE
+                        uploadActionCard.visibility = View.GONE
+                        createActionCard.visibility = View.GONE
                     }
                 }
 
@@ -286,8 +273,8 @@ class ResumeFragment : Fragment(), ResumeAdapter.ResumeAdapterListener {
                     if (!isFabOpen) {
                         fabUpload.visibility = View.GONE
                         fabCreate.visibility = View.GONE
-                        uploadActionText.visibility = View.GONE
-                        createActionText.visibility = View.GONE
+                        uploadActionCard.visibility = View.GONE
+                        createActionCard.visibility = View.GONE
                     }
                 }
 
@@ -309,18 +296,20 @@ class ResumeFragment : Fragment(), ResumeAdapter.ResumeAdapterListener {
             fabUpload.visibility = View.VISIBLE
 
             fabCreate.animate().translationY(-resources.getDimension(R.dimen.standard_55))
-            createActionText.animate().translationY(-resources.getDimension(R.dimen.standard_55))
+            //createActionText.animate().translationY(-resources.getDimension(R.dimen.standard_55))
+            createActionCard.animate().translationY(-resources.getDimension(R.dimen.standard_55))
 
             fabUpload.animate().translationY(-resources.getDimension(R.dimen.standard_105))
-            uploadActionText.animate().translationY(-resources.getDimension(R.dimen.standard_105))
+            //uploadActionText.animate().translationY(-resources.getDimension(R.dimen.standard_105))
+            uploadActionCard.animate().translationY(-resources.getDimension(R.dimen.standard_105))
 
-            uploadActionText.animate().translationY(-resources.getDimension(R.dimen.standard_105))
+            uploadActionCard.animate().translationY(-resources.getDimension(R.dimen.standard_105))
                 .setListener(object : Animator.AnimatorListener {
                     override fun onAnimationStart(animator: Animator) {}
                     override fun onAnimationEnd(animator: Animator) {
                         if (isFabOpen) {
-                            uploadActionText.visibility = View.VISIBLE
-                            createActionText.visibility = View.VISIBLE
+                            uploadActionCard.visibility = View.VISIBLE
+                            createActionCard.visibility = View.VISIBLE
                         }
                     }
 

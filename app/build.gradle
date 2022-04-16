@@ -86,11 +86,12 @@ dependencies {
     // Swipe to Refresh
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
-    // PDF Viewer
-    //implementation 'com.github.barteksc:android-pdf-viewer:3.2.0-beta.1'
-
     // Coil
     implementation "io.coil-kt:coil:1.4.0"
+
+    // RecyclerView Selection
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'androidx.recyclerview:recyclerview-selection:1.1.0'
 
     // Tests
     testImplementation 'junit:junit:4.13.2'

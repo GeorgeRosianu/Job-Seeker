@@ -13,6 +13,8 @@ import com.google.android.material.transition.MaterialElevationScale
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.FragmentMyApplicationsBinding
 import com.grosianu.jobseeker.models.Application
+import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.adapters.MyApplicationsAdapter
+import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.viewModels.MyApplicationsViewModel
 
 class MyApplicationsFragment: Fragment(), MyApplicationsAdapter.MyApplicationsAdapterListener {
 

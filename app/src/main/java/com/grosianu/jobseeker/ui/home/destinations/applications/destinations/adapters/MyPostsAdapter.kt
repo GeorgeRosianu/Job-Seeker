@@ -1,18 +1,19 @@
-package com.grosianu.jobseeker.ui.home.destinations.applications.destinations
+package com.grosianu.jobseeker.ui.home.destinations.applications.destinations.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.grosianu.jobseeker.databinding.ItemApplicationBinding
+import com.grosianu.jobseeker.databinding.ItemOfferBinding
 import com.grosianu.jobseeker.models.Application
+import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.viewHolders.MyPostsViewHolder
 
-class MyApplicationsAdapter(
-    private val listener: MyApplicationsAdapterListener
-) : ListAdapter<Application, MyApplicationsViewHolder>(DiffCallback) {
+class MyPostsAdapter(
+    private val listener: MyPostsAdapterListener
+) : ListAdapter<Application, MyPostsViewHolder>(DiffCallback) {
 
-    interface MyApplicationsAdapterListener {
+    interface MyPostsAdapterListener {
         fun onPostClicked(cardView: View, application: Application)
         fun onPostLongPressed(application: Application): Boolean
     }
@@ -31,15 +32,15 @@ class MyApplicationsAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyApplicationsViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyPostsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return MyApplicationsViewHolder(
-            ItemApplicationBinding.inflate(layoutInflater, parent, false),
+        return MyPostsViewHolder(
+            ItemOfferBinding.inflate(layoutInflater, parent, false),
             listener
         )
     }
 
-    override fun onBindViewHolder(holder: MyApplicationsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyPostsViewHolder, position: Int) {
         val application = getItem(position)
         holder.bind(application)
     }

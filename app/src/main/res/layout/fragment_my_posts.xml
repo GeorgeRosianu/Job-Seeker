@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.MyPostsViewModel" />
+            type="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.viewModels.MyPostsViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView

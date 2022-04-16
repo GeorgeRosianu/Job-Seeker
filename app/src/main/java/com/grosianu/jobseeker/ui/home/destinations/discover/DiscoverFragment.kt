@@ -3,6 +3,7 @@ package com.grosianu.jobseeker.ui.home.destinations.discover
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
@@ -118,7 +119,14 @@ class DiscoverFragment : Fragment(), DiscoverAdapter.DiscoverAdapterListener {
 
     override fun onApplyClicked(application: Application) {
         // viewModel.userAddApplicant(application.id.toString())
-        // TODO Navigate to applyFragment
+        val start = "discover"
+        val directions =
+            DiscoverFragmentDirections.actionGlobalApplySelectResumeFragment(application.id.toString(), start)
+        findNavController().navigate(directions)
+    }
+
+    override fun onAddFavoriteClicked(view: View, application: Application) {
+
     }
 
     private fun refreshPostList() {

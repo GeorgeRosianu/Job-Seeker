@@ -1,4 +1,4 @@
-package com.grosianu.jobseeker.ui.home.destinations
+package com.grosianu.jobseeker.ui.home.destinations.applications.destinations.viewModels
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.firestore.ktx.toObject
 import com.grosianu.jobseeker.models.Application
 import kotlinx.coroutines.launch

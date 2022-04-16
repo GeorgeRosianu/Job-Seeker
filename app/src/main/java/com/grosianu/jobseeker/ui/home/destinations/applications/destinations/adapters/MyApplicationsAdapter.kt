@@ -1,19 +1,19 @@
-package com.grosianu.jobseeker.ui.home.destinations.applications.destinations
+package com.grosianu.jobseeker.ui.home.destinations.applications.destinations.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
-import com.grosianu.jobseeker.databinding.ItemOfferBinding
+import com.grosianu.jobseeker.databinding.ItemApplicationBinding
 import com.grosianu.jobseeker.models.Application
+import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.viewHolders.MyApplicationsViewHolder
 
-class MyPostsAdapter(
-    private val listener: MyPostsAdapterListener
-) : ListAdapter<Application, MyPostsViewHolder>(DiffCallback) {
+class MyApplicationsAdapter(
+    private val listener: MyApplicationsAdapterListener
+) : ListAdapter<Application, MyApplicationsViewHolder>(DiffCallback) {
 
-    interface MyPostsAdapterListener {
+    interface MyApplicationsAdapterListener {
         fun onPostClicked(cardView: View, application: Application)
         fun onPostLongPressed(application: Application): Boolean
     }
@@ -32,15 +32,15 @@ class MyPostsAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyPostsViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyApplicationsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return MyPostsViewHolder(
-            ItemOfferBinding.inflate(layoutInflater, parent, false),
+        return MyApplicationsViewHolder(
+            ItemApplicationBinding.inflate(layoutInflater, parent, false),
             listener
         )
     }
 
-    override fun onBindViewHolder(holder: MyPostsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyApplicationsViewHolder, position: Int) {
         val application = getItem(position)
         holder.bind(application)
     }

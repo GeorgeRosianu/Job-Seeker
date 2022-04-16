@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.EditPostViewModel" />
+            type="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.viewModels.EditPostViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -249,7 +249,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:layout_weight="2"
-                            android:text="@{viewModel.post.formattedPrice}"
+                            android:text="@{viewModel.post.formattedSalary}"
                             android:textAppearance="?attr/textAppearanceBody1"
                             tools:text="Brasov" />
                     </LinearLayout>

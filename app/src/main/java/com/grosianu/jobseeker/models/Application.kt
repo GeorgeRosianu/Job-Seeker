@@ -19,7 +19,7 @@ data class Application(
     val applicants: ArrayList<String>? = null,
 ) {
 
-    fun getFormattedPrice(): String = NumberFormat.getCurrencyInstance().format(salary)
+    fun getFormattedSalary(): String = NumberFormat.getCurrencyInstance().format(salary)
 
     fun getFormattedTags(): String? = tags?.joinToString()
 }

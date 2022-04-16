@@ -1,4 +1,4 @@
-package com.grosianu.jobseeker.ui.home.destinations
+package com.grosianu.jobseeker.ui.home.destinations.resume
 
 import android.graphics.Bitmap
 import android.os.Bundle

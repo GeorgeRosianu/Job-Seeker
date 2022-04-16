@@ -16,6 +16,7 @@ class DiscoverAdapter(
         fun onPostClicked(cardView: View, application: Application)
         fun onPostLongPressed(application: Application): Boolean
         fun onApplyClicked(application: Application)
+        fun onAddFavoriteClicked(view: View, application: Application)
     }
 
     companion object DiffCallback : DiffUtil.ItemCallback<Application>() {

@@ -2,9 +2,12 @@ package com.grosianu.jobseeker.ui.home.destinations.discover
 
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.ItemPostDiscoverBinding
 import com.grosianu.jobseeker.models.Application
+import com.grosianu.jobseeker.models.User
 
 class DiscoverViewHolder(
     val binding: ItemPostDiscoverBinding,

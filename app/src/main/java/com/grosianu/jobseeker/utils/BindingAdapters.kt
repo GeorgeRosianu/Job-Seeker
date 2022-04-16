@@ -7,12 +7,12 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.models.Application
 import com.grosianu.jobseeker.models.Resume
-import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.MyApplicationsAdapter
-import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.MyPostsAdapter
+import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.adapters.MyApplicationsAdapter
+import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.adapters.MyPostsAdapter
+import com.grosianu.jobseeker.ui.home.destinations.discover.ApplySelectResumeAdapter
 import com.grosianu.jobseeker.ui.home.destinations.discover.DiscoverAdapter
 import com.grosianu.jobseeker.ui.home.destinations.home.ApplicationsAdapter
 import com.grosianu.jobseeker.ui.home.destinations.home.PostsAdapter
@@ -90,5 +90,11 @@ fun bindApplicationsRecycleView2(recyclerView: RecyclerView, data: List<Applicat
 @BindingAdapter("resumeListData")
 fun bindResumeRecyclerView(recyclerView: RecyclerView, data: List<Resume>?) {
     val adapter = recyclerView.adapter as ResumeAdapter
+    adapter.submitList(data)
+}
+
+@BindingAdapter("applyResumeListData")
+fun bindApplyResumeRecyclerView(recyclerView: RecyclerView, data: List<Resume>?) {
+    val adapter = recyclerView.adapter as ApplySelectResumeAdapter
     adapter.submitList(data)
 }

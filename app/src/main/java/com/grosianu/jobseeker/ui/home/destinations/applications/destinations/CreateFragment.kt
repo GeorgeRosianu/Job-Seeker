@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.setupWithNavController
 import androidx.transition.Slide
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.firebase.auth.FirebaseAuth
@@ -42,9 +41,6 @@ class CreateFragment : Fragment() {
                 binding.addImageBtn.setImageURI(uri)
                 binding.addImageTextView.visibility = View.GONE
                 binding.addImageIcon.visibility = View.GONE
-                //binding.postImage.setImageURI(uri)
-                //binding.addImageBtn.visibility = View.INVISIBLE
-                //binding.postImage.visibility = View.VISIBLE
             }
         }
 
@@ -180,15 +176,15 @@ class CreateFragment : Fragment() {
 
     private fun setupArrays() {
         val industries = resources.getStringArray(R.array.industries)
-        var arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, industries)
+        var arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, industries)
         binding.industryEdit.setAdapter(arrayAdapter)
 
         val levels = resources.getStringArray(R.array.levels)
-        arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, levels)
+        arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, levels)
         binding.requirementsLevelEdit.setAdapter(arrayAdapter)
 
         val tags = resources.getStringArray(R.array.tags).sorted()
-        arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, tags)
+        arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, tags)
         binding.tagsEdit.setTokenizer(MultiAutoCompleteTextView.CommaTokenizer())
         binding.tagsEdit.threshold = 1
         binding.tagsEdit.setAdapter(arrayAdapter)

@@ -1,4 +1,4 @@
-package com.grosianu.jobseeker.ui.home.destinations
+package com.grosianu.jobseeker.ui.home.destinations.applications.destinations
 
 import android.net.Uri
 import android.os.Bundle
@@ -13,12 +13,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.FragmentEditApplicationBinding
 import com.grosianu.jobseeker.models.Application
+import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.viewModels.EditApplicationViewModel
 import java.util.*
 
 class EditApplicationFragment : Fragment() {
@@ -76,7 +76,11 @@ class EditApplicationFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            updateData()
+            if (this::imageUri.isInitialized) {
+                updateDataWithImage()
+            } else {
+                updateDataToFirestore()
+            }
             findNavController().navigateUp()
         }
         binding.addImageBtn.setOnClickListener {
@@ -89,19 +93,58 @@ class EditApplicationFragment : Fragment() {
 
     private fun getImageFromGallery() = imageFromGallery.launch("image/*")
 
-    private fun updateData() {
+    private fun updateDataWithImage() {
         val storageReference = storage.getReference("images/${viewModel.post.value?.image}")
         storageReference.putFile(imageUri)
             .addOnSuccessListener {
                 storageReference.downloadUrl.addOnSuccessListener {
-                    updateDataToFirestore(it.toString())
+                    updateDataToFirestoreWithImage(it.toString())
                 }
             }
             .addOnFailureListener {
             }
     }
 
-    private fun updateDataToFirestore(image: String) {
+    private fun updateDataToFirestore() {
+        val id: String = viewModel.post.value?.id!!
+        val title: String = binding.titleEdit.text.toString()
+        val company: String = binding.companyEdit.text.toString()
+        val industry: String = binding.industryEdit.text.toString()
+        val salary: Double = binding.salaryEdit.text.toString().toDouble()
+        val level: String = binding.requirementsLevelEdit.text.toString()
+        val experience: String = binding.requirementsExperienceEdit.text.toString()
+        val location: String = binding.requirementsLocationEdit.text.toString()
+        val otherRequirements: String = binding.requirementsEdit.text.toString()
+        val description: String = binding.descriptionEdit.text.toString()
+        val tagsString = binding.tagsEdit.text.toString().trim().trimEnd {it <= ','}
+        val tags: ArrayList<String> = getArrayFromString(tagsString) as ArrayList<String>
+
+        val dbRef = db.collection("applications").document(id)
+
+        dbRef.update("title", title)
+            .addOnSuccessListener { binding.titleEdit.text = null }
+        dbRef.update("company", company)
+            .addOnSuccessListener { binding.companyEdit.text = null }
+        dbRef.update("description", description)
+            .addOnSuccessListener { binding.descriptionEdit.text = null }
+        dbRef.update("experience", experience)
+            .addOnSuccessListener { binding.requirementsExperienceEdit.text = null }
+        dbRef.update("salary", salary)
+            .addOnSuccessListener { binding.salaryEdit.text = null }
+        dbRef.update("tags", tags)
+            .addOnSuccessListener { binding.tagsEdit.text = null }
+        dbRef.update("industry", industry)
+            .addOnSuccessListener { binding.companyEdit.text = null }
+        dbRef.update("level", level)
+            .addOnSuccessListener { binding.requirementsLevelEdit.text = null }
+        dbRef.update("location", location)
+            .addOnSuccessListener { binding.requirementsLocationEdit.text = null }
+        dbRef.update("otherRequirements", otherRequirements)
+            .addOnSuccessListener { binding.requirementsEdit.text = null }
+
+    }
+
+    private fun updateDataToFirestoreWithImage(image: String) {
         val id: String = viewModel.post.value?.id!!
         val owner: String = viewModel.post.value?.owner!!
         val title: String = binding.titleEdit.text.toString()
@@ -154,15 +197,15 @@ class EditApplicationFragment : Fragment() {
 
     private fun setupArrays() {
         val industries = resources.getStringArray(R.array.industries)
-        var arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, industries)
+        var arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, industries)
         binding.industryEdit.setAdapter(arrayAdapter)
 
         val levels = resources.getStringArray(R.array.levels)
-        arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, levels)
+        arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, levels)
         binding.requirementsLevelEdit.setAdapter(arrayAdapter)
 
         val tags = resources.getStringArray(R.array.tags).sorted()
-        arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, tags)
+        arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, tags)
         binding.tagsEdit.setTokenizer(MultiAutoCompleteTextView.CommaTokenizer())
         binding.tagsEdit.threshold = 1
         binding.tagsEdit.setAdapter(arrayAdapter)
