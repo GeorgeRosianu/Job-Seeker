@@ -6,24 +6,24 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.grosianu.jobseeker.databinding.ItemApplicationBinding
-import com.grosianu.jobseeker.models.Application
+import com.grosianu.jobseeker.models.Post
 import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.viewHolders.MyApplicationsViewHolder
 
 class MyApplicationsAdapter(
     private val listener: MyApplicationsAdapterListener
-) : ListAdapter<Application, MyApplicationsViewHolder>(DiffCallback) {
+) : ListAdapter<Post, MyApplicationsViewHolder>(DiffCallback) {
 
     interface MyApplicationsAdapterListener {
-        fun onPostClicked(cardView: View, application: Application)
-        fun onPostLongPressed(application: Application): Boolean
+        fun onPostClicked(cardView: View, post: Post)
+        fun onPostLongPressed(post: Post): Boolean
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<Application>() {
-        override fun areItemsTheSame(oldItem: Application, newItem: Application): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<Post>() {
+        override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
             return oldItem.title == newItem.title && oldItem.owner == newItem.owner
         }
 
-        override fun areContentsTheSame(oldItem: Application, newItem: Application): Boolean {
+        override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
             return oldItem.industry == newItem.industry &&
                     oldItem.salary == newItem.salary &&
                     oldItem.company == newItem.company &&

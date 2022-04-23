@@ -5,25 +5,27 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
-import com.grosianu.jobseeker.models.Application
+import com.grosianu.jobseeker.models.Post
 import kotlinx.coroutines.launch
 
-class EditApplicationViewModel : ViewModel() {
+class OfferViewModel : ViewModel() {
 
-    private var _post = MutableLiveData<Application>()
-    val post: LiveData<Application> = _post
+    private var _post = MutableLiveData<Post>()
+    val post: LiveData<Post> = _post
 
     private val db = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
 
     fun getPost(postId: String) {
         viewModelScope.launch {
-            val docRef = db.collection("applications").document(postId)
+            val docRef = db.collection("posts").document(postId)
             docRef.get()
                 .addOnSuccessListener { document ->
                     if (document != null) {
-                        _post.value = document.toObject<Application>()
+                        _post.value = document.toObject<Post>()
                     } else {
                         Log.d(TAG, "No such document")
                     }
@@ -35,6 +37,6 @@ class EditApplicationViewModel : ViewModel() {
     }
 
     companion object {
-        private const val TAG = "EDIT_POST_VIEW_MODEL"
+        private const val TAG = "OFFER_VIEW_MODEL"
     }
 }

@@ -27,6 +27,10 @@
     <string name="salary">Salary: %s</string>
     <string name="experience">Experience: %s</string>
 
+    <!--fragment_account-->
+    <string name="user_greeting">Hello, %s</string>
+    <string name="user_greeting_noname">Hello, User</string>
+
     <!--Create Fragment Texts-->
     <string-array name="tags">
         <item>Graduate</item>

@@ -19,7 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.FragmentCreateBinding
-import com.grosianu.jobseeker.models.Application
+import com.grosianu.jobseeker.models.Post
 import com.grosianu.jobseeker.utils.themeColor
 import java.util.*
 
@@ -123,7 +123,7 @@ class CreateFragment : Fragment() {
         val tagsString = binding.tagsEdit.text.toString().trim().trimEnd {it <= ','}
         val tags: ArrayList<String> = getArrayFromString(tagsString) as ArrayList<String>
 
-        val application = Application(
+        val post = Post(
             id,
             owner,
             title,
@@ -140,8 +140,8 @@ class CreateFragment : Fragment() {
             null
         )
 
-        db.collection("applications").document(id)
-            .set(application)
+        db.collection("posts").document(id)
+            .set(post)
             .addOnSuccessListener {
                 binding.titleEdit.text = null
                 binding.companyEdit.text = null

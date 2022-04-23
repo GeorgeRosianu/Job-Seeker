@@ -6,27 +6,27 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.grosianu.jobseeker.databinding.ItemPostDiscoverBinding
-import com.grosianu.jobseeker.models.Application
+import com.grosianu.jobseeker.models.Post
 
 class DiscoverAdapter(
     private val listener: DiscoverAdapterListener
-) : ListAdapter<Application, DiscoverViewHolder>(DiscoverAdapter) {
+) : ListAdapter<Post, DiscoverViewHolder>(DiffCallback) {
 
     interface DiscoverAdapterListener {
-        fun onPostClicked(cardView: View, application: Application)
-        fun onPostLongPressed(application: Application): Boolean
-        fun onApplyClicked(application: Application)
-        fun onAddFavoriteClicked(view: View, application: Application)
+        fun onPostClicked(cardView: View, post: Post)
+        fun onPostLongPressed(post: Post): Boolean
+        fun onApplyClicked(post: Post)
+        fun onAddFavoriteClicked(view: View, post: Post)
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<Application>() {
-        override fun areItemsTheSame(oldItem: Application, newItem: Application): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<Post>() {
+        override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
             return oldItem.title == newItem.title &&
                     oldItem.owner == newItem.owner &&
                     oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Application, newItem: Application): Boolean {
+        override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
             return oldItem.industry == newItem.industry &&
                     oldItem.salary == newItem.salary &&
                     oldItem.company == newItem.company &&

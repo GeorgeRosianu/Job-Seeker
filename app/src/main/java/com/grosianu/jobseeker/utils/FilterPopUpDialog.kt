@@ -10,7 +10,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
 import com.grosianu.jobseeker.R
 
-class PopUpDialog(array: Array<String>) : DialogFragment() {
+class FilterPopUpDialog(array: Array<String>) : DialogFragment() {
 
     private val dataArray = array
 

@@ -1,15 +1,19 @@
 package com.grosianu.jobseeker.ui.home.destinations.applications.destinations
 
+import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialContainerTransform
+import com.google.firebase.auth.FirebaseAuth
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.FragmentApplicationBinding
 import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.viewModels.ApplicationViewModel
@@ -54,19 +58,9 @@ class ApplicationFragment : Fragment() {
         binding.navigationIcon.setOnClickListener {
             findNavController().navigateUp()
         }
-        binding.applyBtn.setOnClickListener {
-            val start = "application"
-            val directions = ApplicationFragmentDirections.actionGlobalApplySelectResumeFragment(args.postId, start)
-            findNavController().navigate(directions)
+        binding.deleteBtn.setOnClickListener {
+            alertConfirmation()
         }
-//        binding.nestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-//            val x = scrollY - oldScrollY
-//            if (x > 0) {
-//                binding.fabApply.shrink()
-//            } else if (x < 0) {
-//                binding.fabApply.extend()
-//            }
-//        })
     }
 
     private fun setupViewModel() {
@@ -81,5 +75,28 @@ class ApplicationFragment : Fragment() {
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(requireContext().themeColor(R.attr.colorSurface))
         }
+    }
+
+    private fun navigateBack() {
+        findNavController().navigateUp()
+    }
+
+    private fun alertConfirmation() {
+        val positiveButtonClick = { _: DialogInterface, _: Int ->
+            viewModel.userRemoveApplicant(args.postId)
+            Toast.makeText(requireContext(), "Application deleted!", Toast.LENGTH_SHORT).show()
+            navigateBack()
+        }
+
+        val negativeButtonClick = { dialog: DialogInterface, _: Int ->
+            dialog.cancel()
+        }
+
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Confirmation")
+        builder.setMessage("Are you sure you want to remove this application?")
+        builder.setPositiveButton("Yes", DialogInterface.OnClickListener(function = positiveButtonClick))
+        builder.setNegativeButton("No", negativeButtonClick)
+        builder.show()
     }
 }

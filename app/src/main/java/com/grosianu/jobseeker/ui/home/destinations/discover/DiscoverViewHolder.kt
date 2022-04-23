@@ -2,12 +2,8 @@ package com.grosianu.jobseeker.ui.home.destinations.discover
 
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
-import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.ItemPostDiscoverBinding
-import com.grosianu.jobseeker.models.Application
-import com.grosianu.jobseeker.models.User
+import com.grosianu.jobseeker.models.Post
 
 class DiscoverViewHolder(
     val binding: ItemPostDiscoverBinding,
@@ -18,15 +14,15 @@ class DiscoverViewHolder(
         binding.listener = listener
     }
 
-    fun bind(application: Application) {
-        binding.application = application
-        binding.applyBtn.setOnClickListener { setButton(application) }
+    fun bind(post: Post) {
+        binding.application = post
+        binding.applyBtn.setOnClickListener { setButton(post) }
         binding.executePendingBindings()
     }
 
-    fun setButton(application: Application) {
+    fun setButton(post: Post) {
         val currentUser = FirebaseAuth.getInstance().currentUser
-        if (application.applicants?.contains(currentUser?.uid) == true) {
+        if (post.applicants?.contains(currentUser?.uid) == true) {
             binding.applyBtn.run {
                 isEnabled = false
                 isClickable = false

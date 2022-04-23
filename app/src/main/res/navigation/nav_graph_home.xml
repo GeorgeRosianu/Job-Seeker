@@ -29,7 +29,14 @@
         android:id="@+id/accountFragment"
         android:name="com.grosianu.jobseeker.ui.home.destinations.account.AccountFragment"
         android:label="Account"
-        tools:layout="@layout/fragment_account" />
+        tools:layout="@layout/fragment_account" >
+        <action
+            android:id="@+id/action_accountFragment_to_applySelectResumeFragment"
+            app:destination="@id/applySelectResumeFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/accountFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/notificationsFragment"
         android:name="com.grosianu.jobseeker.ui.home.destinations.notifications.NotificationsFragment"
@@ -63,12 +70,18 @@
         tools:layout="@layout/fragment_my_applications" />
     <fragment
         android:id="@+id/editPostFragment"
-        android:name="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.EditPostFragment"
+        android:name="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.PostFragment"
         android:label="EditPostFragment"
         tools:layout="@layout/fragment_post">
         <argument
             android:name="postId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_editPostFragment_to_applicantsFragment"
+            app:destination="@id/applicantsFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/editPostFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <action
         android:id="@+id/action_global_homeFragment"
@@ -100,9 +113,9 @@
         app:launchSingleTop="true" />
     <fragment
         android:id="@+id/editApplicationFragment"
-        android:name="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.EditApplicationFragment"
+        android:name="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.EditPostFragment"
         android:label="fragment_edit_post"
-        tools:layout="@layout/fragment_edit_application">
+        tools:layout="@layout/fragment_edit_post">
         <argument
             android:name="postId"
             app:argType="string" />
@@ -134,7 +147,7 @@
         app:launchSingleTop="true" />
     <fragment
         android:id="@+id/applySelectResumeFragment"
-        android:name="com.grosianu.jobseeker.ui.home.destinations.discover.ApplySelectResumeFragment"
+        android:name="com.grosianu.jobseeker.ui.home.destinations.apply.ApplySelectResumeFragment"
         android:label="ApplySelectResumeFragment"
         tools:layout="@layout/fragment_apply_choose_resume">
         <argument
@@ -158,6 +171,12 @@
         <action
             android:id="@+id/action_applySelectResumeFragment_to_applyWriteMessageFragment"
             app:destination="@id/applyWriteMessageFragment" />
+        <action
+            android:id="@+id/action_applySelectResumeFragment_to_accountFragment"
+            app:destination="@id/accountFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/accountFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <action
         android:id="@+id/action_global_applySelectResumeFragment"
@@ -165,7 +184,7 @@
         app:launchSingleTop="true" />
     <fragment
         android:id="@+id/applyWriteMessageFragment"
-        android:name="com.grosianu.jobseeker.ui.home.destinations.discover.ApplyWriteMessageFragment"
+        android:name="com.grosianu.jobseeker.ui.home.destinations.apply.ApplyWriteMessageFragment"
         android:label="ApplyWriteMessageFragment"
         tools:layout="@layout/fragment_apply_write_message">
         <argument
@@ -201,14 +220,17 @@
     </fragment>
     <fragment
         android:id="@+id/applyCheckDetailsFragment"
-        android:name="com.grosianu.jobseeker.ui.home.destinations.discover.ApplyCheckDetailsFragment"
+        android:name="com.grosianu.jobseeker.ui.home.destinations.apply.ApplyCheckDetailsFragment"
         android:label="ApplyCheckDetailsFragment"
         tools:layout="@layout/fragment_apply_check_details">
+        <argument
+            android:name="postId"
+            app:argType="string" />
         <argument
             android:name="resumeId"
             app:argType="string" />
         <argument
-            android:name="postId"
+            android:name="message"
             app:argType="string" />
         <argument
             android:name="start"
@@ -231,5 +253,28 @@
             app:launchSingleTop="true"
             app:popUpTo="@id/discoverFragment"
             app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/offerFragment"
+        android:name="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.OfferFragment"
+        android:label="OfferFragment"
+        tools:layout="@layout/fragment_offer">
+    <argument
+        android:name="postId"
+        app:argType="string" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_offerFragment"
+        app:destination="@id/offerFragment" />
+    <fragment
+        android:id="@+id/applicantsFragment"
+        android:name="com.grosianu.jobseeker.ui.home.destinations.applications.destinations.ApplicantsFragment"
+        android:label="ApplicantsFragment" >
+        <argument
+            android:name="postId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_applicantsFragment_to_editPostFragment"
+            app:destination="@id/editPostFragment" />
     </fragment>
 </navigation>

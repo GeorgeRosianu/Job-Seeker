@@ -43,7 +43,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:postListData2="@{viewModel.posts}"
-                    tools:listitem="@layout/item_offer" />
+                    tools:listitem="@layout/item_post" />
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton

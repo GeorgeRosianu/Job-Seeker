@@ -2,7 +2,7 @@ package com.grosianu.jobseeker.ui.home.destinations.applications.destinations.vi
 
 import androidx.recyclerview.widget.RecyclerView
 import com.grosianu.jobseeker.databinding.ItemApplicationBinding
-import com.grosianu.jobseeker.models.Application
+import com.grosianu.jobseeker.models.Post
 import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.adapters.MyApplicationsAdapter
 
 class MyApplicationsViewHolder(
@@ -16,8 +16,8 @@ class MyApplicationsViewHolder(
         }
     }
 
-    fun bind(application: Application) {
-        binding.application = application
+    fun bind(post: Post) {
+        binding.application = post
         binding.executePendingBindings()
     }
 }

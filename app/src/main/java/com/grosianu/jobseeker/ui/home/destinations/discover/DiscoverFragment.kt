@@ -3,22 +3,17 @@ package com.grosianu.jobseeker.ui.home.destinations.discover
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialElevationScale
-import com.google.firebase.auth.FirebaseAuth
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.FragmentDiscoverBinding
-import com.grosianu.jobseeker.databinding.ItemPostDiscoverBinding
-import com.grosianu.jobseeker.models.Application
-import com.grosianu.jobseeker.utils.PopUpDialog
-import java.util.*
+import com.grosianu.jobseeker.models.Post
+import com.grosianu.jobseeker.utils.FilterPopUpDialog
 
 class DiscoverFragment : Fragment(), DiscoverAdapter.DiscoverAdapterListener {
 
@@ -99,7 +94,7 @@ class DiscoverFragment : Fragment(), DiscoverAdapter.DiscoverAdapterListener {
         _binding = null
     }
 
-    override fun onPostClicked(cardView: View, application: Application) {
+    override fun onPostClicked(cardView: View, post: Post) {
         val postCardDetailTransitionName = getString(R.string.post_card_detail_transition_name)
         val extras = FragmentNavigatorExtras(cardView to postCardDetailTransitionName)
         exitTransition = MaterialElevationScale(false).apply {
@@ -109,23 +104,22 @@ class DiscoverFragment : Fragment(), DiscoverAdapter.DiscoverAdapterListener {
             duration = resources.getInteger(R.integer.motion_duration_large).toLong()
         }
         val directions =
-            DiscoverFragmentDirections.actionGlobalApplicationFragment(application.id.toString())
+            DiscoverFragmentDirections.actionGlobalApplicationFragment(post.id.toString())
         findNavController().navigate(directions, extras)
     }
 
-    override fun onPostLongPressed(application: Application): Boolean {
+    override fun onPostLongPressed(post: Post): Boolean {
         TODO("Not yet implemented")
     }
 
-    override fun onApplyClicked(application: Application) {
-        // viewModel.userAddApplicant(application.id.toString())
+    override fun onApplyClicked(post: Post) {
         val start = "discover"
         val directions =
-            DiscoverFragmentDirections.actionGlobalApplySelectResumeFragment(application.id.toString(), start)
+            DiscoverFragmentDirections.actionGlobalApplySelectResumeFragment(post.id.toString(), start)
         findNavController().navigate(directions)
     }
 
-    override fun onAddFavoriteClicked(view: View, application: Application) {
+    override fun onAddFavoriteClicked(view: View, post: Post) {
 
     }
 
@@ -142,7 +136,7 @@ class DiscoverFragment : Fragment(), DiscoverAdapter.DiscoverAdapterListener {
 
     private fun filterPostList() {
         val array = resources.getStringArray(R.array.tags).sortedArray()
-        val dialog = PopUpDialog(array)
+        val dialog = FilterPopUpDialog(array)
         dialog.show(parentFragmentManager, "Filter")
 
         setFragmentResultListener("requestKey") { _, bundle ->

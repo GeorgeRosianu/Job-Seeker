@@ -15,5 +15,8 @@ exports.addUserToFirestore = functions.auth.user().onCreate((user) => {
     userId: user.uid,
     displayName: user.displayName,
     userEmail: user.email,
+    imageUri: user.photoURL,
+    resumes: null,
+    favorites: null,
   });
 });

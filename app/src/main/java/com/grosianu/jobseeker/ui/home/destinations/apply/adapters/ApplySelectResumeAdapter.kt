@@ -1,14 +1,12 @@
-package com.grosianu.jobseeker.ui.home.destinations.discover
+package com.grosianu.jobseeker.ui.home.destinations.apply.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.selection.ItemDetailsLookup
-import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import com.grosianu.jobseeker.databinding.ItemApplySelectResumeBinding
 import com.grosianu.jobseeker.models.Resume
+import com.grosianu.jobseeker.ui.home.destinations.apply.viewHolders.ApplySelectResumeViewHolder
 
 class ApplySelectResumeAdapter(
     private val listener: ApplySelectResumeAdapterListener

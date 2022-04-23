@@ -10,7 +10,7 @@ import com.grosianu.jobseeker.models.Resume
 
 class ResumeAdapter(
     private val listener: ResumeAdapterListener
-) : ListAdapter<Resume, ResumeViewHolder>(ResumeAdapter) {
+) : ListAdapter<Resume, ResumeViewHolder>(DiffCallback) {
 
     interface ResumeAdapterListener {
         fun onResumeClicked(cardView: View, resume: Resume)

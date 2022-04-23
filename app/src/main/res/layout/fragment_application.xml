@@ -97,16 +97,16 @@
                         app:layout_constraintTop_toBottomOf="@id/title_text_view"
                         tools:text="Google" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/apply_btn"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="16dp"
-                        android:layout_marginTop="16dp"
-                        android:backgroundTint="?attr/colorPrimary"
-                        android:text="Apply"
-                        android:textColor="?attr/colorOnPrimary"
-                        app:layout_constraintTop_toBottomOf="@+id/company_text_view" />
+                    <!--                    <com.google.android.material.button.MaterialButton-->
+                    <!--                        android:id="@+id/apply_btn"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginHorizontal="16dp"-->
+                    <!--                        android:layout_marginTop="16dp"-->
+                    <!--                        android:backgroundTint="?attr/colorPrimary"-->
+                    <!--                        android:text="Apply"-->
+                    <!--                        android:textColor="?attr/colorOnPrimary"-->
+                    <!--                        app:layout_constraintTop_toBottomOf="@+id/company_text_view" />-->
 
                     <com.google.android.material.divider.MaterialDivider
                         android:id="@+id/div1"
@@ -116,7 +116,7 @@
                         app:dividerInsetEnd="16dp"
                         app:dividerInsetStart="16dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/apply_btn" />
+                        app:layout_constraintTop_toBottomOf="@id/company_text_view" />
 
                     <LinearLayout
                         android:id="@+id/details_layout"
@@ -337,19 +337,22 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/description_subtitle_text_view"
                         tools:text="Lorem Ipsum etc etc" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/delete_btn"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="32dp"
+                        android:backgroundTint="?attr/colorError"
+                        android:text="Remove Application"
+                        android:textColor="?attr/colorOnPrimary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/description_text_view" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
         </androidx.core.widget.NestedScrollView>
-
-        <!--        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton-->
-        <!--            android:id="@+id/fab_apply"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_gravity="bottom|end"-->
-        <!--            android:layout_margin="16dp"-->
-        <!--            android:contentDescription="TODO"-->
-        <!--            android:gravity="fill"-->
-        <!--            android:text="Apply"-->
-        <!--            app:icon="@drawable/ic_round_post_add_24" />-->
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

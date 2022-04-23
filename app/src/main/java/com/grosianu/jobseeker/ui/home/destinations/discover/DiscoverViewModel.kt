@@ -8,31 +8,31 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
-import com.grosianu.jobseeker.models.Application
+import com.grosianu.jobseeker.models.Post
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
 class DiscoverViewModel : ViewModel() {
 
-    private var _posts = MutableLiveData<List<Application>>()
-    val posts: LiveData<List<Application>> = _posts
+    private var _posts = MutableLiveData<List<Post>>()
+    val posts: LiveData<List<Post>> = _posts
 
-    private var _post = MutableLiveData<Application>()
-    val post: LiveData<Application> = _post
+    private var _post = MutableLiveData<Post>()
+    val post: LiveData<Post> = _post
 
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
 
     fun getPostList() {
-        val postsTmp = ArrayList<Application>()
+        val postsTmp = ArrayList<Post>()
         viewModelScope.launch {
-            val docRef = db.collection("applications")
+            val docRef = db.collection("posts")
             docRef.whereNotEqualTo("owner", auth.currentUser?.uid)
                 .get()
                 .addOnCompleteListener {
                     for (document in it.result) {
-                        val postTmp = document.toObject<Application>()
+                        val postTmp = document.toObject<Post>()
                         postsTmp.add(postTmp)
                     }
                     _posts.value = postsTmp
@@ -45,7 +45,7 @@ class DiscoverViewModel : ViewModel() {
 
     fun search(p0: String) {
         val search = p0.lowercase(Locale.getDefault())
-        val arrayList = ArrayList<Application>()
+        val arrayList = ArrayList<Post>()
 
         posts.value?.forEach {
             if (it.title?.lowercase(Locale.getDefault())?.contains(search) == true ||
@@ -62,7 +62,7 @@ class DiscoverViewModel : ViewModel() {
     }
 
     fun filter(options: ArrayList<String>) {
-        val arrayList = ArrayList<Application>()
+        val arrayList = ArrayList<Post>()
 
         posts.value?.forEach {
             it.tags?.forEach { tag ->
@@ -90,14 +90,14 @@ class DiscoverViewModel : ViewModel() {
 
     fun userAddApplicant(documentId: String) {
         viewModelScope.launch {
-            val docRef = db.collection("applications").document(documentId)
+            val docRef = db.collection("posts").document(documentId)
             docRef.update("applicants", FieldValue.arrayUnion(auth.currentUser?.uid))
         }
     }
 
     fun userRemoveApplicant(documentId: String) {
         viewModelScope.launch {
-            val docRef = db.collection("applications").document(documentId)
+            val docRef = db.collection("posts").document(documentId)
             docRef.update("applicants", FieldValue.arrayRemove(auth.currentUser?.uid))
         }
     }

@@ -1,4 +1,4 @@
-package com.grosianu.jobseeker.ui.home.destinations.home
+package com.grosianu.jobseeker.ui.home.destinations.home.viewModels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,36 +8,36 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.MetadataChanges
 import com.google.firebase.firestore.ktx.toObject
-import com.grosianu.jobseeker.models.Application
+import com.grosianu.jobseeker.models.Post
 import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
 
-    private var _posts = MutableLiveData<List<Application>>()
-    val posts: LiveData<List<Application>> = _posts
+    private var _posts = MutableLiveData<List<Post>>()
+    val posts: LiveData<List<Post>> = _posts
 
-    private var _post = MutableLiveData<Application>()
-    val post: LiveData<Application> = _post
+    private var _post = MutableLiveData<Post>()
+    val post: LiveData<Post> = _post
 
-    private var _applications = MutableLiveData<List<Application>>()
-    val applications: LiveData<List<Application>> = _applications
+    private var _applications = MutableLiveData<List<Post>>()
+    val applications: LiveData<List<Post>> = _applications
 
-    private var _application = MutableLiveData<Application>()
-    val application: LiveData<Application> = _application
+    private var _applicationInfo = MutableLiveData<Post>()
+    val applicationInfo: LiveData<Post> = _applicationInfo
 
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
 
     fun getPostList() {
         viewModelScope.launch {
-            val docRef = db.collection("applications")
+            val docRef = db.collection("posts")
             docRef.whereEqualTo("owner", auth.currentUser?.uid)
                 .limit(LIMIT.toLong())
                 .addSnapshotListener(MetadataChanges.INCLUDE) { querySnapshot, e ->
                     if (e != null) {
                         return@addSnapshotListener
                     }
-                    val applications = ArrayList<Application>()
+                    val applications = ArrayList<Post>()
                     for (document in querySnapshot!!) {
                         if (document != null && document.exists()) {
                             applications.add(document.toObject())
@@ -50,14 +50,14 @@ class HomeViewModel : ViewModel() {
 
     fun getApplicationList() {
         viewModelScope.launch {
-            val docRef = db.collection("applications")
+            val docRef = db.collection("posts")
             docRef.whereArrayContains("applicants", auth.currentUser?.uid!!)
                 .limit(LIMIT.toLong())
                 .addSnapshotListener(MetadataChanges.INCLUDE) { querySnapshot, e ->
                     if (e != null) {
                         return@addSnapshotListener
                     }
-                    val applications = ArrayList<Application>()
+                    val applications = ArrayList<Post>()
                     for (document in querySnapshot!!) {
                         if(document != null && document.exists()) {
                             applications.add(document.toObject())

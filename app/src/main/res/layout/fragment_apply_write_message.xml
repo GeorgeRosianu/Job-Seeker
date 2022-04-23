@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.grosianu.jobseeker.ui.home.destinations.discover.ApplySelectResumeViewModel" />
+            type="com.grosianu.jobseeker.ui.home.destinations.apply.viewModels.ApplySelectResumeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -64,7 +64,7 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_text"
+            android:id="@+id/message_text_field"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -79,7 +79,7 @@
             app:layout_constraintTop_toBottomOf="@id/write_text_view">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/title_edit"
+                android:id="@+id/message_edit"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="top" />

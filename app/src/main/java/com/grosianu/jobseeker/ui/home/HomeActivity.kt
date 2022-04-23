@@ -2,11 +2,14 @@ package com.grosianu.jobseeker.ui.home
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.animation.doOnEnd
+import androidx.core.animation.doOnStart
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -19,8 +22,11 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.ActivityHomeBinding
+import com.grosianu.jobseeker.models.User
 import com.grosianu.jobseeker.ui.home.destinations.account.AccountFragmentDirections
 import com.grosianu.jobseeker.ui.home.destinations.discover.DiscoverFragmentDirections
 import com.grosianu.jobseeker.ui.home.destinations.home.HomeFragmentDirections
@@ -35,16 +41,18 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
     private val binding get() = _binding!!
 
     private lateinit var navController: NavController
-    private lateinit var auth: FirebaseAuth
+
+    //private val db = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
 
     private var backPressedOnce = false
+
+//    private lateinit var currentUser: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setUpViews()
-
-        auth = FirebaseAuth.getInstance()
     }
 
     override fun onStart() {
@@ -52,15 +60,12 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
             val intent = Intent(this, StartupActivity::class.java)
             startActivity(intent)
             finish()
-        } else {
-            println(auth.currentUser!!.email.toString())
         }
 
         super.onStart()
     }
 
     override fun onBackPressed() {
-
         val navController = findNavController(R.id.nav_host_fragment_home)
 
         if (navController.graph.startDestinationId == navController.currentDestination?.id) {
@@ -90,7 +95,7 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
             .findFragmentById(R.id.nav_host_fragment_home) as NavHostFragment
         navController = navHostFragment.navController
 
-        val bottomAppBar: BottomAppBar = findViewById(R.id.bottom_app_bar)
+        //val bottomAppBar: BottomAppBar = findViewById(R.id.bottom_app_bar)
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
         bottomNavigationView.setupWithNavController(navController)
 
@@ -109,36 +114,75 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
         navController.addOnDestinationChangedListener { _, nd: NavDestination, _ ->
             when (nd.id) {
                 R.id.myPostsFragment -> {
-                    hideBottomNavBar(bottomAppBar)
+                    //bottomNavigationView.visibility = View.GONE
+                    //hideBottomNavBar(bottomAppBar)
+                    hideBottomNav(bottomNavigationView)
                 }
                 R.id.createFragment -> {
-                    hideBottomNavBar(bottomAppBar)
+                    //hideBottomNavBar(bottomAppBar)
+                    hideBottomNav(bottomNavigationView)
                 }
                 R.id.editPostFragment -> {
-                    hideBottomNavBar(bottomAppBar)
+                    //hideBottomNavBar(bottomAppBar)
+                    hideBottomNav(bottomNavigationView)
                 }
                 R.id.editApplicationFragment -> {
-                    hideBottomNavBar(bottomAppBar)
+                    //hideBottomNavBar(bottomAppBar)
+                    hideBottomNav(bottomNavigationView)
+                }
+                R.id.offerFragment -> {
+                    //hideBottomNavBar(bottomAppBar)
+                    hideBottomNav(bottomNavigationView)
                 }
                 R.id.applicationFragment -> {
-                    hideBottomNavBar(bottomAppBar)
+                    //hideBottomNavBar(bottomAppBar)
+                    hideBottomNav(bottomNavigationView)
+                }
+                R.id.applicantsFragment -> {
+                    //hideBottomNavBar(bottomAppBar)
+                    hideBottomNav(bottomNavigationView)
                 }
                 R.id.pdfViewFragment -> {
-                    hideBottomNavBar(bottomAppBar)
+                    //hideBottomNavBar(bottomAppBar)
+                    hideBottomNav(bottomNavigationView)
                 }
                 R.id.applySelectResumeFragment -> {
-                    hideBottomNavBar(bottomAppBar)
+                    //hideBottomNavBar(bottomAppBar)
+                    hideBottomNav(bottomNavigationView)
                 }
                 R.id.applyWriteMessageFragment -> {
-                    hideBottomNavBar(bottomAppBar)
+                    //hideBottomNavBar(bottomAppBar)
+                    hideBottomNav(bottomNavigationView)
+                }
+                R.id.applyCheckDetailsFragment -> {
+                    //hideBottomNavBar(bottomAppBar)
+                    hideBottomNav(bottomNavigationView)
                 }
                 else -> {
-                    showBottomNavBar(bottomAppBar)
+                    //showBottomNavBar(bottomAppBar)
+                    showBottomNav(bottomNavigationView)
                 }
             }
         }
 
         setupActionBarWithNavController(this, navController, appBarConfiguration)
+    }
+
+    private fun showBottomNav(bottomNavigationView: BottomNavigationView) {
+        ObjectAnimator.ofFloat(bottomNavigationView, "TranslationY", 0f).apply {
+            duration = 500
+            start()
+            doOnStart { bottomNavigationView.visibility = View.VISIBLE }
+        }
+    }
+
+    private fun hideBottomNav(bottomNavigationView: BottomNavigationView) {
+        val animator = ObjectAnimator.ofFloat(bottomNavigationView, "translationY", 200f)
+        animator.apply {
+            duration = 500
+            start()
+            doOnEnd { bottomNavigationView.visibility = View.INVISIBLE }
+        }
     }
 
     private fun showBottomNavBar(bottomAppBar: BottomAppBar) {

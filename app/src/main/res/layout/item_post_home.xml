@@ -7,11 +7,11 @@
 
         <variable
             name="application"
-            type="com.grosianu.jobseeker.models.Application" />
+            type="com.grosianu.jobseeker.models.Post" />
 
         <variable
             name="listener"
-            type="com.grosianu.jobseeker.ui.home.destinations.home.PostsAdapter.PostsAdapterListener" />
+            type="com.grosianu.jobseeker.ui.home.destinations.home.adapters.PostsAdapter.PostsAdapterListener" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

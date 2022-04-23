@@ -1,4 +1,4 @@
-package com.grosianu.jobseeker.ui.home.destinations.discover
+package com.grosianu.jobseeker.ui.home.destinations.apply.viewModels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

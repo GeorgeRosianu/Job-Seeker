@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialElevationScale
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.FragmentMyApplicationsBinding
-import com.grosianu.jobseeker.models.Application
+import com.grosianu.jobseeker.models.Post
 import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.adapters.MyApplicationsAdapter
 import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.viewModels.MyApplicationsViewModel
 
@@ -70,7 +70,7 @@ class MyApplicationsFragment: Fragment(), MyApplicationsAdapter.MyApplicationsAd
         _binding = null
     }
 
-    override fun onPostClicked(cardView: View, application: Application) {
+    override fun onPostClicked(cardView: View, post: Post) {
         val postCardDetailTransitionName = getString(R.string.post_card_detail_transition_name)
         val extras = FragmentNavigatorExtras(cardView to postCardDetailTransitionName)
         exitTransition = MaterialElevationScale(false).apply {
@@ -79,11 +79,11 @@ class MyApplicationsFragment: Fragment(), MyApplicationsAdapter.MyApplicationsAd
         reenterTransition = MaterialElevationScale(true).apply {
             duration = resources.getInteger(R.integer.motion_duration_large).toLong()
         }
-        val directions = MyApplicationsFragmentDirections.actionGlobalApplicationFragment(application.id.toString())
+        val directions = MyApplicationsFragmentDirections.actionGlobalApplicationFragment(post.id.toString())
         findNavController().navigate(directions, extras)
     }
 
-    override fun onPostLongPressed(application: Application): Boolean {
+    override fun onPostLongPressed(post: Post): Boolean {
         TODO("Not yet implemented")
     }
 

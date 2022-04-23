@@ -44,7 +44,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:applicationListData="@{viewModel.posts}"
-                    tools:listitem="@layout/item_offer" />
+                    tools:listitem="@layout/item_post" />
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

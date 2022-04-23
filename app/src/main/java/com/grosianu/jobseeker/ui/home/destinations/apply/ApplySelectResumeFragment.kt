@@ -1,19 +1,19 @@
-package com.grosianu.jobseeker.ui.home.destinations.discover
+package com.grosianu.jobseeker.ui.home.destinations.apply
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.selection.*
-import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.grosianu.jobseeker.databinding.FragmentApplyChooseResumeBinding
 import com.grosianu.jobseeker.models.Resume
-import java.lang.IllegalStateException
+import com.grosianu.jobseeker.ui.home.destinations.apply.adapters.ApplySelectResumeAdapter
+import com.grosianu.jobseeker.ui.home.destinations.apply.viewModels.ApplySelectResumeViewModel
+import com.grosianu.jobseeker.ui.home.destinations.discover.DiscoverFragmentDirections
 
 class ApplySelectResumeFragment :
     Fragment(), ApplySelectResumeAdapter.ApplySelectResumeAdapterListener {
@@ -25,6 +25,21 @@ class ApplySelectResumeFragment :
     private val adapter = ApplySelectResumeAdapter(this)
 
     private val args: ApplySelectResumeFragmentArgs by navArgs()
+
+    private val auth = FirebaseAuth.getInstance()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val username = auth.currentUser?.displayName?.substringBefore(" ").toString()
+        if (username.isEmpty() || username == "null") {
+//            val backDirections = DiscoverFragmentDirections.actionGlobalAccountFragment()
+//            val directions = ApplySelectResumeFragmentDirections.actionApplySelectResumeFragmentToDiscoverFragment()
+//            findNavController().navigate(directions)
+//            findNavController().navigate(backDirections)
+
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,19 +63,8 @@ class ApplySelectResumeFragment :
 
     private fun setupViews() {
         binding.lifecycleOwner = this
-//        binding.nextBtn.setOnClickListener {
-//            val directions = ApplySelectResumeFragmentDirections.actionApplySelectResumeFragmentToApplyWriteMessageFragment() // TODO add resumeId arg
-//            findNavController().navigate(directions)
-//        }
         binding.cancelIcon.setOnClickListener {
-            val directions = if (args.start == "application") {
-                ApplySelectResumeFragmentDirections.actionApplySelectResumeFragmentToApplicationFragment(
-                    args.postId
-                )
-            } else {
-                ApplySelectResumeFragmentDirections.actionApplySelectResumeFragmentToDiscoverFragment()
-            }
-            findNavController().navigate(directions)
+            navigateBack()
         }
         binding.navigationIcon.setOnClickListener {
             findNavController().navigateUp()
@@ -80,6 +84,17 @@ class ApplySelectResumeFragment :
 
     override fun onResumeClicked(resume: Resume) {
         val directions = ApplySelectResumeFragmentDirections.actionApplySelectResumeFragmentToApplyWriteMessageFragment(resume.id.toString(), args.postId, args.start)
+        findNavController().navigate(directions)
+    }
+
+    private fun navigateBack() {
+        val directions = if (args.start == "posts") {
+            ApplySelectResumeFragmentDirections.actionApplySelectResumeFragmentToApplicationFragment(
+                args.postId
+            )
+        } else {
+            ApplySelectResumeFragmentDirections.actionApplySelectResumeFragmentToDiscoverFragment()
+        }
         findNavController().navigate(directions)
     }
 }

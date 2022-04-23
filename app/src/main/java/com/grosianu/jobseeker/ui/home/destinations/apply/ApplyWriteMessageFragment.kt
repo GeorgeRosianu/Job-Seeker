@@ -1,4 +1,4 @@
-package com.grosianu.jobseeker.ui.home.destinations.discover
+package com.grosianu.jobseeker.ui.home.destinations.apply
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,13 +9,14 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.grosianu.jobseeker.databinding.FragmentApplyWriteMessageBinding
+import com.grosianu.jobseeker.ui.home.destinations.apply.viewModels.ApplyWriteMessageViewModel
 
 class ApplyWriteMessageFragment : Fragment() {
 
     private var _binding: FragmentApplyWriteMessageBinding? = null
     private val binding get() = _binding!!
 
-//    private val viewModel: ApplyWriteMessageViewModel by viewModels()
+    private val viewModel: ApplyWriteMessageViewModel by viewModels()
     private val args: ApplyWriteMessageFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -39,17 +40,25 @@ class ApplyWriteMessageFragment : Fragment() {
 
     private fun setupViews() {
         binding.cancelIcon.setOnClickListener {
-            val directions = if (args.start == "application") {
-                ApplyWriteMessageFragmentDirections.actionApplyWriteMessageFragmentToApplicationFragment(
-                    args.postId
-                )
-            } else {
-                ApplyWriteMessageFragmentDirections.actionApplyWriteMessageFragmentToDiscoverFragment()
-            }
-            findNavController().navigate(directions)
+            navigateBack()
         }
         binding.navigationIcon.setOnClickListener {
             findNavController().navigateUp()
         }
+        binding.nextBtn.setOnClickListener {
+            val directions = ApplyWriteMessageFragmentDirections.actionApplyWriteMessageFragmentToApplyCheckDetailsFragment(args.postId, args.resumeId, binding.messageEdit.text.toString(), args.start)
+            findNavController().navigate(directions)
+        }
+    }
+
+    private fun navigateBack() {
+        val directions = if (args.start == "posts") {
+            ApplyWriteMessageFragmentDirections.actionApplyWriteMessageFragmentToApplicationFragment(
+                args.postId
+            )
+        } else {
+            ApplyWriteMessageFragmentDirections.actionApplyWriteMessageFragmentToDiscoverFragment()
+        }
+        findNavController().navigate(directions)
     }
 }

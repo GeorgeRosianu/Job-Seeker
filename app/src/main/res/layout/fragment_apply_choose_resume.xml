@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.grosianu.jobseeker.ui.home.destinations.discover.ApplySelectResumeViewModel" />
+            type="com.grosianu.jobseeker.ui.home.destinations.apply.viewModels.ApplySelectResumeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

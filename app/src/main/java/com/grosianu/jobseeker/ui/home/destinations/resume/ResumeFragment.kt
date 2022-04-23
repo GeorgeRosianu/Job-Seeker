@@ -142,22 +142,6 @@ class ResumeFragment : Fragment(), ResumeAdapter.ResumeAdapterListener {
         val fileName = UUID.randomUUID().toString()
         val storageRef = storage.getReference("resumes/$fileName")
 
-        //val imageName = UUID.randomUUID().toString()
-        //val imageStorageRef = storage.getReference("resumes/previews/$imageName")
-
-        //val inputStream = requireActivity().contentResolver.openInputStream(fileUri)
-        //val imageString = getPdfPreviewImage(uri.toFile())
-        //println(fileUri)
-        //println(fileUri.path)
-        //println("###########################################")
-        //println(imageString)
-
-//        imageStorageRef.putFile()
-//            .addOnSuccessListener {
-//                storageRef.downloadUrl.addOnSuccessListener {
-//                }
-//            }
-
         storageRef.putFile(fileUri)
             .addOnSuccessListener {
                 storageRef.downloadUrl.addOnSuccessListener {
@@ -171,6 +155,7 @@ class ResumeFragment : Fragment(), ResumeAdapter.ResumeAdapterListener {
         val url: String = firestoreFileUri
         val owner = auth.currentUser?.uid.toString()
         val title: String?
+        val applicationTitle = auth.currentUser?.displayName.toString().replace(" ", "_").lowercase()
         val dateCreated = getDate()
 
         fileUri.let { uri ->
@@ -183,6 +168,7 @@ class ResumeFragment : Fragment(), ResumeAdapter.ResumeAdapterListener {
             url,
             owner,
             title,
+            applicationTitle,
             null,
             dateCreated,
         )

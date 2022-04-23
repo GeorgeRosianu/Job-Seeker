@@ -12,7 +12,7 @@
 
         <variable
             name="listener"
-            type="com.grosianu.jobseeker.ui.home.destinations.discover.ApplySelectResumeAdapter.ApplySelectResumeAdapterListener" />
+            type="com.grosianu.jobseeker.ui.home.destinations.apply.adapters.ApplySelectResumeAdapter.ApplySelectResumeAdapterListener" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -44,18 +44,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_round_picture_as_pdf_24" />
-
-            <!--            <RadioButton-->
-            <!--                android:id="@+id/radio_btn"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="-8dp"-->
-            <!--                android:layout_marginEnd="-16dp"-->
-            <!--                android:text=""-->
-            <!--                android:alpha="?attr/emphasisHighAlpha"-->
-            <!--                android:buttonTint="?attr/colorSecondary"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintTop_toTopOf="@id/card_constraint_layout" />-->
 
             <TextView
                 android:id="@+id/title_rb"

@@ -1,25 +1,12 @@
 package com.grosianu.jobseeker.models
 
-import java.text.NumberFormat
-
 data class Application(
     val id: String? = null,
-    val owner: String? = null,
-    val title: String? = null,
-    val company: String? = null,
-    val industry: String? = null,
-    val salary: Double? = null,
-    val level: String? = null,
-    val experience: String? = null,
-    val location: String? = null,
-    val otherRequirements: String? = null,
-    val description: String? = null,
-    val tags: ArrayList<String>? = null,
-    val image: String? = null,
-    val applicants: ArrayList<String>? = null,
-) {
-
-    fun getFormattedSalary(): String = NumberFormat.getCurrencyInstance().format(salary)
-
-    fun getFormattedTags(): String? = tags?.joinToString()
-}
+    val applicantId: String? = null,
+    val applicantName: String? = null,
+    val applicantImageUrl: String? = null,
+    val applicantEmail: String? = null,
+    val postId: String? = null,
+    val resumeId: String? = null,
+    val message: String? = null,
+)

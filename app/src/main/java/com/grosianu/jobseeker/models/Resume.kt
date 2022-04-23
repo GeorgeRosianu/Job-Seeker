@@ -5,7 +5,7 @@ data class Resume(
     val url: String? = null,
     val owner: String? = null,
     val title: String? = null,
+    val applicationTitle: String? = null,
     val image: String? = null,
     val dateCreated: String? = null
-) {
-}
+)

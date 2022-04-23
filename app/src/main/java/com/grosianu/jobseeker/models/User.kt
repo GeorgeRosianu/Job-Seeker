@@ -6,6 +6,5 @@ data class User(
     val userEmail: String = "",
     val imageUri: String = "",
     val resumes: ArrayList<String>? = null,
-    val favorites: ArrayList<String>? = null
-    ) {
-}
+    val favorites: ArrayList<String>? = null,
+    )
