@@ -240,11 +240,9 @@ class ResumeFragment : Fragment(), ResumeAdapter.ResumeAdapterListener {
             fab.animate().rotation(0F)
 
             fabCreate.animate().translationY(0F)
-            //createActionText.animate().translationY(0F)
             createActionCard.animate().translationY(0F)
 
             fabUpload.animate().translationY(0F)
-            //uploadActionText.animate().translationY(0F)
             uploadActionCard.animate().translationY(0F)
 
             fabUpload.animate().translationY(0F).setListener(object : Animator.AnimatorListener {
@@ -282,11 +280,9 @@ class ResumeFragment : Fragment(), ResumeAdapter.ResumeAdapterListener {
             fabUpload.visibility = View.VISIBLE
 
             fabCreate.animate().translationY(-resources.getDimension(R.dimen.standard_55))
-            //createActionText.animate().translationY(-resources.getDimension(R.dimen.standard_55))
             createActionCard.animate().translationY(-resources.getDimension(R.dimen.standard_55))
 
             fabUpload.animate().translationY(-resources.getDimension(R.dimen.standard_105))
-            //uploadActionText.animate().translationY(-resources.getDimension(R.dimen.standard_105))
             uploadActionCard.animate().translationY(-resources.getDimension(R.dimen.standard_105))
 
             uploadActionCard.animate().translationY(-resources.getDimension(R.dimen.standard_105))

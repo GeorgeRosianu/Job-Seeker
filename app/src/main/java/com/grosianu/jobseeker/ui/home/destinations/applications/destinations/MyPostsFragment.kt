@@ -1,5 +1,6 @@
 package com.grosianu.jobseeker.ui.home.destinations.applications.destinations
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,8 @@ import com.grosianu.jobseeker.databinding.FragmentMyPostsBinding
 import com.grosianu.jobseeker.models.Post
 import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.adapters.MyPostsAdapter
 import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.viewModels.MyPostsViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 
 class MyPostsFragment : Fragment(), MyPostsAdapter.MyPostsAdapterListener {
 
@@ -54,11 +57,15 @@ class MyPostsFragment : Fragment(), MyPostsAdapter.MyPostsAdapterListener {
         }
 
         binding.fabAddOffer.apply {
-            setShowMotionSpecResource(R.animator.fab_show)
-            setShowMotionSpecResource(R.animator.fab_hide)
+//            setShowMotionSpecResource(R.animator.fab_show)
+//            setShowMotionSpecResource(R.animator.fab_hide)
             setOnClickListener {
                 navigateToCreate()
             }
+            runBlocking {
+                delay(200)
+            }
+            show()
         }
     }
 
