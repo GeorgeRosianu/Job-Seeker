@@ -28,12 +28,15 @@ class DiscoverViewModel : ViewModel() {
         val postsTmp = ArrayList<Post>()
         viewModelScope.launch {
             val docRef = db.collection("posts")
-            docRef.whereNotEqualTo("owner", auth.currentUser?.uid)
+            docRef
+                .whereNotEqualTo("owner", auth.currentUser?.uid)
                 .get()
                 .addOnCompleteListener {
                     for (document in it.result) {
                         val postTmp = document.toObject<Post>()
-                        postsTmp.add(postTmp)
+                        if (postTmp.applicants?.contains(auth.currentUser?.uid!!) == false) {
+                            postsTmp.add(postTmp)
+                        }
                     }
                     _posts.value = postsTmp
                 }

@@ -103,8 +103,7 @@ class DiscoverFragment : Fragment(), DiscoverAdapter.DiscoverAdapterListener {
         reenterTransition = MaterialElevationScale(true).apply {
             duration = resources.getInteger(R.integer.motion_duration_large).toLong()
         }
-        val directions =
-            DiscoverFragmentDirections.actionGlobalApplicationFragment(post.id.toString())
+        val directions = DiscoverFragmentDirections.actionGlobalOfferFragment(post.id.toString())
         findNavController().navigate(directions, extras)
     }
 
@@ -114,8 +113,7 @@ class DiscoverFragment : Fragment(), DiscoverAdapter.DiscoverAdapterListener {
 
     override fun onApplyClicked(post: Post) {
         val start = "discover"
-        val directions =
-            DiscoverFragmentDirections.actionGlobalApplySelectResumeFragment(post.id.toString(), start)
+        val directions = DiscoverFragmentDirections.actionGlobalApplySelectResumeFragment(post.id.toString(), start)
         findNavController().navigate(directions)
     }
 

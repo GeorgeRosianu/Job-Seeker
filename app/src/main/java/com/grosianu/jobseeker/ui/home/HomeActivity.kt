@@ -114,52 +114,42 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
         navController.addOnDestinationChangedListener { _, nd: NavDestination, _ ->
             when (nd.id) {
                 R.id.myPostsFragment -> {
-                    //bottomNavigationView.visibility = View.GONE
-                    //hideBottomNavBar(bottomAppBar)
+                    hideBottomNav(bottomNavigationView)
+                }
+                R.id.myApplicationsFragment -> {
                     hideBottomNav(bottomNavigationView)
                 }
                 R.id.createFragment -> {
-                    //hideBottomNavBar(bottomAppBar)
                     hideBottomNav(bottomNavigationView)
                 }
                 R.id.editPostFragment -> {
-                    //hideBottomNavBar(bottomAppBar)
                     hideBottomNav(bottomNavigationView)
                 }
                 R.id.editApplicationFragment -> {
-                    //hideBottomNavBar(bottomAppBar)
                     hideBottomNav(bottomNavigationView)
                 }
                 R.id.offerFragment -> {
-                    //hideBottomNavBar(bottomAppBar)
                     hideBottomNav(bottomNavigationView)
                 }
                 R.id.applicationFragment -> {
-                    //hideBottomNavBar(bottomAppBar)
                     hideBottomNav(bottomNavigationView)
                 }
                 R.id.applicantsFragment -> {
-                    //hideBottomNavBar(bottomAppBar)
                     hideBottomNav(bottomNavigationView)
                 }
                 R.id.pdfViewFragment -> {
-                    //hideBottomNavBar(bottomAppBar)
                     hideBottomNav(bottomNavigationView)
                 }
                 R.id.applySelectResumeFragment -> {
-                    //hideBottomNavBar(bottomAppBar)
                     hideBottomNav(bottomNavigationView)
                 }
                 R.id.applyWriteMessageFragment -> {
-                    //hideBottomNavBar(bottomAppBar)
                     hideBottomNav(bottomNavigationView)
                 }
                 R.id.applyCheckDetailsFragment -> {
-                    //hideBottomNavBar(bottomAppBar)
                     hideBottomNav(bottomNavigationView)
                 }
                 else -> {
-                    //showBottomNavBar(bottomAppBar)
                     showBottomNav(bottomNavigationView)
                 }
             }
@@ -169,43 +159,20 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
     }
 
     private fun showBottomNav(bottomNavigationView: BottomNavigationView) {
-
-        bottomNavigationView.visibility = View.VISIBLE
-
-        bottomNavigationView.animate().translationY(0f)
-            .setListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(p0: Animator?) {}
-            override fun onAnimationEnd(p0: Animator?) {}
-            override fun onAnimationCancel(p0: Animator?) {}
-            override fun onAnimationRepeat(p0: Animator?) {}
-
-        })
-
-//        ObjectAnimator.ofFloat(bottomNavigationView, "TranslationY", 0f).apply {
-//            duration = 150
-//            start()
-//            bottomNavigationView.visibility = View.VISIBLE
-//        }
+        ObjectAnimator.ofFloat(bottomNavigationView, "TranslationY", 0f).apply {
+            duration = 150
+            start()
+            bottomNavigationView.visibility = View.VISIBLE
+        }
     }
 
     private fun hideBottomNav(bottomNavigationView: BottomNavigationView) {
-
-        bottomNavigationView.animate().translationY(200f)
-            .setListener(object : Animator.AnimatorListener {
-                override fun onAnimationStart(p0: Animator?) {}
-                override fun onAnimationEnd(p0: Animator?) {
-                    bottomNavigationView.visibility = View.GONE
-                }
-                override fun onAnimationCancel(p0: Animator?) {}
-                override fun onAnimationRepeat(p0: Animator?) {}
-            })
-
-//        val animator = ObjectAnimator.ofFloat(bottomNavigationView, "translationY", 200f)
-//        animator.apply {
-//            duration = 150
-//            start()
-//            doOnEnd { bottomNavigationView.isVisible = false }
-//        }
+        val animator = ObjectAnimator.ofFloat(bottomNavigationView, "translationY", 200f)
+        animator.apply {
+            duration = 150
+            start()
+            doOnEnd { bottomNavigationView.isVisible = false }
+        }
     }
 
     private fun showBottomNavBar(bottomAppBar: BottomAppBar) {

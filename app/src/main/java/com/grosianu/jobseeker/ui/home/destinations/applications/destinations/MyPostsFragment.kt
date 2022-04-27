@@ -62,10 +62,6 @@ class MyPostsFragment : Fragment(), MyPostsAdapter.MyPostsAdapterListener {
             setOnClickListener {
                 navigateToCreate()
             }
-            runBlocking {
-                delay(200)
-            }
-            show()
         }
     }
 

@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.FragmentAccountBinding
 import com.grosianu.jobseeker.ui.login.StartupActivity
+import com.grosianu.jobseeker.utils.DetailsDialog
 
 class AccountFragment : Fragment() {
 
@@ -59,6 +60,7 @@ class AccountFragment : Fragment() {
         }
         binding.addDetailsBtn.setOnClickListener {
             // TODO Navigate to addDetails
+            openDialog()
         }
         binding.logoutBtn.setOnClickListener {
             logout()
@@ -75,5 +77,11 @@ class AccountFragment : Fragment() {
         val intent = Intent(requireContext(), StartupActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
+    }
+
+    private fun openDialog() {
+        //val detailsDialog = DetailsDialog()
+        //detailsDialog.display(parentFragmentManager)
+        DetailsDialog().display(parentFragmentManager)
     }
 }
