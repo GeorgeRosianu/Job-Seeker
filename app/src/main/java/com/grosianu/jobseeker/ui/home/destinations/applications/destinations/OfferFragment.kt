@@ -50,13 +50,14 @@ class OfferFragment : Fragment() {
     }
 
     private fun setupViews() {
+        viewModel.isUserSetUp()
         binding.lifecycleOwner = viewLifecycleOwner
         binding.navigationIcon.setOnClickListener {
             findNavController().navigateUp()
         }
         binding.applyBtn.setOnClickListener {
             val start = "post"
-            val directions = OfferFragmentDirections.actionGlobalApplySelectResumeFragment(args.postId, start)
+            val directions = OfferFragmentDirections.actionGlobalApplySelectResumeFragment(args.postId, start, viewModel.isUserSetUp)
             findNavController().navigate(directions)
         }
     }

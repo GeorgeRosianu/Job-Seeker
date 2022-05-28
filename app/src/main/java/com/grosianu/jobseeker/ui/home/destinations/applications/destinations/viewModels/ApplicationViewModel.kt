@@ -21,6 +21,9 @@ class ApplicationViewModel : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
 
+    private var _hasBeenConfirmed = MutableLiveData(false)
+    val hasBeenConfirmed: LiveData<Boolean> = _hasBeenConfirmed
+
     fun getPost(postId: String) {
         viewModelScope.launch {
             val docRef = db.collection("posts").document(postId)
@@ -28,12 +31,27 @@ class ApplicationViewModel : ViewModel() {
                 .addOnSuccessListener { document ->
                     if (document != null) {
                         _post.value = document.toObject<Post>()
+                        checkIfConfirmed()
                     } else {
                         Log.d(TAG, "No such document")
                     }
                 }
                 .addOnFailureListener { exception ->
                     Log.w(TAG, "Error getting documents: ", exception)
+                }
+        }
+    }
+
+    fun checkIfConfirmed() {
+        viewModelScope.launch {
+            val docRef = db.collection("applications")
+                .whereEqualTo("postId", post.value?.id)
+                .whereEqualTo("applicantId", auth.currentUser?.uid)
+                .get()
+                .addOnCompleteListener {
+                    val result = it.result
+                    val isConfirmed = result.documents[0].toObject<Application>()?.confirmed
+                    _hasBeenConfirmed.value = isConfirmed
                 }
         }
     }

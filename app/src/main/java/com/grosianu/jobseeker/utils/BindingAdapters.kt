@@ -9,6 +9,7 @@ import coil.load
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.models.Application
+import com.grosianu.jobseeker.models.News
 import com.grosianu.jobseeker.models.Post
 import com.grosianu.jobseeker.models.Resume
 import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.adapters.ApplicantsAdapter
@@ -17,7 +18,9 @@ import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.ada
 import com.grosianu.jobseeker.ui.home.destinations.apply.adapters.ApplySelectResumeAdapter
 import com.grosianu.jobseeker.ui.home.destinations.discover.DiscoverAdapter
 import com.grosianu.jobseeker.ui.home.destinations.home.adapters.ApplicationsAdapter
+import com.grosianu.jobseeker.ui.home.destinations.home.adapters.FavoritesAdapter
 import com.grosianu.jobseeker.ui.home.destinations.home.adapters.PostsAdapter
+import com.grosianu.jobseeker.ui.home.destinations.notifications.NotificationsAdapter
 import com.grosianu.jobseeker.ui.home.destinations.resume.ResumeAdapter
 
 @BindingAdapter("imageUrl")
@@ -71,6 +74,12 @@ fun bindPostsRecyclerView2(recyclerView: RecyclerView, data: List<Post>?) {
     adapter.submitList(data)
 }
 
+@BindingAdapter("favoritesListData")
+fun bindFavoritesHomeRecyclerView(recyclerView: RecyclerView, data: List<Post>?) {
+    val adapter = recyclerView.adapter as FavoritesAdapter
+    adapter.submitList(data)
+}
+
 @BindingAdapter("discoverListData")
 fun bindDiscoverRecyclerView(recyclerView: RecyclerView, data: List<Post>?) {
     val adapter = recyclerView.adapter as DiscoverAdapter
@@ -104,5 +113,11 @@ fun bindApplyResumeRecyclerView(recyclerView: RecyclerView, data: List<Resume>?)
 @BindingAdapter("applicantListData")
 fun bindApplicantsRecyclerView(recyclerView: RecyclerView, data: List<Application>?) {
     val adapter = recyclerView.adapter as ApplicantsAdapter
+    adapter.submitList(data)
+}
+
+@BindingAdapter("newsListData")
+fun bindNewsRecyclerView(recyclerView: RecyclerView, data: List<News>?) {
+    val adapter = recyclerView.adapter as NotificationsAdapter
     adapter.submitList(data)
 }

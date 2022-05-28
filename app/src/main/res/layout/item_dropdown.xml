@@ -4,5 +4,7 @@
     android:id="@+id/textView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:text="TextView"
-    android:textAppearance="?attr/textAppearanceBody1" />
+    android:paddingHorizontal="8dp"
+    android:paddingVertical="4dp"
+    android:textAppearance="?attr/textAppearanceListItem"
+    tools:text="TextView" />

@@ -1,19 +1,27 @@
 package com.grosianu.jobseeker.ui.home.destinations.account
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import coil.load
+import com.google.android.material.transition.MaterialContainerTransform
 import com.google.firebase.auth.FirebaseAuth
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.FragmentAccountBinding
+import com.grosianu.jobseeker.ui.home.HomeActivity
+import com.grosianu.jobseeker.ui.home.destinations.account.viewModels.AccountViewModel
 import com.grosianu.jobseeker.ui.login.StartupActivity
 import com.grosianu.jobseeker.utils.DetailsDialog
+import com.grosianu.jobseeker.utils.themeColor
 
 class AccountFragment : Fragment() {
 
@@ -21,8 +29,6 @@ class AccountFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: AccountViewModel by viewModels()
-
-    private val auth = FirebaseAuth.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,31 +42,23 @@ class AccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initialization()
+        initialization(view)
     }
 
-    private fun initialization() {
+    private fun initialization(view: View) {
+
         setupViews()
     }
 
     private fun setupViews() {
-        val username = auth.currentUser?.displayName?.substringBefore(" ").toString()
-        val imageUri = auth.currentUser?.photoUrl
-
-        if (username.isEmpty() || username == "null") {
-            binding.greetingTextView.text = resources.getString(R.string.user_greeting_noname)
-        } else {
-            binding.greetingTextView.text = resources.getString(R.string.user_greeting, username)
+        viewModel.getUserData()
+        viewModel.currentAccount.observe(viewLifecycleOwner) {
+            setGreetingInfo()
         }
-        if(imageUri == null) {
-            binding.imageView.setImageResource(R.drawable.ic_broken_image)
-            binding.imageView.setPadding(32)
-        } else {
-            binding.imageView.load(imageUri)
-        }
-        binding.addDetailsBtn.setOnClickListener {
-            // TODO Navigate to addDetails
-            openDialog()
+        setGreetingInfo()
+        binding.item1CardView.setOnClickListener {
+            val directions = AccountFragmentDirections.actionAccountFragmentToAccountDetailsFragment()
+            findNavController().navigate(directions)
         }
         binding.logoutBtn.setOnClickListener {
             logout()
@@ -73,15 +71,32 @@ class AccountFragment : Fragment() {
     }
 
     private fun logout() {
-        viewModel.auth.signOut()
+        viewModel.signOut()
         val intent = Intent(requireContext(), StartupActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
     }
 
-    private fun openDialog() {
-        //val detailsDialog = DetailsDialog()
-        //detailsDialog.display(parentFragmentManager)
-        DetailsDialog().display(parentFragmentManager)
+    private fun setGreetingInfo() {
+        val username = viewModel.currentAccount.value?.displayName?.substringBefore(" ").toString()
+        val imageUri = viewModel.currentAccount.value?.imageUri
+
+        if (username.isEmpty() || username == "null") {
+            binding.greetingTextView.text = resources.getString(R.string.user_greeting_noname)
+        } else {
+            binding.greetingTextView.text = resources.getString(R.string.user_greeting, username)
+        }
+
+        if(imageUri == null) {
+            binding.imageView.setImageResource(R.drawable.ic_broken_image)
+            binding.imageView.setPadding(32)
+        } else {
+            binding.imageView.load(imageUri)
+            binding.imageView.setPadding(0)
+        }
     }
+
+//    private fun openDialog() {
+//        DetailsDialog().display(parentFragmentManager)
+//    }
 }

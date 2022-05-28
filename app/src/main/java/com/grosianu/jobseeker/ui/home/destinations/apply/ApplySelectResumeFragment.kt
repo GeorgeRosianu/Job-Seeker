@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -11,6 +12,9 @@ import androidx.navigation.fragment.navArgs
 import com.google.firebase.auth.FirebaseAuth
 import com.grosianu.jobseeker.databinding.FragmentApplyChooseResumeBinding
 import com.grosianu.jobseeker.models.Resume
+import com.grosianu.jobseeker.ui.home.HomeActivity
+import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.OfferFragment
+import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.OfferFragmentDirections
 import com.grosianu.jobseeker.ui.home.destinations.apply.adapters.ApplySelectResumeAdapter
 import com.grosianu.jobseeker.ui.home.destinations.apply.viewModels.ApplySelectResumeViewModel
 import com.grosianu.jobseeker.ui.home.destinations.discover.DiscoverFragmentDirections
@@ -32,12 +36,14 @@ class ApplySelectResumeFragment :
         super.onCreate(savedInstanceState)
 
         val username = auth.currentUser?.displayName?.substringBefore(" ").toString()
-        if (username.isEmpty() || username == "null") {
-//            val backDirections = DiscoverFragmentDirections.actionGlobalAccountFragment()
-//            val directions = ApplySelectResumeFragmentDirections.actionApplySelectResumeFragmentToDiscoverFragment()
-//            findNavController().navigate(directions)
-//            findNavController().navigate(backDirections)
-
+        if (!args.isUserSetUp) {
+            val directions = if (args.start == "post") {
+                OfferFragmentDirections.actionOfferFragmentToAccountDetailsFragment()
+            } else {
+                DiscoverFragmentDirections.actionDiscoverFragmentToAccountDetailsFragment()
+            }
+            findNavController().navigateUp()
+            findNavController().navigate(directions)
         }
     }
 
@@ -88,7 +94,7 @@ class ApplySelectResumeFragment :
     }
 
     private fun navigateBack() {
-        val directions = if (args.start == "posts") {
+        val directions = if (args.start == "post") {
             ApplySelectResumeFragmentDirections.actionApplySelectResumeFragmentToApplicationFragment(
                 args.postId
             )

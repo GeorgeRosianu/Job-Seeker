@@ -9,7 +9,9 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.transition.MaterialElevationScale
+import com.google.android.material.transition.MaterialFade
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.FragmentDiscoverBinding
 import com.grosianu.jobseeker.models.Post
@@ -79,11 +81,13 @@ class DiscoverFragment : Fragment(), DiscoverAdapter.DiscoverAdapterListener {
     }
 
     private fun setupViewModel() {
+        viewModel.isUserSetUp()
         viewModel.getPostList()
         binding.viewModel = viewModel
     }
 
     private fun updateRecycleView() {
+        viewModel.isUserSetUp()
         viewModel.getPostList()
         binding.viewModel = viewModel
         binding.recyclerView.adapter = discoverAdapter
@@ -113,12 +117,41 @@ class DiscoverFragment : Fragment(), DiscoverAdapter.DiscoverAdapterListener {
 
     override fun onApplyClicked(post: Post) {
         val start = "discover"
-        val directions = DiscoverFragmentDirections.actionGlobalApplySelectResumeFragment(post.id.toString(), start)
+        val directions = DiscoverFragmentDirections.actionGlobalApplySelectResumeFragment(post.id.toString(), start, viewModel.isUserSetUp)
         findNavController().navigate(directions)
     }
 
     override fun onAddFavoriteClicked(view: View, post: Post) {
+        viewModel.addToFavorite(post)
+        binding.viewModel = viewModel
+    }
 
+    override fun onStart() {
+        super.onStart()
+
+        exitTransition = MaterialFade()
+        reenterTransition = MaterialFade()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        exitTransition = MaterialFade()
+        reenterTransition = MaterialFade()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        exitTransition = MaterialFade()
+        reenterTransition = MaterialFade()
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        exitTransition = MaterialFade()
+        reenterTransition = MaterialFade()
     }
 
     private fun refreshPostList() {

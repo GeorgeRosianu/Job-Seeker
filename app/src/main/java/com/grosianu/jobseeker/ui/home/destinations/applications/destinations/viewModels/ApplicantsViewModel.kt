@@ -29,7 +29,9 @@ class ApplicantsViewModel : ViewModel() {
         val applicantsTemp = ArrayList<Application>()
         viewModelScope.launch {
             val docRef = db.collection("applications")
-            docRef.whereEqualTo("postId", postId)
+            docRef
+                .whereEqualTo("postId", postId)
+                .whereNotEqualTo("confirmed", true)
                 .get()
                 .addOnCompleteListener {
                     for (document in it.result) {

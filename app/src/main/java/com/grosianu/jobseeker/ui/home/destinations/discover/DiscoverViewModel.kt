@@ -9,6 +9,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.grosianu.jobseeker.models.Post
+import com.grosianu.jobseeker.models.User
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
@@ -24,6 +25,27 @@ class DiscoverViewModel : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
 
+    private var _isUserSetUp = false
+    val isUserSetUp get() = _isUserSetUp
+
+    fun isUserSetUp() {
+        viewModelScope.launch {
+            val userId = auth.currentUser?.uid.toString()
+            val docRef = db.collection("users").document(userId)
+            docRef.get()
+                .addOnSuccessListener { document ->
+                    var user: User? = null
+                    if (document != null) {
+                        user = document.toObject<User>()
+
+                        if(!user?.displayName.isNullOrEmpty()) {
+                            _isUserSetUp = true
+                        }
+                    }
+                }
+        }
+    }
+
     fun getPostList() {
         val postsTmp = ArrayList<Post>()
         viewModelScope.launch {
@@ -34,7 +56,7 @@ class DiscoverViewModel : ViewModel() {
                 .addOnCompleteListener {
                     for (document in it.result) {
                         val postTmp = document.toObject<Post>()
-                        if (postTmp.applicants?.contains(auth.currentUser?.uid!!) == false) {
+                        if (postTmp.applicants?.contains(auth.currentUser?.uid!!) == false || postTmp.applicants == null) {
                             postsTmp.add(postTmp)
                         }
                     }
@@ -42,6 +64,31 @@ class DiscoverViewModel : ViewModel() {
                 }
                 .addOnFailureListener {
                     _posts.value = listOf()
+                }
+        }
+    }
+
+    fun addToFavorite(post: Post) {
+        if (!post.id.isNullOrEmpty()) {
+            db.collection("favorites").document(post.id)
+                .set(post)
+                .addOnCompleteListener {
+                    db.collection("users").document(auth.currentUser?.uid!!)
+                        .update("favorites", FieldValue.arrayUnion(post.id))
+                }
+
+            db.collection("favorites").document(post.id)
+                .update("owner", auth.currentUser?.uid)
+        }
+    }
+
+    fun removeFavorite(post: Post) {
+        if (!post.id.isNullOrEmpty()) {
+            db.collection("favorites").document(post.id)
+                .delete()
+                .addOnCompleteListener {
+                    db.collection("users").document(auth.currentUser?.uid!!)
+                        .update("favorites", FieldValue.arrayRemove(post.id))
                 }
         }
     }

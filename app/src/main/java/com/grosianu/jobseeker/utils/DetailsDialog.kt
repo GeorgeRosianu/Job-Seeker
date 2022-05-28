@@ -46,7 +46,6 @@ class DetailsDialog : DialogFragment() {
 
     fun display(fragmentManager: FragmentManager) : DetailsDialog {
         val detailsDialog = DetailsDialog()
-        //detailsDialog.display(fragmentManager)
         detailsDialog.show(fragmentManager, "DETAILS_DIALOG")
         return detailsDialog
     }

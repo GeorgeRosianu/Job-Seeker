@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.grosianu.jobseeker.databinding.FragmentApplicantsBinding
 import com.grosianu.jobseeker.models.Application
@@ -72,8 +73,12 @@ class ApplicantsFragment : Fragment(), ApplicantsAdapter.ApplicantsAdapterListen
     }
 
     override fun onApplicantClicked(cardView: View, application: Application) {
-        Toast.makeText(requireContext(), "Click.", Toast.LENGTH_SHORT).show()
-        TODO("Not yet implemented")
+        val directions = ApplicantsFragmentDirections.actionApplicantsFragmentToApplicantFragment(application.applicantId.toString(), application.id.toString())
+        println("LIST ###############")
+        println(application.applicantId.toString())
+        println(application.id.toString())
+        println("####################")
+        findNavController().navigate(directions)
     }
 
     override fun onDestroyView() {

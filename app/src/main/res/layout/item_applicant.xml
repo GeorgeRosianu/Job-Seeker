@@ -44,31 +44,6 @@
                 android:paddingBottom="16dp">
 
                 <TextView
-                    android:id="@+id/time_text_view"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginEnd="8dp"
-                    android:maxLines="1"
-                    android:textAppearance="?attr/textAppearanceCaption"
-                    app:layout_constraintStart_toEndOf="@id/image_card_view"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="12m" />
-
-                <ImageView
-                    android:id="@+id/new_application_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:contentDescription="New Application Icon"
-                    app:layout_constraintBottom_toBottomOf="@id/time_text_view"
-                    app:layout_constraintStart_toEndOf="@id/time_text_view"
-                    app:layout_constraintTop_toTopOf="@id/time_text_view"
-                    app:tint="@color/red_600"
-                    tools:src="@drawable/ic_round_new_releases_24" />
-
-                <TextView
                     android:id="@+id/name_text_view"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -80,7 +55,7 @@
                     android:textAppearance="?attr/textAppearanceHeadline6"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/image_card_view"
-                    app:layout_constraintTop_toBottomOf="@+id/time_text_view"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="Rosianu George Alexandru" />
 
                 <TextView
@@ -88,14 +63,29 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="4dp"
                     android:text="@{application.applicantEmail}"
                     android:textAppearance="?attr/textAppearanceBody2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/image_card_view"
-                    app:layout_constraintTop_toBottomOf="@+id/name_text_view"
+                    app:layout_constraintTop_toBottomOf="@+id/experience_text_view"
                     tools:text="georgerosianu12@gmail.com" />
+
+                <TextView
+                    android:id="@+id/experience_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="@{application.applicantExperience}"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/image_card_view"
+                    app:layout_constraintTop_toBottomOf="@+id/name_text_view"
+                    tools:text="Junior Android developer" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/image_card_view"
@@ -106,7 +96,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="4dp"
                     app:cardCornerRadius="50dp"
-                    app:cardElevation="5dp"
+                    app:cardElevation="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -126,6 +116,17 @@
                         tools:src="@drawable/ic_broken_image" />
                 </com.google.android.material.card.MaterialCardView>
 
+                <ImageView
+                    android:id="@+id/new_application_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:contentDescription="New Application Icon"
+                    android:elevation="5dp"
+                    android:src="@drawable/ic_round_new_releases_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/red_600" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

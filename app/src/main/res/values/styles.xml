@@ -34,6 +34,7 @@
         <item name="colorAccent">?attr/colorSecondary</item>
         <item name="android:colorBackground">?attr/colorPrimary</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:datePickerStyle">@style/SpinnerDatePickerStyle</item>
     </style>
 
     <style name="AppTheme.FullScreenDialog" parent="Theme.MaterialComponents.Light.Dialog">

@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.grosianu.jobseeker.ui.home.destinations.account.viewModels.AccountDetailsViewModel" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/create_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/profile_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:text="Profile"
+                    android:textAppearance="?attr/textAppearanceHeadline5"
+                    app:layout_constraintStart_toEndOf="@id/navigation_icon"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/navigation_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:alpha="?attr/emphasisMediumAlpha"
+                    android:background="?attr/actionBarItemBackground"
+                    android:contentDescription="Navigate back"
+                    android:padding="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_round_arrow_back_24" />
+
+                <ImageButton
+                    android:id="@+id/edit_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:alpha="?attr/emphasisMediumAlpha"
+                    android:background="?attr/actionBarItemBackground"
+                    android:contentDescription="Navigate back"
+                    android:padding="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_round_edit_24" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginVertical="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/profile_title" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/image_card_view"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginVertical="16dp"
+                    app:cardCornerRadius="50dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider">
+
+                    <ImageView
+                        android:id="@+id/image_view"
+                        imageUrl="@{viewModel.currentAccount.imageUri}"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="User image"
+                        android:scaleType="centerCrop"
+                        tools:src="@drawable/ic_broken_image" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/personal_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Personal"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    android:textSize="24sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/image_card_view" />
+
+                <LinearLayout
+                    android:id="@+id/personal_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/personal_text_view">
+
+                    <LinearLayout
+                        android:id="@+id/first_name_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="2dp">
+
+                        <TextView
+                            android:id="@+id/first_name_text_view"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="First name: "
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            android:textStyle="bold"
+                            tools:text="First name: " />
+
+                        <TextView
+                            android:id="@+id/details_first_name_text_view"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:text="@{viewModel.currentAccount.firstName}"
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            tools:text="George-Alexandru" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/last_name_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="2dp">
+
+                        <TextView
+                            android:id="@+id/last_name_text_view"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:layout_weight="2"
+                            android:text="Last name: "
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            android:textStyle="bold"
+                            tools:text="Last name: " />
+
+                        <TextView
+                            android:id="@+id/details_last_name_text_view"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:layout_weight="3"
+                            android:text="@{viewModel.currentAccount.lastName}"
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            tools:text="Rosianu" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/phone_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="2dp">
+
+                        <TextView
+                            android:id="@+id/phone_text_view"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:layout_weight="2"
+                            android:text="Phone: "
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            android:textStyle="bold"
+                            tools:text="Phone: " />
+
+                        <TextView
+                            android:id="@+id/details_phone_text_view"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:layout_weight="3"
+                            android:text="@{viewModel.currentAccount.phoneNumber}"
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            tools:text="+40742628150" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/age_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="2dp">
+
+                        <TextView
+                            android:id="@+id/age_text_view"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:layout_weight="2"
+                            android:text="Age: "
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            android:textStyle="bold"
+                            tools:text="Age: " />
+
+                        <TextView
+                            android:id="@+id/details_age_text_view"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:layout_weight="3"
+                            android:text="@{viewModel.currentAccount.ageAsString}"
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            tools:text="22" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/residence_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="2dp">
+
+                        <TextView
+                            android:id="@+id/residence_text_view"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:layout_weight="2"
+                            android:text="Residence: "
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            android:textStyle="bold"
+                            tools:text="Residence: " />
+
+                        <TextView
+                            android:id="@+id/details_residence_text_view"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:layout_weight="3"
+                            android:text="@{viewModel.currentAccount.residence}"
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            tools:text="Brasov" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/sex_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="2dp">
+
+                        <TextView
+                            android:id="@+id/sex_text_view"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:layout_weight="2"
+                            android:text="Sex: "
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            android:textStyle="bold"
+                            tools:text="Sex: " />
+
+                        <TextView
+                            android:id="@+id/details_sex_text_view"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:layout_weight="3"
+                            android:text="@{viewModel.currentAccount.sex}"
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            tools:text="male" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginVertical="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/personal_layout" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/studies_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Studies"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    android:textSize="24sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+                <TextView
+                    android:id="@+id/studies_type_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="18dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Level: "
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/studies_text_view"
+                    tools:text="Level: " />
+
+                <TextView
+                    android:id="@+id/details_studies_type_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="4dp"
+                    android:text="@{@string/item_details(viewModel.currentAccount.educationLevel)}"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/studies_type_text_view"
+                    app:layout_constraintTop_toBottomOf="@+id/studies_type_text_view"
+                    tools:text=" - Bachelor's Degree or equivalent" />
+
+                <TextView
+                    android:id="@+id/studies_specialization_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="18dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Specialization: "
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/details_studies_type_text_view"
+                    tools:text="Specialization: " />
+
+                <TextView
+                    android:id="@+id/details_studies_specialization_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="4dp"
+                    android:text="@{@string/item_details(viewModel.currentAccount.educationSpec)}"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/studies_specialization_text_view"
+                    app:layout_constraintTop_toBottomOf="@+id/studies_specialization_text_view"
+                    tools:text=" - Computer Science" />
+
+                <TextView
+                    android:id="@+id/studies_city_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="18dp"
+                    android:layout_marginTop="8dp"
+                    android:text="City: "
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/details_studies_specialization_text_view"
+                    tools:text="City: " />
+
+                <TextView
+                    android:id="@+id/details_studies_city_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="4dp"
+                    android:text="@{@string/item_details(viewModel.currentAccount.educationCity)}"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/studies_city_text_view"
+                    app:layout_constraintTop_toBottomOf="@+id/studies_city_text_view"
+                    tools:text=" - Brasov" />
+
+                <TextView
+                    android:id="@+id/studies_institution_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="18dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Institution: "
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/details_studies_city_text_view"
+                    tools:text="Institution: " />
+
+                <TextView
+                    android:id="@+id/details_studies_institution_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="4dp"
+                    android:text="@{@string/item_details(viewModel.currentAccount.educationInstitution)}"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/studies_institution_text_view"
+                    app:layout_constraintTop_toBottomOf="@+id/studies_institution_text_view"
+                    tools:text=" - Universitatea Transilvania din Brasov" />
+
+                <TextView
+                    android:id="@+id/studies_years_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="18dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Years: "
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/details_studies_institution_text_view"
+                    tools:text="Years: " />
+
+                <TextView
+                    android:id="@+id/details_studies_years_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="4dp"
+                    android:text="@{@string/item_details(viewModel.currentAccount.educationDate)}"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/studies_years_text_view"
+                    app:layout_constraintTop_toBottomOf="@+id/studies_years_text_view"
+                    tools:text=" - 2019-2022" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginVertical="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/details_studies_years_text_view" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/experience_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Experience"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    android:textSize="24sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+                <TextView
+                    android:id="@+id/experience_position_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="18dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Position: "
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/experience_text_view"
+                    tools:text="Position: " />
+
+                <TextView
+                    android:id="@+id/details_experience_position_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="4dp"
+                    android:text="@{@string/item_details(viewModel.currentAccount.experiencePosition)}"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/experience_position_text_view"
+                    app:layout_constraintTop_toBottomOf="@+id/experience_position_text_view"
+                    tools:text=" - Junior Android developer" />
+
+                <TextView
+                    android:id="@+id/experience_company_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="18dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Company: "
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/details_experience_position_text_view"
+                    tools:text="Company: " />
+
+                <TextView
+                    android:id="@+id/details_experience_company_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="4dp"
+                    android:text="@{@string/item_details(viewModel.currentAccount.experienceCompany)}"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/experience_company_text_view"
+                    app:layout_constraintTop_toBottomOf="@+id/experience_company_text_view"
+                    tools:text=" - Google LLC" />
+
+                <TextView
+                    android:id="@+id/experience_city_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="18dp"
+                    android:layout_marginTop="8dp"
+                    android:text="City: "
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/details_experience_company_text_view"
+                    tools:text="City: " />
+
+                <TextView
+                    android:id="@+id/details_experience_city_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="4dp"
+                    android:text="@{@string/item_details(viewModel.currentAccount.experienceCity)}"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/experience_city_text_view"
+                    app:layout_constraintTop_toBottomOf="@+id/experience_city_text_view"
+                    tools:text=" - Brasov" />
+
+                <TextView
+                    android:id="@+id/experience_industry_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="18dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Industry: "
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/details_experience_city_text_view"
+                    tools:text="Industry: " />
+
+                <TextView
+                    android:id="@+id/details_experience_industry_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="4dp"
+                    android:text="@{@string/item_details(viewModel.currentAccount.experienceIndustry)}"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/experience_industry_text_view"
+                    app:layout_constraintTop_toBottomOf="@+id/experience_industry_text_view"
+                    tools:text=" - Computer Programming / IT" />
+
+                <TextView
+                    android:id="@+id/experience_years_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="18dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Years: "
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/details_experience_industry_text_view"
+                    tools:text="Years: " />
+
+                <TextView
+                    android:id="@+id/details_experience_years_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="4dp"
+                    android:text="@{@string/item_details(viewModel.currentAccount.experienceYears)}"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/experience_years_text_view"
+                    app:layout_constraintTop_toBottomOf="@+id/experience_years_text_view"
+                    tools:text=" - 2019-2022" />
+
+                <TextView
+                    android:id="@+id/experience_description_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="18dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Description: "
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/details_experience_years_text_view"
+                    tools:text="Description: " />
+
+                <TextView
+                    android:id="@+id/details_experience_description_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="4dp"
+                    android:text="@{@string/item_details(viewModel.currentAccount.experienceDescription)}"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/experience_description_text_view"
+                    app:layout_constraintTop_toBottomOf="@+id/experience_description_text_view"
+                    tools:text=" - Writing Android Applications for Google LLC as a Junior Developer" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.core.widget.NestedScrollView>
+</layout>

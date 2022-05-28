@@ -94,11 +94,12 @@ class EditPostFragment : Fragment() {
     private fun getImageFromGallery() = imageFromGallery.launch("image/*")
 
     private fun updateDataWithImage() {
-        val storageReference = storage.getReference("images/${viewModel.post.value?.image}")
+        val storageReference = storage.getReference("images/${viewModel.post.value?.imageId}")
         storageReference.putFile(imageUri)
             .addOnSuccessListener {
                 storageReference.downloadUrl.addOnSuccessListener {
-                    updateDataToFirestoreWithImage(it.toString())
+                    val uri = it.toString()
+                    updateDataToFirestoreWithImage(uri)
                 }
             }
             .addOnFailureListener {
@@ -173,7 +174,9 @@ class EditPostFragment : Fragment() {
             description,
             tags,
             image,
-            viewModel.post.value!!.applicants
+            viewModel.post.value?.imageId,
+            viewModel.post.value?.applicants,
+            viewModel.post.value?.confirmedApplicants,
         )
 
         db.collection("posts").document(id)

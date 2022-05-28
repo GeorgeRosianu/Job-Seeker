@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.firebase.auth.FirebaseAuth
 import com.grosianu.jobseeker.R
@@ -55,6 +56,14 @@ class ApplicationFragment : Fragment() {
 
     private fun setupViews() {
         binding.lifecycleOwner = viewLifecycleOwner
+
+        viewModel.hasBeenConfirmed.observe(viewLifecycleOwner) {
+            if (it) {
+                binding.deleteBtn.visibility = View.GONE
+            } else {
+                binding.deleteBtn.visibility = View.VISIBLE
+            }
+        }
         binding.navigationIcon.setOnClickListener {
             findNavController().navigateUp()
         }
@@ -82,21 +91,15 @@ class ApplicationFragment : Fragment() {
     }
 
     private fun alertConfirmation() {
-        val positiveButtonClick = { _: DialogInterface, _: Int ->
-            viewModel.userRemoveApplicant(args.postId)
-            Toast.makeText(requireContext(), "Application deleted!", Toast.LENGTH_SHORT).show()
-            navigateBack()
-        }
-
-        val negativeButtonClick = { dialog: DialogInterface, _: Int ->
-            dialog.cancel()
-        }
-
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Confirmation")
-        builder.setMessage("Are you sure you want to remove this application?")
-        builder.setPositiveButton("Yes", DialogInterface.OnClickListener(function = positiveButtonClick))
-        builder.setNegativeButton("No", negativeButtonClick)
-        builder.show()
+        AlertDialog.Builder(requireContext())
+            .setTitle("Confirmation")
+            .setMessage("Are you sure you want to remove this application?")
+            .setPositiveButton("Yes") { _, _ ->
+                viewModel.userRemoveApplicant(args.postId)
+                Toast.makeText(requireContext(), "Application deleted", Toast.LENGTH_SHORT).show()
+                navigateBack()
+            }
+            .setNegativeButton("No") { dialog, _ -> dialog.cancel() }
+            .show()
     }
 }

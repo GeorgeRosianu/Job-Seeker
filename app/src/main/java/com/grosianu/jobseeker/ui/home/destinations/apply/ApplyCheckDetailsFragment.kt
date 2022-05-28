@@ -41,7 +41,7 @@ class ApplyCheckDetailsFragment : Fragment() {
     }
 
     private fun initialization() {
-        viewModel.createApplication(args.postId, args.resumeId, args.message)
+        viewModel.getUserData(args.postId, args.resumeId, args.message)
         setupViews()
     }
 
@@ -53,51 +53,35 @@ class ApplyCheckDetailsFragment : Fragment() {
         binding.navigationIcon.setOnClickListener {
             findNavController().navigateUp()
         }
+        binding.message.text = args.message
         binding.applyBtn.setOnClickListener {
             alertConfirmation()
         }
     }
 
     private fun navigateBack() {
-        val directions = if (args.start == "posts") {
-            ApplyCheckDetailsFragmentDirections.actionApplyCheckDetailsFragmentToApplicationFragment(
-                args.postId
-            )
-        } else {
-            ApplyCheckDetailsFragmentDirections.actionApplyCheckDetailsFragmentToDiscoverFragment()
+        val directions = when (args.start) {
+            "posts" -> ApplyCheckDetailsFragmentDirections
+                .actionApplyCheckDetailsFragmentToApplicationFragment(args.postId)
+            "discover" ->  ApplyCheckDetailsFragmentDirections
+                .actionApplyCheckDetailsFragmentToDiscoverFragment()
+            else -> ApplyCheckDetailsFragmentDirections.actionGlobalHomeFragment()
         }
         findNavController().navigate(directions)
     }
 
     private fun alertConfirmation() {
-
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Apply Confirmation")
+        AlertDialog.Builder(requireContext())
+            .setTitle("Confirmation")
             .setMessage("Are you sure you want to apply?")
-            .setNegativeButton("No") { dialog, which ->
-                dialog.cancel()
-            }
-            .setPositiveButton("Yes") { dialog, which ->
+            .setPositiveButton("Yes") { _, _ ->
                 val application = viewModel.application.value!!
                 viewModel.uploadApplication(requireContext(), application)
                 viewModel.userAddApplicant(args.postId)
-                Toast.makeText(requireContext(), "Application complete!",Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Application complete",Toast.LENGTH_SHORT).show()
                 navigateBack()
             }
+            .setNegativeButton("No") { dialog, _ -> dialog.cancel() }
             .show()
-//        val positiveButtonClick = { _: DialogInterface, _: Int ->
-//
-//        }
-//
-//        val negativeButtonClick = { dialog: DialogInterface, _: Int ->
-//            dialog.cancel()
-//        }
-//
-//        val builder = AlertDialog.Builder(requireContext())
-//        builder.setTitle("Apply Confirmation")
-//        builder.setMessage("Are you sure you want to apply?")
-//        builder.setPositiveButton("Yes", DialogInterface.OnClickListener(function = positiveButtonClick))
-//        builder.setNegativeButton("No", negativeButtonClick)
-//        builder.show()
     }
 }

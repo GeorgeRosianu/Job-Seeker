@@ -21,6 +21,9 @@ class MyPostsViewModel : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
 
+    private var _hasPosts = MutableLiveData(false)
+    val hasPosts: LiveData<Boolean> = _hasPosts
+
     fun getPostList() {
         viewModelScope.launch {
             val docRef = db.collection("posts")
@@ -36,6 +39,7 @@ class MyPostsViewModel : ViewModel() {
                         }
                     }
                     _posts.value = applications
+                    _hasPosts.value = !applications.isNullOrEmpty()
                 }
         }
     }

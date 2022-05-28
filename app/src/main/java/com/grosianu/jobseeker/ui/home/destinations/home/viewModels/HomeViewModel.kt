@@ -9,6 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.MetadataChanges
 import com.google.firebase.firestore.ktx.toObject
 import com.grosianu.jobseeker.models.Post
+import com.grosianu.jobseeker.models.User
 import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
@@ -25,8 +26,14 @@ class HomeViewModel : ViewModel() {
     private var _applicationInfo = MutableLiveData<Post>()
     val applicationInfo: LiveData<Post> = _applicationInfo
 
+    private var _favorites = MutableLiveData<List<Post>>()
+    val favorites: LiveData<List<Post>> = _favorites
+
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
+
+    var hasPosts = MutableLiveData(false)
+    var hasApplications = MutableLiveData(false)
 
     fun getPostList() {
         viewModelScope.launch {
@@ -37,13 +44,14 @@ class HomeViewModel : ViewModel() {
                     if (e != null) {
                         return@addSnapshotListener
                     }
-                    val applications = ArrayList<Post>()
+                    val array = ArrayList<Post>()
                     for (document in querySnapshot!!) {
                         if (document != null && document.exists()) {
-                            applications.add(document.toObject())
+                            array.add(document.toObject())
                         }
                     }
-                    _posts.value = applications
+                    _posts.value = array
+                    hasPosts.value = !posts.value.isNullOrEmpty()
                 }
         }
     }
@@ -57,13 +65,36 @@ class HomeViewModel : ViewModel() {
                     if (e != null) {
                         return@addSnapshotListener
                     }
-                    val applications = ArrayList<Post>()
+                    val array = ArrayList<Post>()
                     for (document in querySnapshot!!) {
                         if(document != null && document.exists()) {
-                            applications.add(document.toObject())
+                            array.add(document.toObject())
+                            hasApplications.value = true
                         }
                     }
-                    _applications.value = applications
+                    _applications.value = array
+                    hasApplications.value = !applications.value.isNullOrEmpty()
+                }
+        }
+    }
+
+    fun getFavoritesList() {
+        viewModelScope.launch {
+            val docRef = db.collection("favorites")
+            docRef.whereEqualTo("owner", auth.currentUser?.uid)
+                .limit(LIMIT.toLong())
+                .addSnapshotListener(MetadataChanges.INCLUDE) { querySnapshot, e ->
+                    if (e != null) {
+                        return@addSnapshotListener
+                    }
+
+                    val favList = ArrayList<Post>()
+                    for (document in querySnapshot!!) {
+                        if (document != null && document.exists()) {
+                            favList.add(document.toObject())
+                        }
+                    }
+                    _favorites.value = favList
                 }
         }
     }

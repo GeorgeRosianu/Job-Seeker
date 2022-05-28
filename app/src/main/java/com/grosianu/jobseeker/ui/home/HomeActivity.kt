@@ -6,8 +6,10 @@ import android.animation.ObjectAnimator
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.core.view.isVisible
@@ -23,6 +25,7 @@ import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.firestore.ktx.toObject
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.ActivityHomeBinding
@@ -42,12 +45,19 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
 
     private lateinit var navController: NavController
 
-    //private val db = FirebaseFirestore.getInstance()
+    private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
 
     private var backPressedOnce = false
+    private var isBottomNavVisible = true
 
-//    private lateinit var currentUser: User
+    init {
+        val settings = FirebaseFirestoreSettings.Builder()
+            .setPersistenceEnabled(true)
+            .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
+            .build()
+        db.firestoreSettings = settings
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +71,6 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
             startActivity(intent)
             finish()
         }
-
         super.onStart()
     }
 
@@ -114,43 +123,52 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
         navController.addOnDestinationChangedListener { _, nd: NavDestination, _ ->
             when (nd.id) {
                 R.id.myPostsFragment -> {
-                    hideBottomNav(bottomNavigationView)
+                    hideBottomNav(bottomNavigationView, isBottomNavVisible)
                 }
                 R.id.myApplicationsFragment -> {
-                    hideBottomNav(bottomNavigationView)
+                    hideBottomNav(bottomNavigationView, isBottomNavVisible)
                 }
                 R.id.createFragment -> {
-                    hideBottomNav(bottomNavigationView)
+                    hideBottomNav(bottomNavigationView, isBottomNavVisible)
+                }
+                R.id.accountDetailsFragment -> {
+                    hideBottomNav(bottomNavigationView, isBottomNavVisible)
+                }
+                R.id.accountAddDetailsFragment -> {
+                    hideBottomNav(bottomNavigationView, isBottomNavVisible)
                 }
                 R.id.editPostFragment -> {
-                    hideBottomNav(bottomNavigationView)
+                    hideBottomNav(bottomNavigationView, isBottomNavVisible)
                 }
                 R.id.editApplicationFragment -> {
-                    hideBottomNav(bottomNavigationView)
+                    hideBottomNav(bottomNavigationView, isBottomNavVisible)
                 }
                 R.id.offerFragment -> {
-                    hideBottomNav(bottomNavigationView)
+                    hideBottomNav(bottomNavigationView, isBottomNavVisible)
                 }
                 R.id.applicationFragment -> {
-                    hideBottomNav(bottomNavigationView)
+                    hideBottomNav(bottomNavigationView, isBottomNavVisible)
                 }
                 R.id.applicantsFragment -> {
-                    hideBottomNav(bottomNavigationView)
+                    hideBottomNav(bottomNavigationView, isBottomNavVisible)
+                }
+                R.id.applicantFragment -> {
+                    hideBottomNav(bottomNavigationView, isBottomNavVisible)
                 }
                 R.id.pdfViewFragment -> {
-                    hideBottomNav(bottomNavigationView)
+                    hideBottomNav(bottomNavigationView, isBottomNavVisible)
                 }
                 R.id.applySelectResumeFragment -> {
-                    hideBottomNav(bottomNavigationView)
+                    hideBottomNav(bottomNavigationView, isBottomNavVisible)
                 }
                 R.id.applyWriteMessageFragment -> {
-                    hideBottomNav(bottomNavigationView)
+                    hideBottomNav(bottomNavigationView, isBottomNavVisible)
                 }
                 R.id.applyCheckDetailsFragment -> {
-                    hideBottomNav(bottomNavigationView)
+                    hideBottomNav(bottomNavigationView, isBottomNavVisible)
                 }
                 else -> {
-                    showBottomNav(bottomNavigationView)
+                    showBottomNav(bottomNavigationView, isBottomNavVisible)
                 }
             }
         }
@@ -158,76 +176,30 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
         setupActionBarWithNavController(this, navController, appBarConfiguration)
     }
 
-    private fun showBottomNav(bottomNavigationView: BottomNavigationView) {
+    private fun showBottomNav(bottomNavigationView: BottomNavigationView, isVisible: Boolean) {
+        if(isVisible) {
+            return
+        }
+
         ObjectAnimator.ofFloat(bottomNavigationView, "TranslationY", 0f).apply {
             duration = 150
             start()
             bottomNavigationView.visibility = View.VISIBLE
+            isBottomNavVisible = true
         }
     }
 
-    private fun hideBottomNav(bottomNavigationView: BottomNavigationView) {
+    private fun hideBottomNav(bottomNavigationView: BottomNavigationView, isVisible: Boolean) {
+        if (!isVisible) {
+            return
+        }
+
         val animator = ObjectAnimator.ofFloat(bottomNavigationView, "translationY", 200f)
         animator.apply {
             duration = 150
             start()
             doOnEnd { bottomNavigationView.isVisible = false }
         }
-    }
-
-    private fun showBottomNavBar(bottomAppBar: BottomAppBar) {
-        bottomAppBar.run {
-            performShow()
-            animate().setListener(object : AnimatorListenerAdapter() {
-                var isCanceled = false
-                override fun onAnimationEnd(animation: Animator?) {
-                    if (isCanceled) return
-
-                    bottomAppBar.visibility = View.VISIBLE
-                }
-
-                override fun onAnimationCancel(animation: Animator?) {
-                    isCanceled = true
-                }
-            })
-        }
-    }
-
-    private fun hideBottomNavBar(bottomAppBar: BottomAppBar) {
-        bottomAppBar.run {
-            performHide()
-            animate().setListener(object : AnimatorListenerAdapter() {
-                var isCanceled = false
-                override fun onAnimationEnd(animation: Animator?) {
-                    if (isCanceled) return
-
-                    visibility = View.GONE
-                }
-
-                override fun onAnimationCancel(animation: Animator?) {
-                    isCanceled = true
-                }
-            })
-        }
-    }
-
-    private fun navigateToHome() {
-        val directions = HomeFragmentDirections.actionGlobalHomeFragment()
-        findNavController(R.id.nav_host_fragment_home).navigate(directions)
-    }
-
-    private fun navigateToDiscover() {
-        val directions = DiscoverFragmentDirections.actionGlobalDiscoverFragment()
-        findNavController(R.id.nav_host_fragment_home).navigate(directions)
-    }
-
-    private fun navigateToNews() {
-        val directions = NotificationsFragmentDirections.actionGlobalNotificationsFragment()
-        findNavController(R.id.nav_host_fragment_home).navigate(directions)
-    }
-
-    private fun navigateToAccount() {
-        val directions = AccountFragmentDirections.actionGlobalAccountFragment()
-        findNavController(R.id.nav_host_fragment_home).navigate(directions)
+        isBottomNavVisible = false
     }
 }

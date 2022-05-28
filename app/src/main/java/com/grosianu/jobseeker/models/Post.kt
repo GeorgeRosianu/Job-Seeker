@@ -16,7 +16,9 @@ data class Post(
     val description: String? = null,
     val tags: ArrayList<String>? = null,
     val image: String? = null,
+    val imageId: String? = null,
     val applicants: ArrayList<String>? = null,
+    val confirmedApplicants: ArrayList<String>? = null,
 ) {
 
     fun getFormattedSalary(): String = NumberFormat.getCurrencyInstance().format(salary)

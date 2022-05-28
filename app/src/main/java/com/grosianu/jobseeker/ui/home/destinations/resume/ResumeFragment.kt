@@ -94,6 +94,15 @@ class ResumeFragment : Fragment(), ResumeAdapter.ResumeAdapterListener {
 
     private fun setupViews() {
         binding.lifecycleOwner = this
+
+        viewModel.hasResume.observe(viewLifecycleOwner) {
+            if (it) {
+                binding.placeholderTextView.visibility = View.INVISIBLE
+            } else {
+                binding.placeholderTextView.visibility = View.VISIBLE
+            }
+        }
+
         binding.fab.apply {
             setOnClickListener {
                 if (!isFabOpen) {
@@ -304,7 +313,6 @@ class ResumeFragment : Fragment(), ResumeAdapter.ResumeAdapterListener {
     }
 
     override fun onResumeClicked(cardView: View, resume: Resume) {
-        // TODO Navigate to Activity/Fragment (PdfViewFragment)
         val directions = ResumeFragmentDirections.actionGlobalPdfViewFragment(resume.url.toString())
         findNavController().navigate(directions)
     }

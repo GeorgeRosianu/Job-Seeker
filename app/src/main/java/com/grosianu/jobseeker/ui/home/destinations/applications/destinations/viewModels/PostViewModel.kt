@@ -10,8 +10,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.MetadataChanges
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
+import com.grosianu.jobseeker.models.News
 import com.grosianu.jobseeker.models.Post
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.util.*
 
 class PostViewModel : ViewModel() {
 
@@ -35,16 +38,20 @@ class PostViewModel : ViewModel() {
             }
         }
 
-    fun deletePost(postId: String, context: Context) {
+    fun deletePost() {
         viewModelScope.launch {
-            val docRef = db.collection("posts").document(postId)
-            docRef.delete()
-                .addOnSuccessListener {
-                    Toast.makeText(context, "Post deleted", Toast.LENGTH_SHORT).show()
+            val storageRef = storage.reference.child("images/${_post.value?.imageId}")
+            val postDocRef = db.collection("posts").document(_post.value?.id!!)
+            val applicationsDocRef = db.collection("applications")
+            storageRef.delete().addOnSuccessListener {
+                applicationsDocRef.whereEqualTo("postId", _post.value?.id)
+                applicationsDocRef.get().addOnSuccessListener { querySnapshot ->
+                    querySnapshot.forEach { document ->
+                        document.reference.delete()
+                    }
                 }
-                .addOnFailureListener {
-                    Toast.makeText(context, "Post could not be deleted", Toast.LENGTH_SHORT).show()
-                }
+                postDocRef.delete()
+            }
         }
     }
 

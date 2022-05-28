@@ -10,6 +10,7 @@ import com.google.firebase.firestore.MetadataChanges
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
 import com.grosianu.jobseeker.models.Resume
+import com.grosianu.jobseeker.models.User
 import kotlinx.coroutines.launch
 
 class ApplySelectResumeViewModel : ViewModel() {
@@ -24,6 +25,26 @@ class ApplySelectResumeViewModel : ViewModel() {
     private val auth = FirebaseAuth.getInstance()
     private val storage = FirebaseStorage.getInstance()
 
+    private var isUserSetUp = false
+
+    fun isUserSetUp() {
+        viewModelScope.launch {
+            val userId = auth.currentUser?.uid.toString()
+            val docRef = db.collection("users").document(userId)
+            docRef.get()
+                .addOnSuccessListener { document ->
+                    var user: User? = null
+                    if (document != null) {
+                        user = document.toObject<User>()
+
+                        if(!user?.displayName.isNullOrEmpty()) {
+                            isUserSetUp = true
+                        }
+                    }
+                }
+        }
+    }
+
     fun getResumeList() {
         viewModelScope.launch {
             val docRef = db.collection("resumes")
@@ -35,7 +56,7 @@ class ApplySelectResumeViewModel : ViewModel() {
 
                     val resumes = ArrayList<Resume>()
                     for (document in querySnapshot!!) {
-                        if(document != null && document.exists()) {
+                        if (document != null && document.exists()) {
                             resumes.add(document.toObject())
                         }
                     }

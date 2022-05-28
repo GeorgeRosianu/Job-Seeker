@@ -16,11 +16,14 @@ class MyApplicationsViewModel : ViewModel() {
     private var _posts = MutableLiveData<List<Post>>()
     val posts: LiveData<List<Post>> = _posts
 
-    private val _post = MutableLiveData<Post>()
+    private var _post = MutableLiveData<Post>()
     val post: LiveData<Post> = _post
 
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
+
+    private var _hasApplications = MutableLiveData(false)
+    val hasApplications: LiveData<Boolean> = _hasApplications
 
     fun getPostList() {
         viewModelScope.launch {
@@ -31,12 +34,15 @@ class MyApplicationsViewModel : ViewModel() {
                         return@addSnapshotListener
                     }
                     val applications = ArrayList<Post>()
-                    for(document in querySnapshot!!) {
-                        if(document != null && document.exists()) {
-                            applications.add(document.toObject())
+                    if (querySnapshot != null) {
+                        for (document in querySnapshot) {
+                            if (document != null && document.exists()) {
+                                applications.add(document.toObject())
+                            }
                         }
                     }
                     _posts.value = applications
+                    _hasApplications.value = !applications.isNullOrEmpty()
                 }
         }
     }

@@ -11,10 +11,12 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.MetadataChanges
 import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.storage.FirebaseStorage
-import com.grosianu.jobseeker.models.Application
-import com.grosianu.jobseeker.models.Resume
+import com.grosianu.jobseeker.models.*
 import kotlinx.coroutines.launch
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class ApplyCheckDetailsViewModel : ViewModel() {
@@ -25,15 +27,34 @@ class ApplyCheckDetailsViewModel : ViewModel() {
     private var _resume = MutableLiveData<Resume>()
     val resume: LiveData<Resume> = _resume
 
+    private var _user: User? = null
+    val user get() = _user
+
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
 
+    fun getUserData(postId: String, resumeId: String, message: String) {
+        viewModelScope.launch {
+            val userId = auth.currentUser?.uid.toString()
+            val docRef = db.collection("users").document(userId)
+            docRef.get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        _user = document.toObject<User>()
+
+                        createApplication(postId, resumeId, message)
+                    }
+                }
+        }
+    }
+
     fun createApplication(postId: String, resumeId: String, message: String) {
         val id: String = UUID.randomUUID().toString()
-        val applicantId: String = auth.currentUser?.uid.toString()
-        val applicantName: String = auth.currentUser?.displayName.toString()
-        val applicantImageUrl: String = auth.currentUser?.photoUrl.toString()
-        val applicantEmail: String = auth.currentUser?.email.toString()
+        val applicantId: String = user?.userId.toString()
+        val applicantName: String = user?.displayName.toString()
+        val applicantImageUrl: String =user?.imageUri.toString()
+        val applicantEmail: String = user?.userEmail.toString()
+        val applicantExperience: String = user?.experiencePosition.toString()
 
         _application.value = Application(
             id,
@@ -41,9 +62,12 @@ class ApplyCheckDetailsViewModel : ViewModel() {
             applicantName,
             applicantImageUrl,
             applicantEmail,
+            applicantExperience,
             postId,
             resumeId,
-            message
+            message,
+            seen = false,
+            confirmed = false,
         )
     }
 
@@ -65,6 +89,32 @@ class ApplyCheckDetailsViewModel : ViewModel() {
         viewModelScope.launch {
             val docRef = db.collection("posts").document(documentId)
             docRef.update("applicants", FieldValue.arrayUnion(auth.currentUser?.uid))
+            docRef.get().addOnSuccessListener { document ->
+                var post: Post? = null
+
+                if (document != null) {
+                    post = document.toObject<Post>()
+                }
+
+                if (post != null) {
+                    val timestamp = LocalDateTime.now()
+                    val formattedDate = "${timestamp.dayOfMonth} ${timestamp.month}, ${timestamp.year}"
+
+                    val news = News(
+                        id = UUID.randomUUID().toString(),
+                        userId = post.owner,
+                        title = "New application!",
+                        message = "Someone just applied to this post: ${post.title}.",
+                        seen = false,
+                        type = "NEW_APPLICATION",
+                        destinationId = application.value?.id.toString(),
+                        timestamp = formattedDate
+                    )
+
+                    val newsDocRef = db.collection("news").document(news.id.toString())
+                    newsDocRef.set(news)
+                }
+            }
         }
     }
 

@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.grosianu.jobseeker.models.Post
+import com.grosianu.jobseeker.models.User
 import kotlinx.coroutines.launch
 
 class OfferViewModel : ViewModel() {
@@ -18,6 +19,27 @@ class OfferViewModel : ViewModel() {
 
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
+
+    private var _isUserSetUp = false
+    val isUserSetUp get() = _isUserSetUp
+
+    fun isUserSetUp() {
+        viewModelScope.launch {
+            val userId = auth.currentUser?.uid.toString()
+            val docRef = db.collection("users").document(userId)
+            docRef.get()
+                .addOnSuccessListener { document ->
+                    var user: User? = null
+                    if (document != null) {
+                        user = document.toObject<User>()
+
+                        if(!user?.displayName.isNullOrEmpty()) {
+                            _isUserSetUp = true
+                        }
+                    }
+                }
+        }
+    }
 
     fun getPost(postId: String) {
         viewModelScope.launch {

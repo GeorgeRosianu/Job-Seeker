@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import com.google.android.material.checkbox.MaterialCheckBox
 import com.grosianu.jobseeker.databinding.ItemPostDiscoverBinding
 import com.grosianu.jobseeker.models.Post
 
@@ -48,5 +49,6 @@ class DiscoverAdapter(
         val application = getItem(position)
         holder.bind(application)
         holder.setButton(application)
+        holder.setFavorite(application)
     }
 }

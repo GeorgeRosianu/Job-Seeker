@@ -95,20 +95,21 @@ class CreateFragment : Fragment() {
     private fun getImageFromGallery() = imageFromGallery.launch("image/*")
 
     private fun uploadData() {
-        val fileName = UUID.randomUUID().toString()
-        val storageReference = storage.getReference("images/$fileName")
+        val filename = UUID.randomUUID().toString()
+        val storageReference = storage.getReference("images/$filename")
 
         storageReference.putFile(imageUri)
             .addOnSuccessListener {
                 storageReference.downloadUrl.addOnSuccessListener {
-                    uploadDataToFirestore(it.toString())
+                    val uri = it.toString()
+                    uploadDataToFirestore(uri, filename)
                 }
             }
             .addOnFailureListener {
             }
     }
 
-    private fun uploadDataToFirestore(image: String) {
+    private fun uploadDataToFirestore(image: String, filename: String) {
         val id: String = UUID.randomUUID().toString()
         val owner: String = FirebaseAuth.getInstance().currentUser?.uid.toString()
         val title: String = binding.titleEdit.text.toString()
@@ -137,7 +138,9 @@ class CreateFragment : Fragment() {
             description,
             tags,
             image,
-            null
+            filename,
+            null,
+            null,
         )
 
         db.collection("posts").document(id)

@@ -54,6 +54,15 @@ class MyApplicationsFragment: Fragment(), MyApplicationsAdapter.MyApplicationsAd
 
     private fun setupViews() {
         binding.lifecycleOwner = this
+
+        viewModel.hasApplications.observe(viewLifecycleOwner) {
+            if (it) {
+                binding.placeholderTextView.visibility = View.INVISIBLE
+            } else {
+                binding.placeholderTextView.visibility = View.VISIBLE
+            }
+        }
+
         binding.swipeView.setOnRefreshListener {
             refreshApplicationList()
         }
@@ -90,9 +99,5 @@ class MyApplicationsFragment: Fragment(), MyApplicationsAdapter.MyApplicationsAd
     private fun refreshApplicationList() {
         binding.swipeView.isRefreshing = false
         updateRecycleView()
-    }
-
-    private fun navigateToApply() {
-        // TODO Implement
     }
 }

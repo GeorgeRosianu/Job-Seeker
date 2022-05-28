@@ -1,5 +1,7 @@
 package com.grosianu.jobseeker.ui.home.destinations.applications.destinations.viewHolders
 
+import android.view.View
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.grosianu.jobseeker.databinding.ItemApplicantBinding
 import com.grosianu.jobseeker.models.Application
@@ -17,6 +19,7 @@ class ApplicantsViewHolder(
 
     fun bind(application: Application) {
         binding.application = application
+        binding.newApplicationIcon.isVisible = !application.seen
         binding.executePendingBindings()
     }
 }

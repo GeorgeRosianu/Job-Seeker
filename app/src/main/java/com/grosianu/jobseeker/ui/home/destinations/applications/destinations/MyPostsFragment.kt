@@ -52,13 +52,20 @@ class MyPostsFragment : Fragment(), MyPostsAdapter.MyPostsAdapterListener {
 
     private fun setupViews() {
         binding.lifecycleOwner = this
+
+        viewModel.hasPosts.observe(viewLifecycleOwner) {
+            if (it) {
+                binding.placeholderTextView.visibility = View.INVISIBLE
+            } else {
+                binding.placeholderTextView.visibility = View.VISIBLE
+            }
+        }
+
         binding.swipeView.setOnRefreshListener {
             refreshPostList()
         }
 
         binding.fabAddOffer.apply {
-//            setShowMotionSpecResource(R.animator.fab_show)
-//            setShowMotionSpecResource(R.animator.fab_hide)
             setOnClickListener {
                 navigateToCreate()
             }

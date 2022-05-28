@@ -71,7 +71,7 @@ class PostFragment : Fragment() {
             findNavController().navigate(directions)
         }
         binding.deleteBtn.setOnClickListener {
-            showAlertDialog()
+            alertConfirmation()
         }
     }
 
@@ -80,24 +80,16 @@ class PostFragment : Fragment() {
         binding.viewModel = viewModel
     }
 
-    private fun showAlertDialog() {
-        val alertDialog: AlertDialog.Builder = AlertDialog.Builder(requireContext())
-        alertDialog.setTitle("Delete")
-        alertDialog.setMessage("Are you sure you want to delete this post?")
-        alertDialog.setPositiveButton(
-            "Yes"
-        ) { _, _ ->
-            viewModel.deletePost(args.postId, requireContext())
-            findNavController().navigateUp()
-        }
-        alertDialog.setNegativeButton(
-            "No"
-        ) { _, _ ->
-
-        }
-        val alert: AlertDialog = alertDialog.create()
-        alert.setCanceledOnTouchOutside(true)
-        alert.show()
+    private fun alertConfirmation() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Delete")
+            .setMessage("Are you sure you want to delete this post?")
+            .setPositiveButton("Yes") { _, _ ->
+                viewModel.deletePost()
+                findNavController().navigateUp()
+            }
+            .setNegativeButton("No") { dialog, _ -> dialog.cancel() }
+            .show()
     }
 
     private fun setupSharedTransition() {

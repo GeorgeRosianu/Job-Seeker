@@ -76,7 +76,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:hint="Title"
                     app:boxStrokeColor="?attr/colorPrimary"
                     app:boxStrokeWidthFocused="2dp"

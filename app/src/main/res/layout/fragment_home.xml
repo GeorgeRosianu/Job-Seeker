@@ -19,21 +19,21 @@
             android:layout_height="match_parent"
             tools:context=".ui.home.destinations.home.HomeFragment">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/search_btn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="32dp"
-                android:layout_marginVertical="16dp"
-                android:backgroundTint="?attr/colorOnPrimary"
-                android:gravity="fill"
-                android:text="Search"
-                android:textColor="?attr/colorOnBackground"
-                app:icon="@drawable/ic_round_search_24"
-                app:iconTint="?attr/colorOnBackground"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+<!--            <com.google.android.material.button.MaterialButton-->
+<!--                android:id="@+id/search_btn"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginHorizontal="32dp"-->
+<!--                android:layout_marginVertical="16dp"-->
+<!--                android:backgroundTint="?attr/colorOnPrimary"-->
+<!--                android:gravity="fill"-->
+<!--                android:text="Search"-->
+<!--                android:textColor="?attr/colorOnBackground"-->
+<!--                app:icon="@drawable/ic_round_search_24"-->
+<!--                app:iconTint="?attr/colorOnBackground"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/posts_card_view"
@@ -44,7 +44,7 @@
                 app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/search_btn">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -63,10 +63,64 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/add_post_card_view"
+                        android:layout_width="300dp"
+                        android:layout_height="165dp"
+                        android:layout_marginHorizontal="8dp"
+                        android:layout_marginVertical="8dp"
+                        android:clickable="true"
+                        android:visibility="invisible"
+                        app:cardBackgroundColor="@android:color/transparent"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="0dp"
+                        app:cardPreventCornerOverlap="false"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/posts_text_view">
+
+                        <ImageView
+                            android:id="@+id/add_image_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
+                            android:contentDescription="Add"
+                            android:padding="170dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_round_add_24" />
+                    </com.google.android.material.card.MaterialCardView>
+
+<!--                    <com.facebook.shimmer.ShimmerFrameLayout-->
+<!--                        android:id="@+id/post_shimmer"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:elevation="1dp"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toBottomOf="@+id/posts_text_view">-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:orientation="horizontal">-->
+
+<!--                            <include layout="@layout/shimmer_home_horizontal" />-->
+
+<!--                            <include layout="@layout/shimmer_home_horizontal" />-->
+
+<!--                            <include layout="@layout/shimmer_home_horizontal" />-->
+
+<!--                            <include layout="@layout/shimmer_home_horizontal" />-->
+
+<!--                            <include layout="@layout/shimmer_home_horizontal" />-->
+<!--                        </LinearLayout>-->
+<!--                    </com.facebook.shimmer.ShimmerFrameLayout>-->
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/posts_recycler_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:elevation="1dp"
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -79,7 +133,7 @@
                         android:id="@+id/posts_btn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="-4dp"
+                        android:layout_marginTop="4dp"
                         android:background="@color/fui_transparent"
                         android:gravity="fill"
                         android:text="See all your posts"
@@ -90,7 +144,7 @@
                         app:iconTint="?attr/colorPrimary"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/posts_recycler_view" />
+                        app:layout_constraintTop_toBottomOf="@id/add_post_card_view" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -123,10 +177,38 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/apply_post_card_view"
+                        android:layout_width="300dp"
+                        android:layout_height="165dp"
+                        android:layout_marginHorizontal="8dp"
+                        android:layout_marginVertical="8dp"
+                        android:clickable="true"
+                        android:visibility="invisible"
+                        app:cardBackgroundColor="@android:color/transparent"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="0dp"
+                        app:cardPreventCornerOverlap="false"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/applications_text_view">
+
+                        <ImageView
+                            android:id="@+id/apply_image_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
+                            android:contentDescription="Apply"
+                            android:padding="170dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_round_add_24" />
+                    </com.google.android.material.card.MaterialCardView>
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/applications_recycler_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:elevation="1dp"
                         android:orientation="horizontal"
                         android:transitionGroup="true"
                         app:applicationListData2="@{viewModel.applications}"
@@ -140,7 +222,7 @@
                         android:id="@+id/applications_btn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="-4dp"
+                        android:layout_marginTop="4dp"
                         android:background="@color/fui_transparent"
                         android:gravity="fill"
                         android:text="See all your applications"
@@ -151,7 +233,68 @@
                         app:iconTint="?attr/colorPrimary"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/applications_recycler_view" />
+                        app:layout_constraintTop_toBottomOf="@id/apply_post_card_view" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/favorites_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="#00000000"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/applications_card_view">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/favorites_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:background="@color/fui_transparent"
+                        android:gravity="fill"
+                        android:text="Favorites"
+                        android:textAppearance="?attr/textAppearanceHeadline6"
+                        android:textColor="?attr/colorOnBackground"
+                        android:textSize="21sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/favorites_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:transitionGroup="true"
+                        app:favoritesListData="@{viewModel.favorites}"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/favorites_text_view"
+                        tools:listitem="@layout/item_favorites_home" />
+
+                    <!--                    <com.google.android.material.button.MaterialButton-->
+                    <!--                        android:id="@+id/favorites_btn"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginTop="-4dp"-->
+                    <!--                        android:background="@color/fui_transparent"-->
+                    <!--                        android:gravity="fill"-->
+                    <!--                        android:text="See all your applications"-->
+                    <!--                        android:textAppearance="?attr/textAppearanceBody2"-->
+                    <!--                        android:textColor="?attr/colorOnBackground"-->
+                    <!--                        app:icon="@drawable/ic_round_arrow_forward_24"-->
+                    <!--                        app:iconGravity="end"-->
+                    <!--                        app:iconTint="?attr/colorPrimary"-->
+                    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+                    <!--                        app:layout_constraintTop_toBottomOf="@id/favorites_recycler_view" />-->
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>

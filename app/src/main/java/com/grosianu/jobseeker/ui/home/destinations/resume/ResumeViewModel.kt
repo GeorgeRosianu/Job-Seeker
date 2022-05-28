@@ -23,6 +23,9 @@ class ResumeViewModel : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
 
+    private var _hasResume = MutableLiveData(false)
+    val hasResume: LiveData<Boolean> = _hasResume
+
     fun getResumeList() {
         viewModelScope.launch {
             val docRef = db.collection("resumes")
@@ -38,6 +41,7 @@ class ResumeViewModel : ViewModel() {
                         }
                     }
                     _resumes.value = resumes
+                    _hasResume.value = !resumes.isNullOrEmpty()
                 }
         }
     }
