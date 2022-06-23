@@ -27,32 +27,14 @@ class ApplyCheckDetailsViewModel : ViewModel() {
     private var _resume = MutableLiveData<Resume>()
     val resume: LiveData<Resume> = _resume
 
-    private var _user: User? = null
-    val user get() = _user
-
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
 
-    fun getUserData(postId: String, resumeId: String, message: String) {
-        viewModelScope.launch {
-            val userId = auth.currentUser?.uid.toString()
-            val docRef = db.collection("users").document(userId)
-            docRef.get()
-                .addOnSuccessListener { document ->
-                    if (document != null) {
-                        _user = document.toObject<User>()
-
-                        createApplication(postId, resumeId, message)
-                    }
-                }
-        }
-    }
-
-    fun createApplication(postId: String, resumeId: String, message: String) {
+    fun createApplication(user: User?, postId: String, resumeId: String, message: String) {
         val id: String = UUID.randomUUID().toString()
         val applicantId: String = user?.userId.toString()
         val applicantName: String = user?.displayName.toString()
-        val applicantImageUrl: String =user?.imageUri.toString()
+        val applicantImageUrl: String = user?.imageUri.toString()
         val applicantEmail: String = user?.userEmail.toString()
         val applicantExperience: String = user?.experiencePosition.toString()
 

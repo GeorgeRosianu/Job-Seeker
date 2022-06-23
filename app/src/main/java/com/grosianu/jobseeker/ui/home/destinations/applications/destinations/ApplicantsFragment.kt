@@ -7,20 +7,22 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.grosianu.jobseeker.databinding.FragmentApplicantsBinding
 import com.grosianu.jobseeker.models.Application
+import com.grosianu.jobseeker.ui.home.HomeActivityViewModel
 import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.adapters.ApplicantsAdapter
 import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.viewModels.ApplicantsViewModel
 
 class ApplicantsFragment : Fragment(), ApplicantsAdapter.ApplicantsAdapterListener {
 
-    private var _binding: FragmentApplicantsBinding? = null
-    private val binding get() = _binding!!
+    private var binding: FragmentApplicantsBinding? = null
 
     private val viewModel: ApplicantsViewModel by viewModels()
+    private val sharedViewModel: HomeActivityViewModel by activityViewModels()
     private val args: ApplicantsFragmentArgs by navArgs()
     private val applicantsAdapter = ApplicantsAdapter(this)
 
@@ -31,17 +33,14 @@ class ApplicantsFragment : Fragment(), ApplicantsAdapter.ApplicantsAdapterListen
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentApplicantsBinding.inflate(inflater, container, false)
-        return binding.root
+        val fragmentBinding = FragmentApplicantsBinding.inflate(inflater, container, false)
+        binding = fragmentBinding
+        return fragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initialization(view)
-    }
-
-    private fun initialization(view: View) {
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
 
@@ -50,39 +49,35 @@ class ApplicantsFragment : Fragment(), ApplicantsAdapter.ApplicantsAdapterListen
     }
 
     private fun setupViews() {
-        binding.lifecycleOwner = this
-        binding.swipeView.setOnRefreshListener {
+        binding?.lifecycleOwner = viewLifecycleOwner
+        binding?.swipeView?.setOnRefreshListener {
             refreshApplicantList()
         }
     }
 
     private fun setupViewModel() {
         viewModel.getApplicantList(args.postId)
-        binding.viewModel = viewModel
+        binding?.viewModel = viewModel
     }
 
     private fun updateRecycleView() {
         viewModel.getApplicantList(args.postId)
-        binding.viewModel = viewModel
-        binding.recyclerView.adapter = applicantsAdapter
+        binding?.viewModel = viewModel
+        binding?.recyclerView?.adapter = applicantsAdapter
     }
 
     private fun refreshApplicantList() {
-        binding.swipeView.isRefreshing = false
+        binding?.swipeView?.isRefreshing = false
         updateRecycleView()
     }
 
     override fun onApplicantClicked(cardView: View, application: Application) {
         val directions = ApplicantsFragmentDirections.actionApplicantsFragmentToApplicantFragment(application.applicantId.toString(), application.id.toString())
-        println("LIST ###############")
-        println(application.applicantId.toString())
-        println(application.id.toString())
-        println("####################")
         findNavController().navigate(directions)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        binding = null
     }
 }

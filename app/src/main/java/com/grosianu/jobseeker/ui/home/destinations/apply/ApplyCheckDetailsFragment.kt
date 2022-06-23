@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -15,14 +16,15 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.dialog.MaterialDialogs
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.FragmentApplyCheckDetailsBinding
+import com.grosianu.jobseeker.ui.home.HomeActivityViewModel
 import com.grosianu.jobseeker.ui.home.destinations.apply.viewModels.ApplyCheckDetailsViewModel
 
 class ApplyCheckDetailsFragment : Fragment() {
 
-    private var _binding: FragmentApplyCheckDetailsBinding? = null
-    private val binding get() = _binding!!
+    private var binding: FragmentApplyCheckDetailsBinding? = null
 
     private val viewModel: ApplyCheckDetailsViewModel by viewModels()
+    private val sharedViewModel: HomeActivityViewModel by activityViewModels()
     private val args: ApplyCheckDetailsFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -30,32 +32,33 @@ class ApplyCheckDetailsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentApplyCheckDetailsBinding.inflate(inflater, container, false)
-        return binding.root
+        val fragmentBinding = FragmentApplyCheckDetailsBinding.inflate(inflater, container, false)
+        binding = fragmentBinding
+        return fragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initialization()
-    }
-
-    private fun initialization() {
-        viewModel.getUserData(args.postId, args.resumeId, args.message)
         setupViews()
     }
 
     private fun setupViews() {
-        binding.viewModel = viewModel
-        binding.cancelIcon.setOnClickListener {
-            navigateBack()
-        }
-        binding.navigationIcon.setOnClickListener {
-            findNavController().navigateUp()
-        }
-        binding.message.text = args.message
-        binding.applyBtn.setOnClickListener {
-            alertConfirmation()
+        val user = sharedViewModel.currentAccount.value
+        viewModel.createApplication(user, args.postId, args.resumeId, args.message)
+
+        binding?.apply {
+            message.text = args.message
+
+            cancelIcon.setOnClickListener {
+                navigateBack()
+            }
+            navigationIcon.setOnClickListener {
+                findNavController().navigateUp()
+            }
+            applyBtn.setOnClickListener {
+                alertConfirmation()
+            }
         }
     }
 

@@ -27,9 +27,9 @@
         <item name="android:statusBarColor">@color/blue_50_alpha_060</item>
         <item name="android:navigationBarColor">@color/nav_bar</item>
 
-        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Reply.SmallComponent</item>
-        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Reply.MediumComponent</item>
-        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Reply.LargeComponent</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.JobSeeker.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.JobSeeker.MediumComponent</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.JobSeeker.LargeComponent</item>
 
         <!--Typography-->
         <item name="textAppearanceHeadline2">@style/TextAppearance.JobSeeker.Headline2</item>

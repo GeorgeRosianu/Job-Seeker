@@ -1,10 +1,12 @@
 package com.grosianu.jobseeker.models
 
+import com.google.firebase.firestore.DocumentSnapshot
+
 data class User(
     val userId: String = "",
     val displayName: String = "",
     val userEmail: String = "",
-    val imageUri: String = "",
+    var imageUri: String = "",
     var firstName: String = "",
     var lastName: String = "",
     var phoneNumber: String = "",

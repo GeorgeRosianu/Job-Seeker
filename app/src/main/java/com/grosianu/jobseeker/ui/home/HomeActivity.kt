@@ -100,11 +100,10 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
     }
 
     private fun setUpViews() {
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment_home) as NavHostFragment
+
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_home) as NavHostFragment
         navController = navHostFragment.navController
 
-        //val bottomAppBar: BottomAppBar = findViewById(R.id.bottom_app_bar)
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
         bottomNavigationView.setupWithNavController(navController)
 

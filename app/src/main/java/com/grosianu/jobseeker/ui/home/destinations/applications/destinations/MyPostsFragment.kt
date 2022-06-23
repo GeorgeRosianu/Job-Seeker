@@ -21,8 +21,7 @@ import kotlinx.coroutines.runBlocking
 
 class MyPostsFragment : Fragment(), MyPostsAdapter.MyPostsAdapterListener {
 
-    private var _binding: FragmentMyPostsBinding? = null
-    private val binding get() = _binding!!
+    private var binding: FragmentMyPostsBinding? = null
 
     private val viewModel: MyPostsViewModel by viewModels()
     private val myPostsAdapter = MyPostsAdapter(this)
@@ -32,17 +31,14 @@ class MyPostsFragment : Fragment(), MyPostsAdapter.MyPostsAdapterListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentMyPostsBinding.inflate(inflater, container, false)
-        return binding.root
+        val fragmentBinding = FragmentMyPostsBinding.inflate(inflater, container, false)
+        binding = fragmentBinding
+        return fragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initialization(view)
-    }
-
-    private fun initialization(view: View) {
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
 
@@ -51,21 +47,21 @@ class MyPostsFragment : Fragment(), MyPostsAdapter.MyPostsAdapterListener {
     }
 
     private fun setupViews() {
-        binding.lifecycleOwner = this
+        binding?.lifecycleOwner = viewLifecycleOwner
 
         viewModel.hasPosts.observe(viewLifecycleOwner) {
             if (it) {
-                binding.placeholderTextView.visibility = View.INVISIBLE
+                binding?.placeholderTextView?.visibility = View.INVISIBLE
             } else {
-                binding.placeholderTextView.visibility = View.VISIBLE
+                binding?.placeholderTextView?.visibility = View.VISIBLE
             }
         }
 
-        binding.swipeView.setOnRefreshListener {
+        binding?.swipeView?.setOnRefreshListener {
             refreshPostList()
         }
 
-        binding.fabAddOffer.apply {
+        binding?.fabAddOffer?.apply {
             setOnClickListener {
                 navigateToCreate()
             }
@@ -74,18 +70,18 @@ class MyPostsFragment : Fragment(), MyPostsAdapter.MyPostsAdapterListener {
 
     private fun setupViewModel() {
         viewModel.getPostList()
-        binding.viewModel = viewModel
+        binding?.viewModel = viewModel
     }
 
     private fun updateRecycleView() {
         viewModel.getPostList()
-        binding.viewModel = viewModel
-        binding.recyclerView.adapter = myPostsAdapter
+        binding?.viewModel = viewModel
+        binding?.recyclerView?.adapter = myPostsAdapter
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        binding = null
     }
 
     override fun onPostClicked(cardView: View, post: Post) {
@@ -106,7 +102,7 @@ class MyPostsFragment : Fragment(), MyPostsAdapter.MyPostsAdapterListener {
     }
 
     private fun refreshPostList() {
-        binding.swipeView.isRefreshing = false
+        binding?.swipeView?.isRefreshing = false
         updateRecycleView()
     }
 

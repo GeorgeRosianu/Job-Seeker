@@ -23,7 +23,6 @@ class ApplicantsViewModel : ViewModel() {
     val applicant: LiveData<Application> = _applicant
 
     private val db = FirebaseFirestore.getInstance()
-    private val auth = FirebaseAuth.getInstance()
 
     fun getApplicantList(postId: String) {
         val applicantsTemp = ArrayList<Application>()

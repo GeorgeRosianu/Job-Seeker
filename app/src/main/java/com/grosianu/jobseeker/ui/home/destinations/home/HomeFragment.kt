@@ -5,11 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialFadeThrough
 import com.grosianu.jobseeker.databinding.FragmentHomeBinding
 import com.grosianu.jobseeker.models.Post
+import com.grosianu.jobseeker.ui.home.HomeActivityViewModel
 import com.grosianu.jobseeker.ui.home.destinations.home.adapters.ApplicationsAdapter
 import com.grosianu.jobseeker.ui.home.destinations.home.adapters.FavoritesAdapter
 import com.grosianu.jobseeker.ui.home.destinations.home.adapters.PostsAdapter
@@ -18,10 +20,10 @@ import com.grosianu.jobseeker.ui.home.destinations.home.viewModels.HomeViewModel
 class HomeFragment : Fragment(), PostsAdapter.PostsAdapterListener,
     ApplicationsAdapter.ApplicationsAdapterListener, FavoritesAdapter.FavoritesAdapterListener {
 
-    private var _binding: FragmentHomeBinding? = null
-    private val binding get() = _binding!!
+    private var binding: FragmentHomeBinding? = null
 
     private val viewModel: HomeViewModel by viewModels()
+
     private val postsAdapter = PostsAdapter(this)
     private val applicationsAdapter = ApplicationsAdapter(this)
     private val favoritesAdapter = FavoritesAdapter(this)
@@ -31,48 +33,45 @@ class HomeFragment : Fragment(), PostsAdapter.PostsAdapterListener,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        return binding.root
+        val fragmentBinding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = fragmentBinding
+        return fragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initialization()
-    }
-
-    private fun initialization() {
         updateRecycleView()
         setupViews()
     }
 
     private fun setupViews() {
-        binding.lifecycleOwner = this
+        binding?.lifecycleOwner = viewLifecycleOwner
 
         viewModel.hasPosts.observe(viewLifecycleOwner) {
             if (!it) {
-                binding.addPostCardView.visibility = View.VISIBLE
+                binding?.addPostCardView?.visibility = View.VISIBLE
             } else {
-                binding.addPostCardView.visibility = View.INVISIBLE
+                binding?.addPostCardView?.visibility = View.INVISIBLE
             }
         }
 
         viewModel.hasApplications.observe(viewLifecycleOwner) {
             if (!it) {
-                binding.applyPostCardView.visibility = View.VISIBLE
+                binding?.applyPostCardView?.visibility = View.VISIBLE
             } else {
-                binding.applyPostCardView.visibility = View.INVISIBLE
+                binding?.applyPostCardView?.visibility = View.INVISIBLE
             }
         }
 
-        binding.addImageView.setOnClickListener {
+        binding?.addImageView?.setOnClickListener {
             val directions = HomeFragmentDirections.actionHomeFragmentToCreateFragment()
             findNavController().navigate(directions)
         }
-        binding.postsBtn.setOnClickListener {
+        binding?.postsBtn?.setOnClickListener {
             navigateToPosts()
         }
-        binding.applicationsBtn.setOnClickListener {
+        binding?.applicationsBtn?.setOnClickListener {
             navigateToApplications()
         }
     }
@@ -81,22 +80,24 @@ class HomeFragment : Fragment(), PostsAdapter.PostsAdapterListener,
         viewModel.getPostList()
         viewModel.getApplicationList()
         viewModel.getFavoritesList()
-        binding.viewModel = viewModel
+        binding?.viewModel = viewModel
     }
 
     private fun updateRecycleView() {
         viewModel.getPostList()
         viewModel.getApplicationList()
         viewModel.getFavoritesList()
-        binding.viewModel = viewModel
-        binding.postsRecyclerView.adapter = postsAdapter
-        binding.applicationsRecyclerView.adapter = applicationsAdapter
-        binding.favoritesRecyclerView.adapter = favoritesAdapter
+
+        binding?.viewModel = viewModel
+
+        binding?.postsRecyclerView?.adapter = postsAdapter
+        binding?.applicationsRecyclerView?.adapter = applicationsAdapter
+        binding?.favoritesRecyclerView?.adapter = favoritesAdapter
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        binding = null
     }
 
     override fun onPostClicked(cardView: View, post: Post) {

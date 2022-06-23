@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -17,13 +18,13 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.google.firebase.auth.FirebaseAuth
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.FragmentApplicationBinding
+import com.grosianu.jobseeker.ui.home.HomeActivityViewModel
 import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.viewModels.ApplicationViewModel
 import com.grosianu.jobseeker.utils.themeColor
 
 class ApplicationFragment : Fragment() {
 
-    private var _binding: FragmentApplicationBinding? = null
-    private val binding get() = _binding!!
+    private var binding: FragmentApplicationBinding? = null
 
     private val viewModel: ApplicationViewModel by viewModels()
     private val args: ApplicationFragmentArgs by navArgs()
@@ -33,8 +34,9 @@ class ApplicationFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentApplicationBinding.inflate(inflater, container, false)
-        return binding.root
+        val fragmentBinding = FragmentApplicationBinding.inflate(inflater, container, false)
+        binding = fragmentBinding
+        return fragmentBinding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,35 +48,31 @@ class ApplicationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initialization()
-    }
-
-    private fun initialization() {
         setupViewModel()
         setupViews()
     }
 
     private fun setupViews() {
-        binding.lifecycleOwner = viewLifecycleOwner
+        binding?.lifecycleOwner = viewLifecycleOwner
 
         viewModel.hasBeenConfirmed.observe(viewLifecycleOwner) {
             if (it) {
-                binding.deleteBtn.visibility = View.GONE
+                binding?.deleteBtn?.visibility = View.GONE
             } else {
-                binding.deleteBtn.visibility = View.VISIBLE
+                binding?.deleteBtn?.visibility = View.VISIBLE
             }
         }
-        binding.navigationIcon.setOnClickListener {
+        binding?.navigationIcon?.setOnClickListener {
             findNavController().navigateUp()
         }
-        binding.deleteBtn.setOnClickListener {
+        binding?.deleteBtn?.setOnClickListener {
             alertConfirmation()
         }
     }
 
     private fun setupViewModel() {
         viewModel.getPost(args.postId)
-        binding.viewModel = viewModel
+        binding?.viewModel = viewModel
     }
 
     private fun setupSharedTransition() {

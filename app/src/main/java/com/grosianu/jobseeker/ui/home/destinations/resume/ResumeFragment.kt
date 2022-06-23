@@ -16,30 +16,20 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.FragmentResumeBinding
 import com.grosianu.jobseeker.models.Resume
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
-
+import com.grosianu.jobseeker.ui.home.HomeActivityViewModel
 
 class ResumeFragment : Fragment(), ResumeAdapter.ResumeAdapterListener {
 
-    private var _binding: FragmentResumeBinding? = null
-    private val binding get() = _binding!!
-
-    private val db = FirebaseFirestore.getInstance()
-    private val storage = FirebaseStorage.getInstance()
-    private val auth = FirebaseAuth.getInstance()
+    private var binding: FragmentResumeBinding? = null
 
     private val viewModel: ResumeViewModel by viewModels()
+    private val sharedViewModel: HomeActivityViewModel by activityViewModels()
     private val resumeAdapter = ResumeAdapter(this)
 
     private var isFabOpen: Boolean = false;
@@ -59,9 +49,9 @@ class ResumeFragment : Fragment(), ResumeAdapter.ResumeAdapterListener {
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (binding.fabCheck.isVisible) {
-                    binding.fabCheck.hide()
-                    binding.fab.show()
+                if (binding?.fabCheck?.isVisible == true) {
+                    binding?.fabCheck?.hide()
+                    binding?.fab?.show()
                 } else if (isFabOpen) {
                     hideFabMenu()
                 } else {
@@ -77,33 +67,30 @@ class ResumeFragment : Fragment(), ResumeAdapter.ResumeAdapterListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentResumeBinding.inflate(inflater, container, false)
-        return binding.root
+        val fragmentBinding = FragmentResumeBinding.inflate(inflater, container, false)
+        binding = fragmentBinding
+        return fragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initialization()
-    }
-
-    private fun initialization() {
         updateRecyclerView()
         setupViews()
     }
 
     private fun setupViews() {
-        binding.lifecycleOwner = this
+        binding?.lifecycleOwner = viewLifecycleOwner
 
         viewModel.hasResume.observe(viewLifecycleOwner) {
             if (it) {
-                binding.placeholderTextView.visibility = View.INVISIBLE
+                binding?.placeholderTextView?.visibility = View.INVISIBLE
             } else {
-                binding.placeholderTextView.visibility = View.VISIBLE
+                binding?.placeholderTextView?.visibility = View.VISIBLE
             }
         }
 
-        binding.fab.apply {
+        binding?.fab?.apply {
             setOnClickListener {
                 if (!isFabOpen) {
                     showFabMenu()
@@ -112,96 +99,36 @@ class ResumeFragment : Fragment(), ResumeAdapter.ResumeAdapterListener {
                 }
             }
         }
-        binding.fabCreate.setOnClickListener {
+        binding?.fabCreate?.setOnClickListener {
 
         }
-        binding.fabUpload.setOnClickListener {
+        binding?.fabUpload?.setOnClickListener {
             getFileFromGallery()
             hideFabMenu()
-            binding.fab.visibility = View.INVISIBLE
-            binding.fabCheck.show()
+            binding?.fab?.visibility = View.INVISIBLE
+            binding?.fabCheck?.show()
         }
-        binding.fabCheck.setOnClickListener {
-            binding.fabCheck.hide()
-            binding.fab.show()
+        binding?.fabCheck?.setOnClickListener {
+            binding?.fabCheck?.hide()
+            binding?.fab?.show()
 
             if (this::fileUri.isInitialized) {
-                uploadFileToFirestore()
+                val fileName = getFileNameFromUri(requireContext(), fileUri)
+                viewModel.updateFirestoreData(fileUri, fileName.toString())
             }
         }
-        binding.fabBgLayout.setOnClickListener {
+        binding?.fabBgLayout?.setOnClickListener {
             hideFabMenu()
         }
-    }
-
-    private fun setupViewModel() {
-        viewModel.getResumeList()
-        binding.viewModel = viewModel
     }
 
     private fun updateRecyclerView() {
         viewModel.getResumeList()
-        binding.viewModel = viewModel
-        binding.recyclerView.adapter = resumeAdapter
+        binding?.viewModel = viewModel
+        binding?.recyclerView?.adapter = resumeAdapter
     }
 
     private fun getFileFromGallery() = fileFromGallery.launch("application/pdf")
-
-    private fun uploadFileToFirestore() {
-        val fileName = UUID.randomUUID().toString()
-        val storageRef = storage.getReference("resumes/$fileName")
-
-        storageRef.putFile(fileUri)
-            .addOnSuccessListener {
-                storageRef.downloadUrl.addOnSuccessListener {
-                    updateFirestoreUserData(it.toString())
-                }
-            }
-    }
-
-    private fun updateFirestoreUserData(firestoreFileUri: String) {
-        val id: String = UUID.randomUUID().toString()
-        val url: String = firestoreFileUri
-        val owner = auth.currentUser?.uid.toString()
-        val title: String?
-        val applicationTitle = auth.currentUser?.displayName.toString().replace(" ", "_").lowercase()
-        val dateCreated = getDate()
-
-        fileUri.let { uri ->
-            val filename = getFileNameFromUri(requireContext(), uri)
-            title = filename
-        }
-
-        val resume = Resume(
-            id,
-            url,
-            owner,
-            title,
-            applicationTitle,
-            null,
-            dateCreated,
-        )
-
-        db.collection("resumes").document(id)
-            .set(resume)
-            .addOnSuccessListener {
-            }
-    }
-
-    private fun getPdfPreviewImage(filePath: File): String {
-        val fileDescriptor =
-            ParcelFileDescriptor.open(filePath, ParcelFileDescriptor.MODE_READ_ONLY)
-        val renderer = PdfRenderer(fileDescriptor)
-        val page = renderer.openPage(0)
-
-        val bao = ByteArrayOutputStream()
-        val bitmap = Bitmap.createBitmap(page.width, page.height, Bitmap.Config.ARGB_8888)
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bao)
-        bitmap.recycle()
-        val byteArray = bao.toByteArray()
-
-        return Base64.getEncoder().encodeToString(byteArray)
-    }
 
     private fun getFileNameFromUri(context: Context, uri: Uri): String? {
         val fileName: String?
@@ -213,37 +140,8 @@ class ResumeFragment : Fragment(), ResumeAdapter.ResumeAdapterListener {
         return fileName
     }
 
-    private fun getCurrentMonth(month: String): String {
-        return when (month) {
-            "01" -> "Jan"
-            "02" -> "Feb"
-            "03" -> "Mar"
-            "04" -> "Apr"
-            "05" -> "May"
-            "06" -> "Jun"
-            "07" -> "Jul"
-            "08" -> "Aug"
-            "09" -> "Sep"
-            "10" -> "Oct"
-            "11" -> "Nov"
-            "12" -> "Dec"
-            else -> {
-                ""
-            }
-        }
-    }
-
-    private fun getDate(): String {
-        val sdf = SimpleDateFormat("dd, yyyy", Locale.getDefault())
-        val date = sdf.format(Date()).toString()
-        val dateFormat = SimpleDateFormat("MM", Locale.getDefault())
-        val month = getCurrentMonth(dateFormat.format(Date()).toString())
-
-        return "$month $date"
-    }
-
     private fun hideFabMenu() {
-        binding.apply {
+        binding?.apply {
 
             fabBgLayout.visibility = View.GONE
             fab.animate().rotation(0F)
@@ -280,7 +178,7 @@ class ResumeFragment : Fragment(), ResumeAdapter.ResumeAdapterListener {
     }
 
     private fun showFabMenu() {
-        binding.apply {
+        binding?.apply {
 
             fabBgLayout.visibility = View.VISIBLE
             fab.animate().rotationBy(135F)

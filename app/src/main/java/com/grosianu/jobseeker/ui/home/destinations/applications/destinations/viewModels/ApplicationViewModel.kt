@@ -42,7 +42,7 @@ class ApplicationViewModel : ViewModel() {
         }
     }
 
-    fun checkIfConfirmed() {
+    private fun checkIfConfirmed() {
         viewModelScope.launch {
             val docRef = db.collection("applications")
                 .whereEqualTo("postId", post.value?.id)

@@ -48,7 +48,4 @@ class AccountViewModel : ViewModel() {
     fun signOut() {
         auth.signOut()
     }
-
-    init {
-    }
 }

@@ -17,14 +17,14 @@ class HomeViewModel : ViewModel() {
     private var _posts = MutableLiveData<List<Post>>()
     val posts: LiveData<List<Post>> = _posts
 
-    private var _post = MutableLiveData<Post>()
-    val post: LiveData<Post> = _post
+//    private var _post = MutableLiveData<Post>()
+//    val post: LiveData<Post> = _post
 
     private var _applications = MutableLiveData<List<Post>>()
     val applications: LiveData<List<Post>> = _applications
 
-    private var _applicationInfo = MutableLiveData<Post>()
-    val applicationInfo: LiveData<Post> = _applicationInfo
+//    private var _applicationInfo = MutableLiveData<Post>()
+//    val applicationInfo: LiveData<Post> = _applicationInfo
 
     private var _favorites = MutableLiveData<List<Post>>()
     val favorites: LiveData<List<Post>> = _favorites

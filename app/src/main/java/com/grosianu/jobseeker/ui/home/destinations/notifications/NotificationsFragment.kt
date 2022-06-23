@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -13,14 +14,15 @@ import com.google.android.material.transition.MaterialElevationScale
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.FragmentNotificationsBinding
 import com.grosianu.jobseeker.models.News
+import com.grosianu.jobseeker.ui.home.HomeActivityViewModel
 import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.MyApplicationsFragmentDirections
 
 class NotificationsFragment : Fragment(), NotificationsAdapter.NotificationsAdapterListener {
 
-    private var _binding: FragmentNotificationsBinding? = null
-    private val binding get() = _binding!!
+    private var binding: FragmentNotificationsBinding? = null
 
     private val viewModel: NotificationsViewModel by viewModels()
+    private val sharedViewModel: HomeActivityViewModel by activityViewModels()
     private val notificationsAdapter = NotificationsAdapter(this)
 
     override fun onCreateView(
@@ -28,17 +30,14 @@ class NotificationsFragment : Fragment(), NotificationsAdapter.NotificationsAdap
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
-        return binding.root
+        val fragmentBinding = FragmentNotificationsBinding.inflate(inflater, container, false)
+        binding = fragmentBinding
+        return fragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initialization(view)
-    }
-
-    private fun initialization(view: View) {
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
 
@@ -47,35 +46,35 @@ class NotificationsFragment : Fragment(), NotificationsAdapter.NotificationsAdap
     }
 
     private fun setupViews() {
-        binding.lifecycleOwner = this
+        binding?.lifecycleOwner = viewLifecycleOwner
 
         viewModel.hasNews.observe(viewLifecycleOwner) {
             if (it) {
-                binding.placeholderTextView.visibility = View.INVISIBLE
+                binding?.placeholderTextView?.visibility = View.INVISIBLE
             } else {
-                binding.placeholderTextView.visibility = View.VISIBLE
+                binding?.placeholderTextView?.visibility = View.VISIBLE
             }
         }
 
-        binding.swipeView.setOnRefreshListener {
+        binding?.swipeView?.setOnRefreshListener {
             refreshNewsList()
         }
     }
 
     private fun updateRecycleView() {
         viewModel.getContent()
-        binding.viewModel = viewModel
-        binding.recyclerView.adapter = notificationsAdapter
+        binding?.viewModel = viewModel
+        binding?.recyclerView?.adapter = notificationsAdapter
     }
 
     private fun refreshNewsList() {
-        binding.swipeView.isRefreshing = false
+        binding?.swipeView?.isRefreshing = false
         updateRecycleView()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        binding = null
     }
 
     override fun onItemClicked(cardView: View, item: News) {

@@ -18,28 +18,6 @@ class OfferViewModel : ViewModel() {
     val post: LiveData<Post> = _post
 
     private val db = FirebaseFirestore.getInstance()
-    private val auth = FirebaseAuth.getInstance()
-
-    private var _isUserSetUp = false
-    val isUserSetUp get() = _isUserSetUp
-
-    fun isUserSetUp() {
-        viewModelScope.launch {
-            val userId = auth.currentUser?.uid.toString()
-            val docRef = db.collection("users").document(userId)
-            docRef.get()
-                .addOnSuccessListener { document ->
-                    var user: User? = null
-                    if (document != null) {
-                        user = document.toObject<User>()
-
-                        if(!user?.displayName.isNullOrEmpty()) {
-                            _isUserSetUp = true
-                        }
-                    }
-                }
-        }
-    }
 
     fun getPost(postId: String) {
         viewModelScope.launch {

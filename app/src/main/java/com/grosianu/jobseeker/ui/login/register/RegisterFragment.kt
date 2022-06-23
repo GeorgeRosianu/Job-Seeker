@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.grosianu.jobseeker.databinding.FragmentRegisterBinding
 
 class RegisterFragment : Fragment() {
@@ -52,8 +53,7 @@ class RegisterFragment : Fragment() {
                                 "Account successfully created",
                                 Toast.LENGTH_LONG
                             ).show()
-                            val action =
-                                RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
+                            val action = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
                             this.findNavController().navigate(action)
                         } else {
                             Toast.makeText(

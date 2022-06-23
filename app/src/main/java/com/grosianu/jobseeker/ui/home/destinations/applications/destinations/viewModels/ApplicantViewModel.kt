@@ -70,7 +70,7 @@ class ApplicantViewModel : ViewModel() {
         }
     }
 
-    fun getUserResume(resumeId: String) {
+    private fun getUserResume(resumeId: String) {
         viewModelScope.launch {
             val docRef = db.collection("resumes").document(resumeId)
             docRef.addSnapshotListener(MetadataChanges.INCLUDE) { document, e ->

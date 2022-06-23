@@ -11,11 +11,26 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
 
 exports.addUserToFirestore = functions.auth.user().onCreate((user) => {
   const usersRef = admin.firestore().collection("users");
+  let username = "";
+  let image = "";
+
+  if (user.displayName == null) {
+    username = "User";
+  } else {
+    username = user.displayName;
+  }
+
+  if (user.photoURL == null) {
+    image = "";
+  } else {
+    image = user.photoURL;
+  }
+
   return usersRef.doc(user.uid).set({
     userId: user.uid,
-    displayName: user.displayName,
+    displayName: username,
     userEmail: user.email,
-    imageUri: user.photoURL,
+    imageUri: image,
     firstName: "",
     lastName: "",
     phoneNumber: "",

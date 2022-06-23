@@ -18,8 +18,7 @@ import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.vie
 
 class MyApplicationsFragment: Fragment(), MyApplicationsAdapter.MyApplicationsAdapterListener {
 
-    private var _binding: FragmentMyApplicationsBinding? = null
-    private val binding get() = _binding!!
+    private var binding: FragmentMyApplicationsBinding? = null
 
     private val viewModel: MyApplicationsViewModel by viewModels()
     private val myApplicationsAdapter = MyApplicationsAdapter(this)
@@ -29,17 +28,14 @@ class MyApplicationsFragment: Fragment(), MyApplicationsAdapter.MyApplicationsAd
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentMyApplicationsBinding.inflate(inflater, container, false)
-        return binding.root
+        val fragmentBinding = FragmentMyApplicationsBinding.inflate(inflater, container, false)
+        binding = fragmentBinding
+        return fragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initialization(view)
-    }
-
-    private fun initialization(view: View) {
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
 
@@ -47,36 +43,31 @@ class MyApplicationsFragment: Fragment(), MyApplicationsAdapter.MyApplicationsAd
         setupViews()
     }
 
-    private fun setupViewModel() {
-        viewModel.getPostList()
-        binding.viewModel = viewModel
-    }
-
     private fun setupViews() {
-        binding.lifecycleOwner = this
+        binding?.lifecycleOwner = viewLifecycleOwner
 
         viewModel.hasApplications.observe(viewLifecycleOwner) {
             if (it) {
-                binding.placeholderTextView.visibility = View.INVISIBLE
+                binding?.placeholderTextView?.visibility = View.INVISIBLE
             } else {
-                binding.placeholderTextView.visibility = View.VISIBLE
+                binding?.placeholderTextView?.visibility = View.VISIBLE
             }
         }
 
-        binding.swipeView.setOnRefreshListener {
+        binding?.swipeView?.setOnRefreshListener {
             refreshApplicationList()
         }
     }
 
     private fun updateRecycleView() {
         viewModel.getPostList()
-        binding.viewModel = viewModel
-        binding.recyclerView.adapter = myApplicationsAdapter
+        binding?.viewModel = viewModel
+        binding?.recyclerView?.adapter = myApplicationsAdapter
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        binding = null
     }
 
     override fun onPostClicked(cardView: View, post: Post) {
@@ -97,7 +88,7 @@ class MyApplicationsFragment: Fragment(), MyApplicationsAdapter.MyApplicationsAd
     }
 
     private fun refreshApplicationList() {
-        binding.swipeView.isRefreshing = false
+        binding?.swipeView?.isRefreshing = false
         updateRecycleView()
     }
 }

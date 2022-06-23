@@ -2,9 +2,12 @@ package com.grosianu.jobseeker.ui.home.destinations.discover
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -15,14 +18,15 @@ import com.google.android.material.transition.MaterialFade
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.FragmentDiscoverBinding
 import com.grosianu.jobseeker.models.Post
+import com.grosianu.jobseeker.ui.home.HomeActivityViewModel
 import com.grosianu.jobseeker.utils.FilterPopUpDialog
 
 class DiscoverFragment : Fragment(), DiscoverAdapter.DiscoverAdapterListener {
 
-    private var _binding: FragmentDiscoverBinding? = null
-    private val binding get() = _binding!!
+    private var binding: FragmentDiscoverBinding? = null
 
     private val viewModel: DiscoverViewModel by viewModels()
+    private val sharedViewModel: HomeActivityViewModel by activityViewModels()
     private val discoverAdapter = DiscoverAdapter(this)
 
     private var asc: Boolean = true
@@ -32,17 +36,14 @@ class DiscoverFragment : Fragment(), DiscoverAdapter.DiscoverAdapterListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentDiscoverBinding.inflate(inflater, container, false)
-        return binding.root
+        val fragmentBinding = FragmentDiscoverBinding.inflate(inflater, container, false)
+        binding = fragmentBinding
+        return fragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initialization(view)
-    }
-
-    private fun initialization(view: View) {
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
 
@@ -51,51 +52,45 @@ class DiscoverFragment : Fragment(), DiscoverAdapter.DiscoverAdapterListener {
     }
 
     private fun setupViews() {
-        binding.lifecycleOwner = this
-        binding.swipeView.setOnRefreshListener {
-            refreshPostList()
-        }
+        binding?.apply {
+            lifecycleOwner = viewLifecycleOwner
 
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextChange(p0: String?): Boolean {
-                if (p0 != null && p0.isNotEmpty()) {
-                    searchPostList(p0)
-                } else {
-                    updateRecycleView()
+            swipeView.setOnRefreshListener {
+                refreshPostList()
+            }
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextChange(p0: String?): Boolean {
+                    if (p0 != null && p0.isNotEmpty()) {
+                        searchPostList(p0)
+                    } else {
+                        updateRecycleView()
+                    }
+                    return true
                 }
-                return true
+
+                override fun onQueryTextSubmit(p0: String?): Boolean {
+                    searchView.clearFocus()
+                    return true
+                }
+            })
+            filterButton.setOnClickListener {
+                filterPostList()
             }
-
-            override fun onQueryTextSubmit(p0: String?): Boolean {
-                binding.searchView.clearFocus()
-                return true
+            sortButton.setOnClickListener {
+                sortPostList()
             }
-        })
-
-        binding.filterButton.setOnClickListener {
-            filterPostList()
         }
-        binding.sortButton.setOnClickListener {
-            sortPostList()
-        }
-    }
-
-    private fun setupViewModel() {
-        viewModel.isUserSetUp()
-        viewModel.getPostList()
-        binding.viewModel = viewModel
     }
 
     private fun updateRecycleView() {
-        viewModel.isUserSetUp()
         viewModel.getPostList()
-        binding.viewModel = viewModel
-        binding.recyclerView.adapter = discoverAdapter
+        binding?.viewModel = viewModel
+        binding?.recyclerView?.adapter = discoverAdapter
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        binding = null
     }
 
     override fun onPostClicked(cardView: View, post: Post) {
@@ -117,13 +112,20 @@ class DiscoverFragment : Fragment(), DiscoverAdapter.DiscoverAdapterListener {
 
     override fun onApplyClicked(post: Post) {
         val start = "discover"
-        val directions = DiscoverFragmentDirections.actionGlobalApplySelectResumeFragment(post.id.toString(), start, viewModel.isUserSetUp)
-        findNavController().navigate(directions)
+        val isUserSetUp = sharedViewModel.isUserSetUp.value ?: false
+        val hasResumes = sharedViewModel.hasResumes.value ?: false
+        val directions = DiscoverFragmentDirections.actionGlobalApplySelectResumeFragment(post.id.toString(), start, isUserSetUp)
+
+        if (hasResumes || isUserSetUp) {
+            findNavController().navigate(directions)
+        } else {
+            alertMissingInfo()
+        }
     }
 
     override fun onAddFavoriteClicked(view: View, post: Post) {
         viewModel.addToFavorite(post)
-        binding.viewModel = viewModel
+        binding?.viewModel = viewModel
     }
 
     override fun onStart() {
@@ -155,14 +157,14 @@ class DiscoverFragment : Fragment(), DiscoverAdapter.DiscoverAdapterListener {
     }
 
     private fun refreshPostList() {
-        binding.swipeView.isRefreshing = false
+        binding?.swipeView?.isRefreshing = false
         updateRecycleView()
     }
 
     private fun searchPostList(string: String) {
         viewModel.search(string)
-        binding.viewModel = viewModel
-        binding.recyclerView.adapter = discoverAdapter
+        binding?.viewModel = viewModel
+        binding?.recyclerView?.adapter = discoverAdapter
     }
 
     private fun filterPostList() {
@@ -175,9 +177,9 @@ class DiscoverFragment : Fragment(), DiscoverAdapter.DiscoverAdapterListener {
 
             if (result != null && !result.isNullOrEmpty()) {
                 viewModel.filter(result)
-                binding.viewModel = viewModel
-                binding.recyclerView.adapter = discoverAdapter
-                binding.recyclerView.layoutManager?.scrollToPosition(0)
+                binding?.viewModel = viewModel
+                binding?.recyclerView?.adapter = discoverAdapter
+                binding?.recyclerView?.layoutManager?.scrollToPosition(0)
             } else {
                 updateRecycleView()
             }
@@ -186,9 +188,17 @@ class DiscoverFragment : Fragment(), DiscoverAdapter.DiscoverAdapterListener {
 
     private fun sortPostList() {
         viewModel.sort(asc)
-        binding.viewModel = viewModel
-        binding.recyclerView.adapter = discoverAdapter
-        binding.recyclerView.layoutManager?.scrollToPosition(0)
+        binding?.viewModel = viewModel
+        binding?.recyclerView?.adapter = discoverAdapter
+        binding?.recyclerView?.layoutManager?.scrollToPosition(0)
         asc = !asc
+    }
+
+    private fun alertMissingInfo() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Your profile is not set up!")
+            .setMessage("Please complete your profile or upload a CV to apply.")
+            .setPositiveButton("Ok") { dialog, _ -> dialog.cancel() }
+            .show()
     }
 }

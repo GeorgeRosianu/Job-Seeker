@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -13,29 +14,24 @@ import com.google.firebase.auth.FirebaseAuth
 import com.grosianu.jobseeker.databinding.FragmentApplyChooseResumeBinding
 import com.grosianu.jobseeker.models.Resume
 import com.grosianu.jobseeker.ui.home.HomeActivity
+import com.grosianu.jobseeker.ui.home.HomeActivityViewModel
 import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.OfferFragment
 import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.OfferFragmentDirections
 import com.grosianu.jobseeker.ui.home.destinations.apply.adapters.ApplySelectResumeAdapter
 import com.grosianu.jobseeker.ui.home.destinations.apply.viewModels.ApplySelectResumeViewModel
 import com.grosianu.jobseeker.ui.home.destinations.discover.DiscoverFragmentDirections
 
-class ApplySelectResumeFragment :
-    Fragment(), ApplySelectResumeAdapter.ApplySelectResumeAdapterListener {
+class ApplySelectResumeFragment : Fragment(), ApplySelectResumeAdapter.ApplySelectResumeAdapterListener {
 
-    private var _binding: FragmentApplyChooseResumeBinding? = null
-    private val binding get() = _binding!!
-
+    private var binding: FragmentApplyChooseResumeBinding? = null
     private val viewModel: ApplySelectResumeViewModel by viewModels()
+    private val sharedViewModel: HomeActivityViewModel by activityViewModels()
     private val adapter = ApplySelectResumeAdapter(this)
-
     private val args: ApplySelectResumeFragmentArgs by navArgs()
-
-    private val auth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val username = auth.currentUser?.displayName?.substringBefore(" ").toString()
         if (!args.isUserSetUp) {
             val directions = if (args.start == "post") {
                 OfferFragmentDirections.actionOfferFragmentToAccountDetailsFragment()
@@ -52,40 +48,37 @@ class ApplySelectResumeFragment :
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentApplyChooseResumeBinding.inflate(inflater, container, false)
-        return binding.root
+        val fragmentBinding = FragmentApplyChooseResumeBinding.inflate(inflater, container, false)
+        binding = fragmentBinding
+        return fragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initialization()
-    }
-
-    private fun initialization() {
         updateRecyclerView()
         setupViews()
     }
 
     private fun setupViews() {
-        binding.lifecycleOwner = this
-        binding.cancelIcon.setOnClickListener {
-            navigateBack()
-        }
-        binding.navigationIcon.setOnClickListener {
-            findNavController().navigateUp()
-        }
-    }
+        sharedViewModel.getResumeList()
+        binding?.apply {
+            lifecycleOwner = viewLifecycleOwner
 
-    private fun setupViewModel() {
-        viewModel.getResumeList()
-        binding.viewModel = viewModel
+            cancelIcon.setOnClickListener {
+                navigateBack()
+            }
+            navigationIcon.setOnClickListener {
+                findNavController().navigateUp()
+            }
+        }
     }
 
     private fun updateRecyclerView() {
-        viewModel.getResumeList()
-        binding.viewModel = viewModel
-        binding.recyclerView.adapter = adapter
+        binding?.apply {
+            viewModel = sharedViewModel
+            recyclerView.adapter = adapter
+        }
     }
 
     override fun onResumeClicked(resume: Resume) {

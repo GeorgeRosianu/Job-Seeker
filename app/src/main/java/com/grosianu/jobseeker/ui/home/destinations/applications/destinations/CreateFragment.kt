@@ -26,8 +26,7 @@ import java.util.*
 
 class CreateFragment : Fragment() {
 
-    private var _binding: FragmentCreateBinding? = null
-    private val binding get() = _binding!!
+    private var binding: FragmentCreateBinding? = null
 
     private val db = FirebaseFirestore.getInstance()
     private val storage = FirebaseStorage.getInstance()
@@ -38,9 +37,11 @@ class CreateFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let {
                 imageUri = uri
-                binding.addImageBtn.setImageURI(uri)
-                binding.addImageTextView.visibility = View.GONE
-                binding.addImageIcon.visibility = View.GONE
+                binding?.apply {
+                    addImageBtn.setImageURI(uri)
+                    addImageTextView.visibility = View.GONE
+                    addImageIcon.visibility = View.GONE
+                }
             }
         }
 
@@ -49,29 +50,25 @@ class CreateFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentCreateBinding.inflate(inflater, container, false)
-        return binding.root
+        val fragmentBinding = FragmentCreateBinding.inflate(inflater, container, false)
+        binding = fragmentBinding
+        return fragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initialization()
-    }
-
-    private fun initialization() {
         setupArrays()
         setupFabTransition()
         setupViews()
     }
 
     private fun setupViews() {
-        binding.addBtn.setOnClickListener {
-            if (binding.titleEdit.text.isNullOrEmpty() ||
-                binding.companyEdit.text.isNullOrEmpty() ||
-                binding.descriptionEdit.text.isNullOrEmpty()
+        binding?.addBtn?.setOnClickListener {
+            if (binding?.titleEdit?.text.isNullOrEmpty() ||
+                binding?.companyEdit?.text.isNullOrEmpty() ||
+                binding?.descriptionEdit?.text.isNullOrEmpty()
             ) {
-
                 Toast.makeText(
                     requireContext(),
                     "Please fill in the required fields.",
@@ -84,10 +81,10 @@ class CreateFragment : Fragment() {
             uploadData()
             findNavController().navigateUp()
         }
-        binding.addImageBtn.setOnClickListener {
+        binding?.addImageBtn?.setOnClickListener {
             getImageFromGallery()
         }
-        binding.navigationIcon.setOnClickListener {
+        binding?.navigationIcon?.setOnClickListener {
             findNavController().navigateUp()
         }
     }
@@ -112,16 +109,16 @@ class CreateFragment : Fragment() {
     private fun uploadDataToFirestore(image: String, filename: String) {
         val id: String = UUID.randomUUID().toString()
         val owner: String = FirebaseAuth.getInstance().currentUser?.uid.toString()
-        val title: String = binding.titleEdit.text.toString()
-        val company: String = binding.companyEdit.text.toString()
-        val industry: String = binding.industryEdit.text.toString()
-        val salary: Double = binding.salaryEdit.text.toString().toDouble()
-        val level: String = binding.requirementsLevelEdit.text.toString()
-        val experience: String = binding.requirementsExperienceEdit.text.toString()
-        val location: String = binding.requirementsLocationEdit.text.toString()
-        val otherRequirements: String = binding.requirementsEdit.text.toString()
-        val description: String = binding.descriptionEdit.text.toString()
-        val tagsString = binding.tagsEdit.text.toString().trim().trimEnd {it <= ','}
+        val title: String = binding?.titleEdit?.text.toString()
+        val company: String = binding?.companyEdit?.text.toString()
+        val industry: String = binding?.industryEdit?.text.toString()
+        val salary: Double = binding?.salaryEdit?.text.toString().toDouble()
+        val level: String = binding?.requirementsLevelEdit?.text.toString()
+        val experience: String = binding?.requirementsExperienceEdit?.text.toString()
+        val location: String = binding?.requirementsLocationEdit?.text.toString()
+        val otherRequirements: String = binding?.requirementsEdit?.text.toString()
+        val description: String = binding?.descriptionEdit?.text.toString()
+        val tagsString = binding?.tagsEdit?.text.toString().trim().trimEnd {it <= ','}
         val tags: ArrayList<String> = getArrayFromString(tagsString) as ArrayList<String>
 
         val post = Post(
@@ -146,25 +143,25 @@ class CreateFragment : Fragment() {
         db.collection("posts").document(id)
             .set(post)
             .addOnSuccessListener {
-                binding.titleEdit.text = null
-                binding.companyEdit.text = null
-                binding.industryEdit.text = null
-                binding.salaryEdit.text = null
-                binding.requirementsLevelEdit.text = null
-                binding.requirementsExperienceEdit.text = null
-                binding.requirementsLocationEdit.text = null
-                binding.requirementsEdit.text = null
-                binding.descriptionEdit.text = null
-                binding.tagsEdit.text = null
-                binding.addImageBtn.setImageURI(null)
-                binding.addImageIcon.setImageResource(R.drawable.ic_round_add_24)
+                binding?.titleEdit?.text = null
+                binding?.companyEdit?.text = null
+                binding?.industryEdit?.text = null
+                binding?.salaryEdit?.text = null
+                binding?.requirementsLevelEdit?.text = null
+                binding?.requirementsExperienceEdit?.text = null
+                binding?.requirementsLocationEdit?.text = null
+                binding?.requirementsEdit?.text = null
+                binding?.descriptionEdit?.text = null
+                binding?.tagsEdit?.text = null
+                binding?.addImageBtn?.setImageURI(null)
+                binding?.addImageIcon?.setImageResource(R.drawable.ic_round_add_24)
             }
     }
 
     private fun setupFabTransition() {
         enterTransition = MaterialContainerTransform().apply {
             startView = requireActivity().findViewById(R.id.fab_add_offer)
-            endView = binding.createCardView
+            endView = binding?.createCardView
             duration = resources.getInteger(R.integer.motion_duration_large).toLong()
             scrimColor = Color.TRANSPARENT
             containerColor = requireContext().themeColor(R.attr.colorSurface)
@@ -180,17 +177,17 @@ class CreateFragment : Fragment() {
     private fun setupArrays() {
         val industries = resources.getStringArray(R.array.industries)
         var arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, industries)
-        binding.industryEdit.setAdapter(arrayAdapter)
+        binding?.industryEdit?.setAdapter(arrayAdapter)
 
         val levels = resources.getStringArray(R.array.levels)
         arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, levels)
-        binding.requirementsLevelEdit.setAdapter(arrayAdapter)
+        binding?.requirementsLevelEdit?.setAdapter(arrayAdapter)
 
         val tags = resources.getStringArray(R.array.tags).sorted()
         arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, tags)
-        binding.tagsEdit.setTokenizer(MultiAutoCompleteTextView.CommaTokenizer())
-        binding.tagsEdit.threshold = 1
-        binding.tagsEdit.setAdapter(arrayAdapter)
+        binding?.tagsEdit?.setTokenizer(MultiAutoCompleteTextView.CommaTokenizer())
+        binding?.tagsEdit?.threshold = 1
+        binding?.tagsEdit?.setAdapter(arrayAdapter)
     }
 
     private fun getArrayFromString(string: String): List<String> {

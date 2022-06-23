@@ -7,21 +7,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialContainerTransform
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.FragmentPostBinding
+import com.grosianu.jobseeker.ui.home.HomeActivityViewModel
 import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.viewModels.PostViewModel
 import com.grosianu.jobseeker.utils.themeColor
 
 class PostFragment : Fragment() {
 
-    private var _binding: FragmentPostBinding? = null
-    private val binding get() = _binding!!
+    private var binding: FragmentPostBinding? = null
 
     private val viewModel: PostViewModel by viewModels()
+    private val sharedViewModel: HomeActivityViewModel by activityViewModels()
     private val args: PostFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -29,8 +31,9 @@ class PostFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentPostBinding.inflate(inflater, container, false)
-        return binding.root
+        val fragmentBinding = FragmentPostBinding.inflate(inflater, container, false)
+        binding = fragmentBinding
+        return fragmentBinding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,36 +51,32 @@ class PostFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initialization()
-    }
-
-    private fun initialization() {
         setupViewModel()
         setupViews()
     }
 
     private fun setupViews() {
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.navigationIcon.setOnClickListener {
+        binding?.lifecycleOwner = viewLifecycleOwner
+        binding?.navigationIcon?.setOnClickListener {
             findNavController().navigateUp()
         }
-        binding.applicantsIcon.setOnClickListener {
+        binding?.applicantsIcon?.setOnClickListener {
             val directions = PostFragmentDirections.actionEditPostFragmentToApplicantsFragment(args.postId)
             findNavController().navigate(directions)
         }
-        binding.editIcon.setOnClickListener {
+        binding?.editIcon?.setOnClickListener {
             val directions =
                 PostFragmentDirections.actionGlobalEditApplicationFragment(args.postId)
             findNavController().navigate(directions)
         }
-        binding.deleteBtn.setOnClickListener {
+        binding?.deleteBtn?.setOnClickListener {
             alertConfirmation()
         }
     }
 
     private fun setupViewModel() {
         viewModel.getPost(args.postId)
-        binding.viewModel = viewModel
+        binding?.viewModel = viewModel
     }
 
     private fun alertConfirmation() {
