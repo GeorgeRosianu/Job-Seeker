@@ -11,6 +11,8 @@ import android.widget.MultiAutoCompleteTextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.transition.Slide
 import com.google.android.material.transition.MaterialContainerTransform
@@ -20,6 +22,8 @@ import com.google.firebase.storage.FirebaseStorage
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.FragmentCreateBinding
 import com.grosianu.jobseeker.models.Post
+import com.grosianu.jobseeker.ui.home.HomeActivityViewModel
+import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.viewModels.CreateViewModel
 import com.grosianu.jobseeker.utils.themeColor
 import java.util.*
 
@@ -27,12 +31,10 @@ import java.util.*
 class CreateFragment : Fragment() {
 
     private var binding: FragmentCreateBinding? = null
-
-    private val db = FirebaseFirestore.getInstance()
-    private val storage = FirebaseStorage.getInstance()
+    private val viewModel: CreateViewModel by viewModels()
+    private val auth = FirebaseAuth.getInstance()
 
     private lateinit var imageUri: Uri
-
     private var imageFromGallery =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let {
@@ -92,70 +94,36 @@ class CreateFragment : Fragment() {
     private fun getImageFromGallery() = imageFromGallery.launch("image/*")
 
     private fun uploadData() {
+        val imageString = if (this::imageUri.isInitialized) {
+            imageUri.toString()
+        } else {
+            ""
+        }
+
         val filename = UUID.randomUUID().toString()
-        val storageReference = storage.getReference("images/$filename")
-
-        storageReference.putFile(imageUri)
-            .addOnSuccessListener {
-                storageReference.downloadUrl.addOnSuccessListener {
-                    val uri = it.toString()
-                    uploadDataToFirestore(uri, filename)
-                }
-            }
-            .addOnFailureListener {
-            }
-    }
-
-    private fun uploadDataToFirestore(image: String, filename: String) {
-        val id: String = UUID.randomUUID().toString()
-        val owner: String = FirebaseAuth.getInstance().currentUser?.uid.toString()
-        val title: String = binding?.titleEdit?.text.toString()
-        val company: String = binding?.companyEdit?.text.toString()
-        val industry: String = binding?.industryEdit?.text.toString()
-        val salary: Double = binding?.salaryEdit?.text.toString().toDouble()
-        val level: String = binding?.requirementsLevelEdit?.text.toString()
-        val experience: String = binding?.requirementsExperienceEdit?.text.toString()
-        val location: String = binding?.requirementsLocationEdit?.text.toString()
-        val otherRequirements: String = binding?.requirementsEdit?.text.toString()
-        val description: String = binding?.descriptionEdit?.text.toString()
         val tagsString = binding?.tagsEdit?.text.toString().trim().trimEnd {it <= ','}
-        val tags: ArrayList<String> = getArrayFromString(tagsString) as ArrayList<String>
 
         val post = Post(
-            id,
-            owner,
-            title,
-            company,
-            industry,
-            salary,
-            level,
-            experience,
-            location,
-            otherRequirements,
-            description,
-            tags,
-            image,
-            filename,
-            null,
-            null,
+            id = UUID.randomUUID().toString(),
+            owner = auth.currentUser?.uid.toString(),
+            title = binding?.titleEdit?.text.toString(),
+            company = binding?.companyEdit?.text.toString(),
+            industry = binding?.industryEdit?.text.toString(),
+            salary = binding?.salaryEdit?.text.toString().toDouble(),
+            level = binding?.requirementsLevelEdit?.text.toString(),
+            experience = binding?.requirementsExperienceEdit?.text.toString(),
+            location = binding?.requirementsLocationEdit?.text.toString(),
+            otherRequirements = binding?.requirementsEdit?.text.toString(),
+            description = binding?.descriptionEdit?.text.toString(),
+            image = imageString,
+            imageId = filename,
+            tags = getArrayFromString(tagsString) as ArrayList<String>,
+            applicants = null,
+            confirmedApplicants = null
         )
 
-        db.collection("posts").document(id)
-            .set(post)
-            .addOnSuccessListener {
-                binding?.titleEdit?.text = null
-                binding?.companyEdit?.text = null
-                binding?.industryEdit?.text = null
-                binding?.salaryEdit?.text = null
-                binding?.requirementsLevelEdit?.text = null
-                binding?.requirementsExperienceEdit?.text = null
-                binding?.requirementsLocationEdit?.text = null
-                binding?.requirementsEdit?.text = null
-                binding?.descriptionEdit?.text = null
-                binding?.tagsEdit?.text = null
-                binding?.addImageBtn?.setImageURI(null)
-                binding?.addImageIcon?.setImageResource(R.drawable.ic_round_add_24)
-            }
+        viewModel.updateFirestoreData(post)
+        findNavController().navigateUp()
     }
 
     private fun setupFabTransition() {

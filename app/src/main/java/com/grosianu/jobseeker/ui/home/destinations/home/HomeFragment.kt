@@ -23,6 +23,7 @@ class HomeFragment : Fragment(), PostsAdapter.PostsAdapterListener,
     private var binding: FragmentHomeBinding? = null
 
     private val viewModel: HomeViewModel by viewModels()
+    private val sharedViewModel: HomeActivityViewModel by viewModels()
 
     private val postsAdapter = PostsAdapter(this)
     private val applicationsAdapter = ApplicationsAdapter(this)

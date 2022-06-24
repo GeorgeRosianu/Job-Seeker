@@ -43,14 +43,24 @@ class PostViewModel : ViewModel() {
             val storageRef = storage.reference.child("images/${_post.value?.imageId}")
             val postDocRef = db.collection("posts").document(_post.value?.id!!)
             val applicationsDocRef = db.collection("applications")
+
+            println("###########################")
+            println(_post.value?.imageId)
+            println(_post.value?.id)
+
             storageRef.delete().addOnSuccessListener {
+                println("TEST 1")
                 applicationsDocRef.whereEqualTo("postId", _post.value?.id)
+                println("TEST 2")
                 applicationsDocRef.get().addOnSuccessListener { querySnapshot ->
                     querySnapshot.forEach { document ->
+                        println("TEST 3")
                         document.reference.delete()
                     }
                 }
+                println("TEST 4")
                 postDocRef.delete()
+                println("TEST 5")
             }
         }
     }

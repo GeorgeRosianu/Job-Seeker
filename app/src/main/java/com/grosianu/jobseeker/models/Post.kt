@@ -15,7 +15,7 @@ data class Post(
     val otherRequirements: String? = null,
     val description: String? = null,
     val tags: ArrayList<String>? = null,
-    val image: String? = null,
+    var image: String? = null,
     val imageId: String? = null,
     val applicants: ArrayList<String>? = null,
     val confirmedApplicants: ArrayList<String>? = null,
