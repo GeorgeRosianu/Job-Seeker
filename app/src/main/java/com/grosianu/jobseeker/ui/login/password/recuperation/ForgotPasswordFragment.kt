@@ -2,10 +2,12 @@ package com.grosianu.jobseeker.ui.login.password.recuperation
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.OnCompleteListener
@@ -14,37 +16,34 @@ import com.grosianu.jobseeker.databinding.FragmentForgotPasswordBinding
 
 class ForgotPasswordFragment : Fragment() {
 
-    private lateinit var auth: FirebaseAuth
+    private var binding: FragmentForgotPasswordBinding? = null
 
-    private var _binding: FragmentForgotPasswordBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentForgotPasswordBinding.inflate(inflater, container, false)
-        return binding.root
+        val fragmentBinding = FragmentForgotPasswordBinding.inflate(inflater, container, false)
+        binding = fragmentBinding
+        return fragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         auth = FirebaseAuth.getInstance()
+        isEmailValid()
 
-        binding.sendBtn.setOnClickListener {
-            val email: String = binding.resetPasswordInputEdit.text.toString()
-            if (TextUtils.isEmpty(email)) {
-                Toast.makeText(
-                    requireContext(),
-                    "Please fill the required fields",
-                    Toast.LENGTH_LONG
-                ).show()
-            } else {
+        binding?.sendBtn?.setOnClickListener {
+            val email: String = binding?.resetPasswordInputEdit?.text.toString()
+
+            if (binding?.resetPasswordInput?.isErrorEnabled == false) {
                 auth.sendPasswordResetEmail(email)
-                    .addOnCompleteListener(requireActivity(), OnCompleteListener {
+                    .addOnCompleteListener(requireActivity()) {
                         if (it.isSuccessful) {
-                            val action = ForgotPasswordFragmentDirections.actionForgotPasswordFragmentToForgotPasswordSuccessFragment()
+                            val action =
+                                ForgotPasswordFragmentDirections.actionForgotPasswordFragmentToForgotPasswordSuccessFragment()
                             this.findNavController().navigate(action)
                         } else {
                             Toast.makeText(
@@ -53,13 +52,32 @@ class ForgotPasswordFragment : Fragment() {
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
-                    })
+                    }
             }
         }
-        binding.loginBtn.setOnClickListener {
+        binding?.loginBtn?.setOnClickListener {
             val action =
                 ForgotPasswordFragmentDirections.actionForgotPasswordFragmentToLoginFragment()
             this.findNavController().navigate(action)
         }
+    }
+
+    private fun isEmailValid() {
+        binding?.resetPasswordInputEdit?.doOnTextChanged { text, _, _, _ ->
+            if (text != null) {
+                if (!Patterns.EMAIL_ADDRESS.matcher(text).matches()) {
+                    binding?.resetPasswordInput?.isErrorEnabled = true
+                    binding?.resetPasswordInput?.error = "The email address is invalid"
+                } else {
+                    binding?.resetPasswordInput?.isErrorEnabled = false
+                    binding?.resetPasswordInput?.error = null
+                }
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }

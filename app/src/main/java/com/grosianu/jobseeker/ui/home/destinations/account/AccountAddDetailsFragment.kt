@@ -75,7 +75,6 @@ class AccountAddDetailsFragment : Fragment() {
                 showDatePicker(binding!!.experienceDateEdit)
             }
             addBtn.setOnClickListener {
-                //AccountViewModel().getUserData()
                 updateFirestoreData()
             }
             navigationIcon.setOnClickListener {
@@ -87,37 +86,13 @@ class AccountAddDetailsFragment : Fragment() {
                     setImageResource(R.drawable.ic_broken_image)
                     setPadding(32)
                 }
-                //binding.imageView.setImageResource(R.drawable.ic_broken_image)
-                //binding.imageView.setPadding(32)
             } else {
                 imageView.apply {
                     load(sharedViewModel.currentAccount.value?.imageUri)
                     setPadding(0)
                 }
-                //binding.imageView.load(imageUri)
-                //binding.imageView.setPadding(0)
             }
         }
-
-        //binding.viewModel = viewModel
-        //binding.lifecycleOwner = viewLifecycleOwner
-
-        //binding.changeProfilePicTextView.setOnClickListener {
-        //    getImageFromGallery()
-        //}
-        //binding.dateBtn.setOnClickListener {
-        //    showDatePicker(binding.dateEdit)
-        //}
-        //binding.experienceDateBtn.setOnClickListener {
-        //    showDatePicker(binding.experienceDateEdit)
-        //}
-        //binding.addBtn.setOnClickListener {
-        //    AccountViewModel().getUserData()
-        //    updateFirestoreData()
-        //}
-        //binding.navigationIcon.setOnClickListener {
-        //    findNavController().navigateUp()
-        //}
     }
 
     private fun getImageFromGallery() = imageFromGallery.launch("image/*")

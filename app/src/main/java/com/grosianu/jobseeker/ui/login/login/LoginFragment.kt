@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -26,62 +28,66 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.FragmentLoginBinding
 import com.grosianu.jobseeker.ui.home.HomeActivity
+import kotlinx.coroutines.flow.MutableStateFlow
 
 class LoginFragment : Fragment() {
 
-    private var _binding: FragmentLoginBinding? = null
-    private val binding get() = _binding!!
-
+    private var binding: FragmentLoginBinding? = null
     private val viewModel: LoginViewModel by viewModels()
-
     private lateinit var googleSignInClient: GoogleSignInClient
+
+    private val email = MutableStateFlow("")
+    private val password = MutableStateFlow("")
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
-        return binding.root
+        val fragmentBinding = FragmentLoginBinding.inflate(inflater, container, false)
+        binding = fragmentBinding
+        return fragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Google Sign-In
+        isEmailValid()
+        isPasswordValid()
+
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
         val resultLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult(),
-            ActivityResultCallback {
-                val intent = it.data
-                if (it.resultCode == Activity.RESULT_OK) {
-                    val task = GoogleSignIn.getSignedInAccountFromIntent(intent)
-                    try {
-                        val account = task.result
-                        //Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
-                        firebaseAuthWithGoogle(account.idToken.toString())
-                    } catch (e: ApiException) {
-                        //Log.w(TAG, "Google sign in failed", e)
-                    }
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+            val intent = it.data
+            if (it.resultCode == Activity.RESULT_OK) {
+                val task = GoogleSignIn.getSignedInAccountFromIntent(intent)
+                try {
+                    val account = task.result
+                    //Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
+                    firebaseAuthWithGoogle(account.idToken.toString())
+                } catch (e: ApiException) {
+                    //Log.w(TAG, "Google sign in failed", e)
                 }
             }
-        )
+        }
+
         googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
-        binding.loginGoogleBtn.setOnClickListener {
+        binding?.loginGoogleBtn?.setOnClickListener {
             resultLauncher.launch(googleSignInClient.signInIntent)
         }
-        binding.loginBtn.setOnClickListener {
+        binding?.loginBtn?.setOnClickListener {
             firebaseAuthWithEmail()
         }
-        binding.createAccountBtn.setOnClickListener {
+        binding?.createAccountBtn?.setOnClickListener {
             val action = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
             this.findNavController().navigate(action)
         }
-        binding.forgotPasswordBtn.setOnClickListener {
+        binding?.forgotPasswordBtn?.setOnClickListener {
             val action = LoginFragmentDirections.actionLoginFragmentToForgotPasswordFragment()
             this.findNavController().navigate(action)
         }
@@ -89,7 +95,7 @@ class LoginFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        binding = null
     }
 
     private fun firebaseAuthWithGoogle(idToken: String) {
@@ -113,22 +119,12 @@ class LoginFragment : Fragment() {
     }
 
     private fun firebaseAuthWithEmail() {
-        val email: String = binding.loginEmailInputEdit.text.toString()
-        val password: String = binding.loginPasswordInputEdit.text.toString()
+        if (isLoginFormValid()) {
+            val email: String = binding?.loginEmailInputEdit?.text.toString()
+            val password: String = binding?.loginPasswordInputEdit?.text.toString()
 
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-//            setErrorTextField(binding.loginEmailInput, "Email field cannot be empty", true)
-//            setErrorTextField(binding.loginPasswordInput, "Password field cannot be empty", true)
-            Toast.makeText(
-                requireContext(),
-                "Please fill the required fields",
-                Toast.LENGTH_SHORT
-            ).show()
-        } else {
-//            setErrorTextField(binding.loginEmailInput, "", false)
-//            setErrorTextField(binding.loginEmailInput, "", false)
             viewModel.auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(requireActivity(), OnCompleteListener {
+                .addOnCompleteListener(requireActivity()) {
                     if (it.isSuccessful) {
                         Log.d(TAG, "signInWithEmailAndPassword:success")
                         val user = viewModel.auth.currentUser
@@ -141,7 +137,7 @@ class LoginFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-                })
+                }
         }
     }
 
@@ -151,14 +147,39 @@ class LoginFragment : Fragment() {
         requireActivity().finish()
     }
 
-//    private fun setErrorTextField(textInputLayout: TextInputLayout, errorString: String, error: Boolean) {
-//        if (error) {
-//            textInputLayout.isErrorEnabled = true
-//            textInputLayout.error = errorString
-//        } else {
-//            textInputLayout.isErrorEnabled = false
-//        }
-//    }
+    private fun isLoginFormValid(): Boolean {
+        if (binding?.loginEmailInput?.isErrorEnabled == true ||
+            binding?.loginPasswordInput?.isErrorEnabled == true) {
+            return false
+        }
+        return true
+    }
+
+    private fun isEmailValid() {
+        binding?.loginEmailInputEdit?.doOnTextChanged { text, _, _, _ ->
+            if (text != null) {
+                if (!Patterns.EMAIL_ADDRESS.matcher(text).matches()) {
+                    binding?.loginEmailInput?.isErrorEnabled = true
+                    binding?.loginEmailInput?.error = "The email address is invalid"
+                } else {
+                    binding?.loginEmailInput?.isErrorEnabled = false
+                    binding?.loginEmailInput?.error = null
+                }
+            }
+        }
+    }
+
+    private fun isPasswordValid() {
+        binding?.loginPasswordInputEdit?.doOnTextChanged { text, _, _, _ ->
+            if (text.isNullOrEmpty()) {
+                binding?.loginPasswordInput?.isErrorEnabled = true
+                binding?.loginPasswordInput?.error = "Password field cannot be empty"
+            } else {
+                binding?.loginPasswordInput?.isErrorEnabled = false
+                binding?.loginPasswordInput?.error = null
+            }
+        }
+    }
 
     companion object {
         private const val TAG = "LoginFragment"

@@ -10,23 +10,28 @@ import com.grosianu.jobseeker.databinding.FragmentForgotPasswordSuccessBinding
 
 class ForgotPasswordSuccessFragment : Fragment() {
 
-    private var _binding: FragmentForgotPasswordSuccessBinding? = null
-    private val binding get() = _binding!!
+    private var binding: FragmentForgotPasswordSuccessBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentForgotPasswordSuccessBinding.inflate(inflater, container, false)
-        return binding.root
+        val fragmentBinding = FragmentForgotPasswordSuccessBinding.inflate(inflater, container, false)
+        binding = fragmentBinding
+        return fragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.loginBtn.setOnClickListener {
+        binding?.loginBtn?.setOnClickListener {
             val action =
                 ForgotPasswordSuccessFragmentDirections.actionForgotPasswordSuccessFragmentToLoginFragment()
             this.findNavController().navigate(action)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }

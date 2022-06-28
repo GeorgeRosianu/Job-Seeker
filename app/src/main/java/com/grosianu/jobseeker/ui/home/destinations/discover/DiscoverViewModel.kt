@@ -4,10 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 import com.grosianu.jobseeker.models.Post
 import com.grosianu.jobseeker.models.User
 import kotlinx.coroutines.launch
@@ -24,6 +28,7 @@ class DiscoverViewModel : ViewModel() {
 
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
+    private val firebaseAnalytics = Firebase.analytics
 
     fun getPostList() {
         val postsTmp = ArrayList<Post>()
@@ -47,6 +52,12 @@ class DiscoverViewModel : ViewModel() {
         }
     }
 
+    private fun logAnalyticsEvent(id: String) {
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+            param(FirebaseAnalytics.Param.ITEM_ID, id)
+        }
+    }
+
     fun addToFavorite(post: Post) {
         if (!post.id.isNullOrEmpty()) {
             db.collection("favorites").document(post.id)
@@ -58,6 +69,8 @@ class DiscoverViewModel : ViewModel() {
 
             db.collection("favorites").document(post.id)
                 .update("owner", auth.currentUser?.uid)
+
+            logAnalyticsEvent(post.id.toString())
         }
     }
 
