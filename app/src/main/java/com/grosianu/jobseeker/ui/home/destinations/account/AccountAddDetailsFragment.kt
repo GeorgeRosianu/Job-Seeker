@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.util.Pair
 import androidx.core.view.setPadding
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -23,6 +24,10 @@ import com.grosianu.jobseeker.databinding.FragmentAccountAddDetailsBinding
 import com.grosianu.jobseeker.models.User
 import com.grosianu.jobseeker.ui.home.HomeActivityViewModel
 import com.grosianu.jobseeker.ui.home.destinations.account.viewModels.AccountAddDetailsViewModel
+
+private const val PHONE_NUMBER_LENGTH = 10
+private const val MAXIMUM_AGE = 100
+private const val MINIMUM_AGE = 16
 
 class AccountAddDetailsFragment : Fragment() {
 
@@ -58,6 +63,7 @@ class AccountAddDetailsFragment : Fragment() {
         setupArrays()
         setupTransition()
         setupViews()
+        fieldValidations()
     }
 
     private fun setupViews() {
@@ -75,13 +81,21 @@ class AccountAddDetailsFragment : Fragment() {
                 showDatePicker(binding!!.experienceDateEdit)
             }
             addBtn.setOnClickListener {
-                updateFirestoreData()
+                if (isFormValid()) {
+                    updateFirestoreData()
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Fields in the form are invalid.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
             navigationIcon.setOnClickListener {
                 findNavController().navigateUp()
             }
 
-            if(sharedViewModel.currentAccount.value?.imageUri.isNullOrEmpty()) {
+            if (sharedViewModel.currentAccount.value?.imageUri.isNullOrEmpty()) {
                 imageView.apply {
                     setImageResource(R.drawable.ic_broken_image)
                     setPadding(32)
@@ -100,6 +114,11 @@ class AccountAddDetailsFragment : Fragment() {
     private fun updateFirestoreData() {
         val firstName = binding?.firstNameEdit?.text.toString()
         val lastName = binding?.lastNameEdit?.text.toString()
+        val age = if (binding?.ageEdit?.text.isNullOrEmpty()) {
+            0
+        } else {
+            binding?.ageEdit?.text.toString().toInt()
+        }
 
         val imageString = if (this::imageUri.isInitialized) {
             imageUri.toString()
@@ -111,7 +130,7 @@ class AccountAddDetailsFragment : Fragment() {
             firstName = firstName,
             lastName = lastName,
             phoneNumber = binding?.phoneEdit?.text.toString(),
-            age = binding?.ageEdit?.text.toString().toInt(),
+            age = age,
             residence = binding?.residenceEdit?.text.toString(),
             sex = binding?.sexEdit?.text.toString(),
             educationLevel = binding?.typeEdit?.text.toString(),
@@ -195,6 +214,84 @@ class AccountAddDetailsFragment : Fragment() {
             it.dismiss()
         }
         dateRangePicker.show(parentFragmentManager, "DatePicker")
+    }
+
+    private fun isFormValid(): Boolean {
+        if (binding?.phone?.isErrorEnabled == true ||
+            binding?.age?.isErrorEnabled == true ||
+            binding?.date?.isErrorEnabled == true ||
+            binding?.experienceDate?.isErrorEnabled == true
+        ) {
+            return false
+        }
+        return true
+    }
+
+    private fun fieldValidations() {
+        binding?.phoneEdit?.doOnTextChanged { text, _, _, _ ->
+            when {
+                text.isNullOrEmpty() -> {
+                    binding?.phone?.isErrorEnabled = false
+                    binding?.phone?.error = null
+                }
+                text.length < PHONE_NUMBER_LENGTH || text.length > PHONE_NUMBER_LENGTH -> {
+                    binding?.phone?.isErrorEnabled = true
+                    binding?.phone?.error = "The number should have 10 characters"
+                }
+                else -> {
+                    binding?.phone?.isErrorEnabled = false
+                    binding?.phone?.error = null
+                }
+            }
+        }
+        binding?.ageEdit?.doOnTextChanged { text, _, _, _ ->
+            when {
+                text.isNullOrEmpty() -> {
+                    binding?.age?.isErrorEnabled = false
+                    binding?.age?.error = null
+                }
+                text.toString().toInt() < MINIMUM_AGE || text.toString().toInt() > MAXIMUM_AGE -> {
+                    binding?.age?.isErrorEnabled = true
+                    binding?.age?.error = "You age should be between 16 and 100"
+                }
+                else -> {
+                    binding?.age?.isErrorEnabled = false
+                    binding?.age?.error = null
+                }
+            }
+        }
+        binding?.dateEdit?.doOnTextChanged { text, _, _, _ ->
+            when {
+                text.isNullOrEmpty() -> {
+                    binding?.date?.isErrorEnabled = false
+                    binding?.date?.error = null
+                }
+                !text.matches("[A-Z][a-z]{2} [0-9]{1,2} – [A-Z][a-z]{2} [0-9]{1,2}".toRegex()) -> {
+                    binding?.date?.isErrorEnabled = true
+                    binding?.date?.error = "The date is invalid"
+                }
+                else -> {
+                    binding?.date?.isErrorEnabled = false
+                    binding?.date?.error = null
+                }
+            }
+        }
+        binding?.experienceDateEdit?.doOnTextChanged { text, _, _, _ ->
+            when {
+                text.isNullOrEmpty() -> {
+                    binding?.experienceDate?.isErrorEnabled = false
+                    binding?.experienceDate?.error = null
+                }
+                !text.matches("[A-Z][a-z]{2} [0-9]{1,2} – [A-Z][a-z]{2} [0-9]{1,2}".toRegex()) -> {
+                    binding?.experienceDate?.isErrorEnabled = true
+                    binding?.experienceDate?.error = "The date is invalid"
+                }
+                else -> {
+                    binding?.experienceDate?.isErrorEnabled = false
+                    binding?.experienceDate?.error = null
+                }
+            }
+        }
     }
 
     private fun setupTransition() {

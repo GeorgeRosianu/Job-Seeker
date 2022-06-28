@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.MultiAutoCompleteTextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -63,25 +64,21 @@ class CreateFragment : Fragment() {
         setupArrays()
         setupFabTransition()
         setupViews()
+        fieldValidations()
     }
 
     private fun setupViews() {
         binding?.addBtn?.setOnClickListener {
-            if (binding?.titleEdit?.text.isNullOrEmpty() ||
-                binding?.companyEdit?.text.isNullOrEmpty() ||
-                binding?.descriptionEdit?.text.isNullOrEmpty()
-            ) {
+            if (isFormValid()) {
+                uploadData()
+                findNavController().navigateUp()
+            } else {
                 Toast.makeText(
                     requireContext(),
-                    "Please fill in the required fields.",
+                    "Fields in the form are invalid.",
                     Toast.LENGTH_SHORT
-                )
-                    .show()
-                return@setOnClickListener
+                ).show()
             }
-
-            uploadData()
-            findNavController().navigateUp()
         }
         binding?.addImageBtn?.setOnClickListener {
             getImageFromGallery()
@@ -160,5 +157,103 @@ class CreateFragment : Fragment() {
 
     private fun getArrayFromString(string: String): List<String> {
         return string.split(",")
+    }
+
+    private fun isFormValid(): Boolean {
+        if (binding?.title?.isErrorEnabled == true ||
+            binding?.company?.isErrorEnabled == true ||
+            binding?.industry?.isErrorEnabled == true ||
+            binding?.requirementsLevel?.isErrorEnabled == true ||
+            binding?.requirementsExperience?.isErrorEnabled == true ||
+            binding?.requirementsLocation?.isErrorEnabled == true ||
+            !this::imageUri.isInitialized
+        ) {
+            return false
+        } else if (
+            binding?.titleEdit?.text.isNullOrEmpty() ||
+            binding?.companyEdit?.text.isNullOrEmpty() ||
+            binding?.industryEdit?.text.isNullOrEmpty() ||
+            binding?.requirementsLevelEdit?.text.isNullOrEmpty() ||
+            binding?.requirementsExperienceEdit?.text.isNullOrEmpty() ||
+            binding?.requirementsLocationEdit?.text.isNullOrEmpty()
+        ) {
+            return false
+        }
+        return true
+    }
+
+    private fun fieldValidations() {
+        binding?.titleEdit?.doOnTextChanged { text, _, _, _ ->
+            when {
+                text.isNullOrEmpty() -> {
+                    binding?.title?.isErrorEnabled = true
+                    binding?.title?.error = "Title field cannot be empty"
+                }
+                else -> {
+                    binding?.title?.isErrorEnabled = false
+                    binding?.title?.error = null
+                }
+            }
+        }
+        binding?.companyEdit?.doOnTextChanged { text, _, _, _ ->
+            when {
+                text.isNullOrEmpty() -> {
+                    binding?.company?.isErrorEnabled = true
+                    binding?.company?.error = "Company field cannot be empty"
+                }
+                else -> {
+                    binding?.company?.isErrorEnabled = false
+                    binding?.company?.error = null
+                }
+            }
+        }
+        binding?.industryEdit?.doOnTextChanged { text, _, _, _ ->
+            when {
+                text.isNullOrEmpty() -> {
+                    binding?.industry?.isErrorEnabled = true
+                    binding?.industry?.error = "Industry field cannot be empty"
+                }
+                else -> {
+                    binding?.industry?.isErrorEnabled = false
+                    binding?.industry?.error = null
+                }
+            }
+        }
+        binding?.requirementsLevelEdit?.doOnTextChanged { text, _, _, _ ->
+            when {
+                text.isNullOrEmpty() -> {
+                    binding?.requirementsLevel?.isErrorEnabled = true
+                    binding?.requirementsLevel?.error = "Level field cannot be empty"
+                }
+                else -> {
+                    binding?.requirementsLevel?.isErrorEnabled = false
+                    binding?.requirementsLevel?.error = null
+                }
+            }
+        }
+        binding?.requirementsExperienceEdit?.doOnTextChanged { text, _, _, _ ->
+            when {
+                text.isNullOrEmpty() -> {
+                    binding?.requirementsExperience?.isErrorEnabled = true
+                    binding?.requirementsExperience?.error = "Experience field cannot be empty"
+                }
+                else -> {
+                    binding?.requirementsExperience?.isErrorEnabled = false
+                    binding?.requirementsExperience?.error = null
+                }
+            }
+        }
+        binding?.requirementsLocationEdit?.doOnTextChanged { text, _, _, _ ->
+            when {
+                text.isNullOrEmpty() -> {
+                    binding?.requirementsLocation?.isErrorEnabled = true
+                    binding?.requirementsLocation?.error = "Location field cannot be empty"
+                }
+                else -> {
+                    binding?.requirementsLocation?.isErrorEnabled = false
+                    binding?.requirementsLocation?.error = null
+                }
+            }
+        }
     }
 }

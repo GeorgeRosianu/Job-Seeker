@@ -64,6 +64,12 @@ class RegisterFragment : Fragment() {
                             ).show()
                         }
                     }
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Fields in the form are invalid.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
