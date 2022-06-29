@@ -29,20 +29,6 @@ class ApplySelectResumeFragment : Fragment(), ApplySelectResumeAdapter.ApplySele
     private val adapter = ApplySelectResumeAdapter(this)
     private val args: ApplySelectResumeFragmentArgs by navArgs()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        if (!args.isUserSetUp) {
-            val directions = if (args.start == "post") {
-                OfferFragmentDirections.actionOfferFragmentToAccountDetailsFragment()
-            } else {
-                DiscoverFragmentDirections.actionDiscoverFragmentToAccountDetailsFragment()
-            }
-            findNavController().navigateUp()
-            findNavController().navigate(directions)
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

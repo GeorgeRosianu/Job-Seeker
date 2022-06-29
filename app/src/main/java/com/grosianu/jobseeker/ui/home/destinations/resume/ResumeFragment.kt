@@ -40,7 +40,6 @@ class ResumeFragment : Fragment(), ResumeAdapter.ResumeAdapterListener {
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let {
                 fileUri = uri
-                // TODO
             }
         }
 
@@ -49,13 +48,17 @@ class ResumeFragment : Fragment(), ResumeAdapter.ResumeAdapterListener {
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (binding?.fabCheck?.isVisible == true) {
-                    binding?.fabCheck?.hide()
-                    binding?.fab?.show()
-                } else if (isFabOpen) {
-                    hideFabMenu()
-                } else {
-                    findNavController().navigateUp()
+                when {
+                    binding?.fabCheck?.isVisible == true -> {
+                        binding?.fabCheck?.hide()
+                        binding?.fab?.show()
+                    }
+                    isFabOpen -> {
+                        hideFabMenu()
+                    }
+                    else -> {
+                        findNavController().navigateUp()
+                    }
                 }
             }
         }

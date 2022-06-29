@@ -9,3 +9,10 @@ data class Resume(
     val image: String? = null,
     val dateCreated: String? = null
 )
+
+data class pdfDetails(
+    val id: String = "",
+    val url: String = "",
+    val owner: String = "",
+    val title: String = "",
+)

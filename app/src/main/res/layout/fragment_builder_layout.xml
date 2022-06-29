@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contact_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="George Rosianu" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/contact_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name_text_view"
+            tools:text="georgerosianu12@gmail.com | 0741234567"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/statement_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginHorizontal="32dp"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/contact_text_view"
+            tools:text="Android Developer working on creating interesting, user-friendly and intuitive apps"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/experience_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="32dp"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/statement_text_view"
+            tools:text="Professional Experience"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/experience_company_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="32dp"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/experience_text_view"
+            tools:text="Endava"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/experience_period_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="32dp"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/experience_company_text_view"
+            app:layout_constraintBottom_toBottomOf="@id/experience_company_text_view"
+            tools:text="2021 - 2022"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/experience_location_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginHorizontal="32dp"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/experience_company_text_view"
+            tools:text="Brasov"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/experience_description_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginHorizontal="32dp"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/experience_location_text_view"
+            tools:text="Working as a Dev-Ops on company projects to finish my practice for university"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/education_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="32dp"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/experience_description_text_view"
+            tools:text="Education"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/education_institution_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="32dp"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/education_text_view"
+            tools:text="Universitatea Transilvania din Brasov"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/education_period_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="32dp"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/education_institution_text_view"
+            app:layout_constraintBottom_toBottomOf="@id/education_institution_text_view"
+            tools:text="2019 - 2022"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/education_location_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginHorizontal="32dp"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/education_institution_text_view"
+            tools:text="Brasov"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/education_qualification_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginHorizontal="32dp"
+            android:textAppearance="?attr/textAppearanceSubtitle2"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/education_location_text_view"
+            tools:text="BSc Computer Science"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/education_details_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginHorizontal="32dp"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/education_qualification_text_view"
+            tools:text="Working as a Dev-Ops on company projects to finish my practice for university"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

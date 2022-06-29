@@ -1,7 +1,5 @@
 package com.grosianu.jobseeker.models
 
-import com.google.firebase.firestore.DocumentSnapshot
-
 data class User(
     val userId: String = "",
     val displayName: String = "",

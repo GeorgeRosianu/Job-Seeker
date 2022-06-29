@@ -31,6 +31,7 @@ class HomeActivityViewModel : ViewModel() {
 
     init {
         getUserData()
+        getResumeList()
     }
 
     fun getUserData() {
@@ -70,13 +71,15 @@ class HomeActivityViewModel : ViewModel() {
                     for (document in querySnapshot!!) {
                         if (document != null && document.exists()) {
                             resumeList.add(document.toObject())
-                            _hasResumes.value = true
                         }
                     }
 
                     if (resumeList.isEmpty()) {
                         _resumes.value = listOf()
                         _hasResumes.value = false
+                    } else {
+                        _resumes.value = resumeList
+                        _hasResumes.value = true
                     }
                 }
         }

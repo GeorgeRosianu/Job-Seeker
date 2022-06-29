@@ -10,9 +10,11 @@ import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.MetadataChanges
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.grosianu.jobseeker.models.Post
+import com.grosianu.jobseeker.models.Resume
 import com.grosianu.jobseeker.models.User
 import kotlinx.coroutines.launch
 import java.util.*
@@ -127,20 +129,6 @@ class DiscoverViewModel : ViewModel() {
         }
         if (arrayList != null) {
             _posts.value = arrayList!!
-        }
-    }
-
-    fun userAddApplicant(documentId: String) {
-        viewModelScope.launch {
-            val docRef = db.collection("posts").document(documentId)
-            docRef.update("applicants", FieldValue.arrayUnion(auth.currentUser?.uid))
-        }
-    }
-
-    fun userRemoveApplicant(documentId: String) {
-        viewModelScope.launch {
-            val docRef = db.collection("posts").document(documentId)
-            docRef.update("applicants", FieldValue.arrayRemove(auth.currentUser?.uid))
         }
     }
 

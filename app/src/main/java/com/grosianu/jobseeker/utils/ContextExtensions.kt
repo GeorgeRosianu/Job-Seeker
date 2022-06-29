@@ -11,9 +11,6 @@ import androidx.annotation.ColorInt
 import androidx.annotation.StyleRes
 import androidx.core.content.res.use
 
-/**
- * Retrieve a color from the current [android.content.res.Resources.Theme].
- */
 @ColorInt
 @SuppressLint("Recycle")
 fun Context.themeColor(
@@ -26,9 +23,6 @@ fun Context.themeColor(
     }
 }
 
-/**
- * Retrieve a style from the current [android.content.res.Resources.Theme].
- */
 @StyleRes
 fun Context.themeStyle(@AttrRes attr: Int): Int {
     val tv = TypedValue()
