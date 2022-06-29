@@ -56,10 +56,10 @@ class RecommendationClient(private val context: Context, private val config: Con
             tflite?.apply {
                 close()
             }
-            if (model is ByteBuffer) {
-                tflite = Interpreter(model)
+            tflite = if (model is ByteBuffer) {
+                Interpreter(model)
             } else {
-                tflite = Interpreter(model as File)
+                Interpreter(model as File)
             }
             Log.v(TAG, "TFLite model loaded.")
         }
@@ -85,7 +85,6 @@ class RecommendationClient(private val context: Context, private val config: Con
         return withContext(Dispatchers.Default) {
             val inputs = arrayOf<Any>(preprocess(selectedPosts))
 
-            // Run inference.
             val outputIds = IntArray(config.outputLength)
             val confidences = FloatArray(config.outputLength)
             val outputs: MutableMap<Int, Any> = HashMap()
@@ -110,7 +109,6 @@ class RecommendationClient(private val context: Context, private val config: Con
                     val (id) = selectedPosts[i]
                     inputContext[i] = id?.toInt()!!
                 } else {
-                    // Padding input.
                     inputContext[i] = config.pad
                 }
             }
@@ -125,7 +123,6 @@ class RecommendationClient(private val context: Context, private val config: Con
         return withContext(Dispatchers.Default) {
             val results = ArrayList<Result>()
 
-            // Add recommendation results. Filter null or contained items.
             for (i in outputIds.indices) {
                 if (results.size >= config.topK) {
                     Log.v(TAG, String.format("Selected top K: %d. Ignore the rest.", config.topK))
@@ -165,9 +162,9 @@ class RecommendationClient(private val context: Context, private val config: Con
                 val conditions = if (task.result != null && task.result == true) {
                     FirebaseModelDownloadConditions.Builder()
                         .requireWifi()
-                        .build() // Update condition that requires wifi.
+                        .build()
                 } else {
-                    FirebaseModelDownloadConditions.Builder().build(); // Download condition.
+                    FirebaseModelDownloadConditions.Builder().build();
                 }
                 firebaseModelManager.download(remoteModel, conditions)
             }

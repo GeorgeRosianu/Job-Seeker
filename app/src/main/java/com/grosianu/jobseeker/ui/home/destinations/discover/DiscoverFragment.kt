@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.checkbox.MaterialCheckBox
@@ -19,7 +20,10 @@ import com.grosianu.jobseeker.R
 import com.grosianu.jobseeker.databinding.FragmentDiscoverBinding
 import com.grosianu.jobseeker.models.Post
 import com.grosianu.jobseeker.ui.home.HomeActivityViewModel
+import com.grosianu.jobseeker.utils.Config
 import com.grosianu.jobseeker.utils.FilterPopUpDialog
+import com.grosianu.jobseeker.utils.RecommendationClient
+import kotlinx.coroutines.launch
 
 class DiscoverFragment : Fragment(), DiscoverAdapter.DiscoverAdapterListener {
 
@@ -28,6 +32,9 @@ class DiscoverFragment : Fragment(), DiscoverAdapter.DiscoverAdapterListener {
     private val viewModel: DiscoverViewModel by viewModels()
     private val sharedViewModel: HomeActivityViewModel by activityViewModels()
     private val discoverAdapter = DiscoverAdapter(this)
+
+    private var config = Config()
+    private var client: RecommendationClient? = null
 
     private var asc: Boolean = true
 

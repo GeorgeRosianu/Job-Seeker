@@ -5,7 +5,7 @@ class Config {
     var inputLength = DEFAULT_INPUT_LENGTH
     var outputLength = DEFAULT_OUTPUT_LENGTH
     var topK = DEFAULT_TOP_K
-    var movieListPath = DEFAULT_POST_LIST_PATH
+    var postListPath = DEFAULT_POST_LIST_PATH
     var pad = PAD_ID
     var outputIdsIndex = DEFAULT_OUTPUT_IDS_INDEX
     var outputScoresIndex = DEFAULT_OUTPUT_SCORES_INDEX
