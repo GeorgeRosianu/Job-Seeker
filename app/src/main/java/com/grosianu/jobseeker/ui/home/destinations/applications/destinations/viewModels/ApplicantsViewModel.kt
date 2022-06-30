@@ -45,23 +45,20 @@ class ApplicantsViewModel : ViewModel() {
         }
     }
 
-//    fun search(p0: String) {
-//        val search = p0.lowercase(Locale.getDefault())
-//        val arrayList = ArrayList<Post>()
-//
-//        posts.value?.forEach {
-//            if (it.title?.lowercase(Locale.getDefault())?.contains(search) == true ||
-//                it.company?.lowercase(Locale.getDefault())?.contains(search) == true ||
-//                it.location?.lowercase(Locale.getDefault())?.contains(search) == true ||
-//                it.industry?.lowercase(Locale.getDefault())?.contains(search) == true ||
-//                it.level?.lowercase(Locale.getDefault())?.contains(search) == true ||
-//                it.tags?.contains(search) == true
-//            ) {
-//                arrayList.add(it)
-//            }
-//        }
-//        _posts.value = arrayList
-//    }
+    fun search(p0: String) {
+        val search = p0.lowercase(Locale.getDefault())
+        val arrayList = ArrayList<Application>()
+
+        applicants.value?.forEach {
+            if (it.applicantName?.lowercase(Locale.getDefault())?.contains(search) == true ||
+                it.applicantEmail?.lowercase(Locale.getDefault())?.contains(search) == true ||
+                it.applicantExperience?.lowercase(Locale.getDefault())?.contains(search) == true
+            ) {
+                arrayList.add(it)
+            }
+        }
+        _applicants.value = arrayList
+    }
 
     companion object {
         private const val TAG = "APPLICANTS_VIEW_MODEL"

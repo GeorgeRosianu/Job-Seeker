@@ -27,13 +27,6 @@ class AccountViewModel : ViewModel() {
         viewModelScope.launch {
             val userId = auth.currentUser?.uid.toString()
             val docRef = db.collection("users").document(userId)
-//            docRef.get()
-//                .addOnSuccessListener { document ->
-//                    if (document != null) {
-//                        _currentAccount.value = document.toObject<User>()
-//                    }
-//                }
-
             docRef.addSnapshotListener(MetadataChanges.INCLUDE) { document, e ->
                 if (e != null) {
                     return@addSnapshotListener

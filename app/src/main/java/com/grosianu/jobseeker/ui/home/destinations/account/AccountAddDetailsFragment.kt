@@ -228,11 +228,35 @@ class AccountAddDetailsFragment : Fragment() {
     }
 
     private fun fieldValidations() {
+        binding?.firstNameEdit?.doOnTextChanged { text, _, _, _ ->
+            when {
+                text.isNullOrEmpty() -> {
+                    binding?.firstName?.isErrorEnabled = true
+                    binding?.firstName?.error = "This is a required field"
+                }
+                else -> {
+                    binding?.firstName?.isErrorEnabled = false
+                    binding?.firstName?.error = null
+                }
+            }
+        }
+        binding?.lastNameEdit?.doOnTextChanged { text, _, _, _ ->
+            when {
+                text.isNullOrEmpty() -> {
+                    binding?.lastName?.isErrorEnabled = true
+                    binding?.lastName?.error = "This is a required field"
+                }
+                else -> {
+                    binding?.lastName?.isErrorEnabled = false
+                    binding?.lastName?.error = null
+                }
+            }
+        }
         binding?.phoneEdit?.doOnTextChanged { text, _, _, _ ->
             when {
                 text.isNullOrEmpty() -> {
-                    binding?.phone?.isErrorEnabled = false
-                    binding?.phone?.error = null
+                    binding?.phone?.isErrorEnabled = true
+                    binding?.phone?.error = "This is a required field"
                 }
                 text.length < PHONE_NUMBER_LENGTH || text.length > PHONE_NUMBER_LENGTH -> {
                     binding?.phone?.isErrorEnabled = true
@@ -247,8 +271,8 @@ class AccountAddDetailsFragment : Fragment() {
         binding?.ageEdit?.doOnTextChanged { text, _, _, _ ->
             when {
                 text.isNullOrEmpty() -> {
-                    binding?.age?.isErrorEnabled = false
-                    binding?.age?.error = null
+                    binding?.age?.isErrorEnabled = true
+                    binding?.age?.error = "This is a required field"
                 }
                 text.toString().toInt() < MINIMUM_AGE || text.toString().toInt() > MAXIMUM_AGE -> {
                     binding?.age?.isErrorEnabled = true
@@ -260,11 +284,83 @@ class AccountAddDetailsFragment : Fragment() {
                 }
             }
         }
+        binding?.residenceEdit?.doOnTextChanged { text, _, _, _ ->
+            when {
+                text.isNullOrEmpty() -> {
+                    binding?.residence?.isErrorEnabled = true
+                    binding?.residence?.error = "This is a required field"
+                }
+                else -> {
+                    binding?.residence?.isErrorEnabled = false
+                    binding?.residence?.error = null
+                }
+            }
+        }
+        binding?.sexEdit?.doOnTextChanged { text, _, _, _ ->
+            when {
+                text.isNullOrEmpty() -> {
+                    binding?.sex?.isErrorEnabled = true
+                    binding?.sex?.error = "This is a required field"
+                }
+                else -> {
+                    binding?.sex?.isErrorEnabled = false
+                    binding?.sex?.error = null
+                }
+            }
+        }
+        binding?.typeEdit?.doOnTextChanged { text, _, _, _ ->
+            when {
+                text.isNullOrEmpty() -> {
+                    binding?.type?.isErrorEnabled = true
+                    binding?.type?.error = "This is a required field"
+                }
+                else -> {
+                    binding?.type?.isErrorEnabled = false
+                    binding?.type?.error = null
+                }
+            }
+        }
+        binding?.specializationEdit?.doOnTextChanged { text, _, _, _ ->
+            when {
+                text.isNullOrEmpty() -> {
+                    binding?.specialization?.isErrorEnabled = true
+                    binding?.specialization?.error = "This is a required field"
+                }
+                else -> {
+                    binding?.specialization?.isErrorEnabled = false
+                    binding?.specialization?.error = null
+                }
+            }
+        }
+        binding?.cityEdit?.doOnTextChanged { text, _, _, _ ->
+            when {
+                text.isNullOrEmpty() -> {
+                    binding?.city?.isErrorEnabled = true
+                    binding?.city?.error = "This is a required field"
+                }
+                else -> {
+                    binding?.city?.isErrorEnabled = false
+                    binding?.city?.error = null
+                }
+            }
+        }
+        binding?.institutionEdit?.doOnTextChanged { text, _, _, _ ->
+            when {
+                text.isNullOrEmpty() -> {
+                    binding?.institution?.isErrorEnabled = true
+                    binding?.institution?.error = "This is a required field"
+                }
+                else -> {
+                    binding?.institution?.isErrorEnabled = false
+                    binding?.institution?.error = null
+                }
+            }
+        }
         binding?.dateEdit?.doOnTextChanged { text, _, _, _ ->
             when {
                 text.isNullOrEmpty() -> {
-                    binding?.date?.isErrorEnabled = false
-                    binding?.date?.error = null
+                    binding?.date?.isErrorEnabled = true
+                    binding?.date?.error = "This is a required field"
                 }
                 !text.matches("[A-Z][a-z]{2} [0-9]{1,2} – [A-Z][a-z]{2} [0-9]{1,2}".toRegex()) -> {
                     binding?.date?.isErrorEnabled = true

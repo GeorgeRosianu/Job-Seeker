@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.MetadataChanges
 import com.google.firebase.firestore.ktx.toObject
+import com.grosianu.jobseeker.models.Post
 import com.grosianu.jobseeker.models.Resume
 import com.grosianu.jobseeker.models.User
 import kotlinx.coroutines.launch
@@ -53,8 +54,30 @@ class HomeActivityViewModel : ViewModel() {
 
     private fun isUserSetUp() {
         viewModelScope.launch {
-            val username = currentAccount.value?.displayName
-            _isUserSetUp.value = !(username.isNullOrEmpty() || username == "User")
+            val docRef = db.collection("users").document(auth.currentUser?.uid!!)
+            docRef.addSnapshotListener(MetadataChanges.INCLUDE) { document, e ->
+                if (e != null) {
+                    return@addSnapshotListener
+                }
+
+                if (document != null && document.exists()) {
+                    val user = document.toObject<User>()
+
+                    _isUserSetUp.value = !(
+                            user?.firstName.isNullOrEmpty() ||
+                            user?.lastName.isNullOrEmpty() ||
+                            user?.phoneNumber.isNullOrEmpty() ||
+                            user?.getAgeAsString().isNullOrEmpty() ||
+                            user?.sex.isNullOrEmpty() ||
+                            user?.educationLevel.isNullOrEmpty() ||
+                            user?.educationSpec.isNullOrEmpty() ||
+                            user?.educationCity.isNullOrEmpty() ||
+                            user?.educationInstitution.isNullOrEmpty() ||
+                            user?.educationDate.isNullOrEmpty())
+                } else {
+                    _isUserSetUp.value = false
+                }
+            }
         }
     }
 
