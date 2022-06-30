@@ -22,6 +22,9 @@ class ApplicantsViewModel : ViewModel() {
     private var _applicant = MutableLiveData<Application>()
     val applicant: LiveData<Application> = _applicant
 
+    private var _hasApplicants = MutableLiveData(false)
+    val hasApplicants: LiveData<Boolean> = _hasApplicants
+
     private val db = FirebaseFirestore.getInstance()
 
     fun getApplicantList(postId: String) {
@@ -38,6 +41,8 @@ class ApplicantsViewModel : ViewModel() {
                         applicantsTemp.add(applicantTemp)
                     }
                     _applicants.value = applicantsTemp
+
+                    _hasApplicants.value = applicantsTemp.isNotEmpty()
                 }
                 .addOnFailureListener {
                     _applicants.value = listOf()

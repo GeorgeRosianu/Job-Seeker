@@ -99,6 +99,13 @@ class CreateFragment : Fragment() {
 
         val filename = UUID.randomUUID().toString()
         val tagsString = binding?.tagsEdit?.text.toString().trim().trimEnd {it <= ','}
+        var tags = ArrayList<String>()
+
+        if (!tagsString.isNullOrEmpty()) {
+            tags = getArrayFromString(tagsString) as ArrayList<String>
+        } else {
+            tags.add("")
+        }
 
         val post = Post(
             id = UUID.randomUUID().toString(),
@@ -114,7 +121,7 @@ class CreateFragment : Fragment() {
             description = binding?.descriptionEdit?.text.toString(),
             image = imageString,
             imageId = filename,
-            tags = getArrayFromString(tagsString) as ArrayList<String>,
+            tags = tags,
             applicants = null,
             confirmedApplicants = null
         )

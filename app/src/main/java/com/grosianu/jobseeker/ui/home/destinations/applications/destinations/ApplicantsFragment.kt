@@ -53,6 +53,13 @@ class ApplicantsFragment : Fragment(), ApplicantsAdapter.ApplicantsAdapterListen
         binding?.swipeView?.setOnRefreshListener {
             refreshApplicantList()
         }
+        viewModel.hasApplicants.observe(viewLifecycleOwner) {
+            if (it) {
+                binding?.placeholderTextView?.visibility = View.INVISIBLE
+            } else {
+                binding?.placeholderTextView?.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun setupViewModel() {

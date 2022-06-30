@@ -94,6 +94,17 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/search_layout"
                         tools:listitem="@layout/item_applicant" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/placeholder_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="There are no applications yet."
+                        android:textAppearance="?attr/textAppearanceHeadline1"
+                        android:textSize="20sp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         </androidx.core.widget.NestedScrollView>
