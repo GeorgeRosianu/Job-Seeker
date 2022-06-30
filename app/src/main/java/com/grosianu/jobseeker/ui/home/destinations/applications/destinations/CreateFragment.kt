@@ -27,6 +27,7 @@ import com.grosianu.jobseeker.ui.home.HomeActivityViewModel
 import com.grosianu.jobseeker.ui.home.destinations.applications.destinations.viewModels.CreateViewModel
 import com.grosianu.jobseeker.utils.themeColor
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class CreateFragment : Fragment() {
@@ -98,14 +99,6 @@ class CreateFragment : Fragment() {
         }
 
         val filename = UUID.randomUUID().toString()
-        val tagsString = binding?.tagsEdit?.text.toString().trim().trimEnd {it <= ','}
-        var tags = ArrayList<String>()
-
-        if (!tagsString.isNullOrEmpty()) {
-            tags = getArrayFromString(tagsString) as ArrayList<String>
-        } else {
-            tags.add("")
-        }
 
         val post = Post(
             id = UUID.randomUUID().toString(),
@@ -113,7 +106,7 @@ class CreateFragment : Fragment() {
             title = binding?.titleEdit?.text.toString(),
             company = binding?.companyEdit?.text.toString(),
             industry = binding?.industryEdit?.text.toString(),
-            salary = binding?.salaryEdit?.text.toString().toDouble(),
+            salary = checkSalaryField().toDouble(),
             level = binding?.requirementsLevelEdit?.text.toString(),
             experience = binding?.requirementsExperienceEdit?.text.toString(),
             location = binding?.requirementsLocationEdit?.text.toString(),
@@ -121,7 +114,7 @@ class CreateFragment : Fragment() {
             description = binding?.descriptionEdit?.text.toString(),
             image = imageString,
             imageId = filename,
-            tags = tags,
+            tags = checkTagsField(),
             applicants = null,
             confirmedApplicants = null
         )
@@ -262,5 +255,26 @@ class CreateFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun checkSalaryField(): String {
+        val salaryString = binding?.salaryEdit?.text.toString()
+
+        return salaryString.ifEmpty {
+            "0"
+        }
+    }
+
+    private fun checkTagsField(): ArrayList<String> {
+        val tagsString = binding?.tagsEdit?.text.toString().trim().trimEnd {it <= ','}
+        var tags = ArrayList<String>()
+
+        if (tagsString.isEmpty()) {
+            tags.add(" ")
+        } else {
+            tags = getArrayFromString(tagsString) as ArrayList<String>
+        }
+
+        return tags
     }
 }
